@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AREWA SQUARE — You're Offline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --green-deep:#0d2b1f;--gold:#c9a84c;--gold-light:#e8c97a;
+      --white:#f5f0e8;--white-dim:#c8bfa8;--dark:#080f0b;
+    }
+    body{
+      font-family:'Nunito',sans-serif;
+      background:var(--green-deep);color:var(--white);
+      min-height:100vh;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      text-align:center;padding:24px;overflow:hidden;
+    }
+    body::before{
+      content:'';position:fixed;inset:0;
+      background-image:
+        repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(201,168,76,0.025) 40px,rgba(201,168,76,0.025) 41px),
+        repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(201,168,76,0.025) 40px,rgba(201,168,76,0.025) 41px);
+      pointer-events:none;z-index:0;
+    }
+    .container{position:relative;z-index:1;max-width:440px;}
+
+    .logo{margin-bottom:36px;}
+    .logo img{height:52px;width:52px;object-fit:contain;}
+    .logo-name{
+      font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;
+      color:var(--gold);letter-spacing:2px;display:block;margin-top:8px;
+    }
+
+    .wifi-icon{
+      font-size:4rem;margin-bottom:16px;display:block;
+      animation:pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+    h1{
+      font-family:'Cinzel',serif;font-size:1.4rem;font-weight:700;
+      color:var(--white);margin-bottom:12px;
+    }
+    p{
+      font-size:0.9rem;color:var(--white-dim);
+      line-height:1.7;margin-bottom:32px;
+    }
+    .tips{
+      background:rgba(201,168,76,0.06);
+      border:1px solid rgba(201,168,76,0.18);
+      border-radius:10px;padding:18px 22px;
+      margin-bottom:28px;text-align:left;
+    }
+    .tips h3{
+      font-family:'Cinzel',serif;font-size:0.8rem;
+      color:var(--gold);margin-bottom:12px;
+    }
+    .tips ul{list-style:none;padding:0;}
+    .tips ul li{
+      font-size:0.82rem;color:var(--white-dim);
+      line-height:1.7;margin-bottom:6px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .tips ul li::before{content:'→';color:var(--gold);}
+
+    .btn-retry{
+      padding:12px 32px;background:var(--gold);color:var(--dark);
+      border:none;border-radius:6px;font-family:'Nunito',sans-serif;
+      font-size:0.9rem;font-weight:800;cursor:pointer;
+      transition:all 0.3s;letter-spacing:0.5px;
+    }
+    .btn-retry:hover{background:var(--gold-light);transform:translateY(-1px);}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="./logo.png" alt="AREWA SQUARE" onerror="this.style.display='none'"/>
+      <span class="logo-name">AREWA SQUARE</span>
+    </div>
+
+    <span class="wifi-icon">📡</span>
+    <h1>You're Offline</h1>
+    <p>It looks like you lost your internet connection. AREWA SQUARE needs an active connection to show you verified shops and sellers.</p>
+
+    <div class="tips">
+      <h3>While You Wait</h3>
+      <ul>
+        <li>Check your mobile data or Wi-Fi connection</li>
+        <li>Move to an area with better signal</li>
+        <li>Try turning airplane mode on and off</li>
+        <li>Restart your browser and try again</li>
+      </ul>
+    </div>
+
+    <button class="btn-retry" onclick="window.location.reload()">🔄 Try Again</button>
+  </div>
+</body>
+</html>

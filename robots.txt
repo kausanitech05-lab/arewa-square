@@ -1,0 +1,24 @@
+# AREWA SQUARE — robots.txt
+# Built by KAUSANITECH | © AREWA SQUARE 2026
+
+User-agent: *
+
+# Allow public pages
+Allow: /index.html
+Allow: /auth.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /seller-rules.html
+Allow: /404.html
+
+# Block all dashboard and admin pages from indexing
+Disallow: /admin.html
+Disallow: /admin-payments.html
+Disallow: /seller-dashboard.html
+Disallow: /buyer-dashboard.html
+
+# Block API routes
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://arewasquare.com/sitemap.xml

@@ -1,0 +1,68 @@
+{
+  "name": "AREWA SQUARE",
+  "short_name": "Arewa Square",
+  "description": "Northern Nigeria's trusted digital marketplace. Find verified shops near you.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0d2b1f",
+  "theme_color": "#c9a84c",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["shopping", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "AREWA SQUARE Homepage"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Browse Shops",
+      "short_name": "Shops",
+      "description": "Browse verified shops near you",
+      "url": "/buyer-dashboard.html",
+      "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Register / Login",
+      "short_name": "Login",
+      "description": "Sign in to your account",
+      "url": "/auth.html",
+      "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+}

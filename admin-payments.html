@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AREWA SQUARE — Payment Tracking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg:         #070d0a;
+      --bg2:        #0d1a12;
+      --green-mid:  #1a4a30;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim:   #8a6e2f;
+      --emerald:    #2ecc71;
+      --em-dim:     #1a7a45;
+      --white:      #f5f0e8;
+      --white-dim:  #c8bfa8;
+      --danger:     #e74c3c;
+      --warn:       #f39c12;
+      --sidebar-w:  256px;
+      --card:       rgba(255,255,255,0.04);
+      --border:     rgba(201,168,76,0.15);
+    }
+
+    body {
+      font-family:'Nunito',sans-serif;
+      background:var(--bg);
+      color:var(--white);
+      min-height:100vh;
+      display:flex;
+    }
+
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:
+        radial-gradient(ellipse at 15% 60%, rgba(26,74,48,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(201,168,76,0.06) 0%, transparent 50%);
+      pointer-events:none; z-index:0;
+    }
+
+    /* ════════════════════════════
+       SIDEBAR
+    ════════════════════════════ */
+    .sidebar {
+      position:fixed; top:0; left:0;
+      width:var(--sidebar-w); height:100vh;
+      background:rgba(5,10,7,0.98);
+      border-right:1px solid var(--border);
+      display:flex; flex-direction:column;
+      z-index:100; transition:transform 0.3s;
+    }
+
+    .sidebar-logo {
+      padding:20px; border-bottom:1px solid var(--border);
+    }
+    .sidebar-logo a {
+      display:flex; align-items:center; gap:10px; text-decoration:none;
+    }
+    .sidebar-logo img { width:34px; height:34px; object-fit:contain; }
+    .sidebar-logo-text span:first-child {
+      display:block; font-family:'Cinzel',serif;
+      font-size:0.82rem; font-weight:700; color:var(--gold); letter-spacing:1.5px;
+    }
+    .sidebar-logo-text span:last-child {
+      display:block; font-size:0.58rem; color:var(--white-dim);
+      letter-spacing:1px; text-transform:uppercase;
+    }
+
+    .admin-badge {
+      margin:12px; padding:10px 14px;
+      background:rgba(201,168,76,0.08);
+      border:1px solid rgba(201,168,76,0.2);
+      border-radius:7px; display:flex; align-items:center; gap:10px;
+    }
+    .admin-avatar {
+      width:32px; height:32px; border-radius:50%;
+      background:linear-gradient(135deg,var(--green-mid),var(--gold-dim));
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.75rem; font-weight:700; color:var(--gold);
+      font-family:'Cinzel',serif; flex-shrink:0;
+    }
+    .admin-badge span:first-of-type { display:block; font-size:0.78rem; font-weight:700; color:var(--white); }
+    .admin-badge span:last-of-type  { display:block; font-size:0.65rem; color:var(--gold); font-weight:700; }
+
+    .sidebar-nav { flex:1; padding:8px 0; overflow-y:auto; }
+    .nav-label { padding:10px 18px 4px; font-size:0.6rem; font-weight:700; color:var(--gold-dim); letter-spacing:2px; text-transform:uppercase; }
+    .nav-item {
+      display:flex; align-items:center; gap:10px; padding:10px 18px;
+      cursor:pointer; transition:all 0.25s; border-left:2px solid transparent;
+      color:var(--white-dim); font-size:0.83rem; font-weight:600; text-decoration:none;
+    }
+    .nav-item:hover { background:rgba(201,168,76,0.07); color:var(--white); border-left-color:var(--gold-dim); }
+    .nav-item.active { background:rgba(201,168,76,0.1); color:var(--gold); border-left-color:var(--gold); }
+    .nav-item .ni { font-size:0.95rem; min-width:18px; text-align:center; }
+    .nav-badge { margin-left:auto; background:var(--danger); color:#fff; font-size:0.62rem; font-weight:800; padding:2px 7px; border-radius:10px; }
+    .nav-badge.gold { background:var(--gold); color:var(--bg); }
+
+    .sidebar-footer { padding:14px 18px; border-top:1px solid var(--border); }
+    .logout-btn { display:flex; align-items:center; gap:10px; color:var(--white-dim); font-size:0.82rem; font-weight:600; cursor:pointer; transition:color 0.3s; background:none; border:none; font-family:'Nunito',sans-serif; padding:0; }
+    .logout-btn:hover { color:var(--danger); }
+
+    /* ════════════════════════════
+       MAIN
+    ════════════════════════════ */
+    .main {
+      margin-left:var(--sidebar-w);
+      flex:1; min-height:100vh;
+      position:relative; z-index:1;
+    }
+
+    .topbar {
+      position:sticky; top:0; z-index:50;
+      background:rgba(7,13,10,0.96);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+      padding:0 28px; height:60px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .topbar-left h1 { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:700; color:var(--white); }
+    .topbar-left p  { font-size:0.72rem; color:var(--white-dim); margin-top:2px; }
+    .topbar-right   { display:flex; align-items:center; gap:10px; }
+
+    .btn-topbar {
+      padding:7px 16px; border-radius:5px;
+      font-family:'Nunito',sans-serif; font-size:0.78rem; font-weight:800;
+      cursor:pointer; transition:all 0.3s; border:1px solid;
+    }
+    .btn-gold   { background:var(--gold); color:var(--bg); border-color:var(--gold); }
+    .btn-gold:hover { background:var(--gold-light); }
+    .btn-ghost  { background:transparent; color:var(--white-dim); border-color:var(--border); }
+    .btn-ghost:hover { border-color:var(--gold-dim); color:var(--gold); }
+
+    .hamburger-btn {
+      display:none; width:34px; height:34px; background:none; border:none;
+      cursor:pointer; flex-direction:column; gap:5px; align-items:center; justify-content:center;
+    }
+    .hamburger-btn span { display:block; width:20px; height:2px; background:var(--gold); border-radius:2px; }
+
+    /* Page sections */
+    .page-section { display:none; padding:24px 28px; animation:fadeUp 0.4s ease both; }
+    .page-section.active { display:block; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ════════════════════════════
+       REVENUE SUMMARY BAR
+    ════════════════════════════ */
+    .revenue-bar {
+      background:linear-gradient(135deg, rgba(26,74,48,0.6), rgba(13,43,31,0.8));
+      border:1px solid rgba(201,168,76,0.25);
+      border-radius:12px; padding:24px 28px;
+      margin-bottom:24px;
+      display:grid;
+      grid-template-columns: repeat(4,1fr);
+      gap:0;
+      position:relative; overflow:hidden;
+    }
+    .revenue-bar::before {
+      content:'';
+      position:absolute; top:-60%; right:-5%;
+      width:300px; height:300px;
+      background:radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .rev-item {
+      padding:0 24px;
+      border-right:1px solid rgba(201,168,76,0.12);
+      position:relative; z-index:1;
+    }
+    .rev-item:first-child { padding-left:0; }
+    .rev-item:last-child  { border-right:none; }
+
+    .rev-label { font-size:0.7rem; font-weight:700; color:var(--white-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+    .rev-amount {
+      font-family:'Cinzel',serif; font-size:1.6rem; font-weight:700;
+      color:var(--gold); display:block; margin-bottom:4px;
+    }
+    .rev-sub { font-size:0.72rem; color:var(--white-dim); display:flex; align-items:center; gap:5px; }
+    .rev-up   { color:var(--emerald); font-weight:700; }
+    .rev-warn { color:var(--warn); font-weight:700; }
+    .rev-danger { color:var(--danger); font-weight:700; }
+
+    /* ════════════════════════════
+       TOOLBAR
+    ════════════════════════════ */
+    .toolbar {
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:16px; flex-wrap:wrap;
+    }
+    .toolbar-search {
+      flex:1; min-width:200px;
+      padding:9px 14px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(201,168,76,0.2);
+      border-radius:6px; color:var(--white);
+      font-family:'Nunito',sans-serif; font-size:0.83rem;
+      outline:none; transition:border-color 0.3s;
+    }
+    .toolbar-search:focus { border-color:var(--gold); }
+    .toolbar-search::placeholder { color:rgba(200,191,168,0.35); }
+
+    .filter-select {
+      padding:9px 14px; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(201,168,76,0.2); border-radius:6px;
+      color:var(--white); font-family:'Nunito',sans-serif;
+      font-size:0.83rem; outline:none; cursor:pointer; appearance:none;
+      padding-right:30px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:right 10px center;
+    }
+    .filter-select option { background:var(--bg); }
+
+    /* ════════════════════════════
+       PAYMENT TABLE
+    ════════════════════════════ */
+    .table-wrap {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; overflow:hidden; overflow-x:auto;
+    }
+
+    table { width:100%; border-collapse:collapse; min-width:800px; }
+
+    thead th {
+      text-align:left; padding:13px 16px;
+      font-size:0.67rem; font-weight:700; color:var(--gold-dim);
+      text-transform:uppercase; letter-spacing:1px;
+      border-bottom:1px solid var(--border); white-space:nowrap;
+      background:rgba(201,168,76,0.03);
+    }
+
+    tbody td {
+      padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04);
+      font-size:0.8rem; color:var(--white-dim); vertical-align:middle;
+    }
+    tbody tr:hover td { background:rgba(201,168,76,0.025); }
+    tbody tr:last-child td { border-bottom:none; }
+
+    .shop-pill {
+      display:inline-block; background:rgba(201,168,76,0.1);
+      border:1px solid var(--gold-dim); border-radius:4px;
+      padding:2px 8px; font-family:'Cinzel',serif;
+      font-size:0.68rem; font-weight:700; color:var(--gold);
+    }
+
+    .seller-cell { display:flex; align-items:center; gap:10px; }
+    .seller-icon {
+      width:32px; height:32px; border-radius:6px;
+      background:linear-gradient(135deg,var(--green-mid),rgba(42,102,69,0.8));
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.9rem; flex-shrink:0;
+    }
+    .seller-name { font-weight:700; color:var(--white); font-size:0.83rem; }
+    .seller-biz  { font-size:0.7rem; color:var(--white-dim); }
+
+    /* Status badges */
+    .badge {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:4px 10px; border-radius:12px;
+      font-size:0.65rem; font-weight:700; white-space:nowrap;
+    }
+    .badge::before { content:''; width:6px; height:6px; border-radius:50%; }
+    .badge.paid     { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.25); }
+    .badge.paid::before { background:var(--emerald); }
+    .badge.pending  { background:rgba(243,156,18,0.1); color:var(--warn); border:1px solid rgba(243,156,18,0.25); }
+    .badge.pending::before { background:var(--warn); }
+    .badge.overdue  { background:rgba(231,76,60,0.1); color:var(--danger); border:1px solid rgba(231,76,60,0.25); }
+    .badge.overdue::before { background:var(--danger); }
+    .badge.free     { background:rgba(255,255,255,0.06); color:var(--white-dim); border:1px solid rgba(255,255,255,0.1); }
+    .badge.free::before { background:var(--white-dim); }
+
+    /* Plan badge */
+    .plan-badge {
+      display:inline-block; padding:3px 9px; border-radius:4px;
+      font-size:0.65rem; font-weight:800; letter-spacing:0.5px;
+    }
+    .plan-monthly  { background:rgba(201,168,76,0.1); color:var(--gold); border:1px solid rgba(201,168,76,0.2); }
+    .plan-yearly   { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .plan-free     { background:rgba(255,255,255,0.05); color:var(--white-dim); border:1px solid rgba(255,255,255,0.1); }
+
+    /* Amount */
+    .amount-cell { font-family:'Cinzel',serif; font-size:0.88rem; font-weight:700; }
+    .amount-paid    { color:var(--gold); }
+    .amount-pending { color:var(--warn); }
+    .amount-overdue { color:var(--danger); }
+
+    /* Due date warning */
+    .due-cell { font-size:0.78rem; }
+    .due-overdue { color:var(--danger); font-weight:700; }
+    .due-soon    { color:var(--warn); font-weight:700; }
+    .due-ok      { color:var(--white-dim); }
+
+    /* Action buttons */
+    .act-cell { display:flex; gap:6px; flex-wrap:wrap; }
+    .act-btn {
+      padding:5px 12px; border-radius:4px;
+      font-family:'Nunito',sans-serif; font-size:0.7rem; font-weight:700;
+      cursor:pointer; transition:all 0.3s; border:1px solid;
+    }
+    .act-btn.confirm { background:rgba(46,204,113,0.1); border-color:rgba(46,204,113,0.3); color:var(--emerald); }
+    .act-btn.confirm:hover { background:var(--emerald); color:var(--bg); }
+    .act-btn.remind  { background:rgba(243,156,18,0.08); border-color:rgba(243,156,18,0.25); color:var(--warn); }
+    .act-btn.remind:hover  { background:rgba(243,156,18,0.2); }
+    .act-btn.suspend { background:rgba(231,76,60,0.08); border-color:rgba(231,76,60,0.25); color:var(--danger); }
+    .act-btn.suspend:hover { background:rgba(231,76,60,0.15); }
+    .act-btn.view    { background:rgba(201,168,76,0.08); border-color:var(--gold-dim); color:var(--gold); }
+    .act-btn.view:hover    { background:rgba(201,168,76,0.15); }
+    .act-btn.invoice { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); color:var(--white-dim); }
+    .act-btn.invoice:hover { border-color:var(--gold-dim); color:var(--gold); }
+
+    /* ════════════════════════════
+       MODAL
+    ════════════════════════════ */
+    .modal-overlay {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,0.75); z-index:999;
+      align-items:center; justify-content:center; padding:20px;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal {
+      background:var(--bg2); border:1px solid var(--border);
+      border-radius:14px; width:100%; max-width:520px;
+      max-height:88vh; overflow-y:auto;
+      animation:fadeUp 0.3s ease both;
+    }
+    .modal-header {
+      padding:20px 24px; border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      position:sticky; top:0; background:var(--bg2); z-index:2;
+    }
+    .modal-header h3 { font-family:'Cinzel',serif; font-size:1rem; color:var(--white); }
+    .modal-close {
+      background:none; border:none; color:var(--white-dim);
+      font-size:1.2rem; cursor:pointer; transition:color 0.3s; width:28px; height:28px;
+    }
+    .modal-close:hover { color:var(--gold); }
+    .modal-body { padding:24px; }
+
+    /* Confirm payment modal */
+    .confirm-shop-info {
+      background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2);
+      border-radius:10px; padding:18px; margin-bottom:20px;
+      display:flex; align-items:center; gap:16px;
+    }
+    .confirm-shop-icon {
+      width:48px; height:48px; border-radius:8px;
+      background:linear-gradient(135deg,var(--green-mid),rgba(42,102,69,0.8));
+      display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;
+    }
+    .confirm-shop-name { font-family:'Cinzel',serif; font-size:1rem; color:var(--white); margin-bottom:4px; }
+    .confirm-shop-meta { font-size:0.75rem; color:var(--white-dim); }
+
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:0.72rem; font-weight:700; color:var(--white-dim); margin-bottom:7px; letter-spacing:0.5px; text-transform:uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      width:100%; padding:11px 14px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(201,168,76,0.2);
+      border-radius:6px; color:var(--white);
+      font-family:'Nunito',sans-serif; font-size:0.875rem;
+      outline:none; transition:border-color 0.3s; appearance:none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,0.08);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color:rgba(200,191,168,0.35); }
+    .form-group select option { background:var(--bg); }
+    .form-group textarea { resize:vertical; min-height:70px; }
+
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+    .amount-preview {
+      background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2);
+      border-radius:8px; padding:16px; margin-bottom:20px; text-align:center;
+    }
+    .amount-preview span { font-size:0.72rem; color:var(--white-dim); display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px; }
+    .amount-preview strong { font-family:'Cinzel',serif; font-size:1.8rem; color:var(--gold); }
+
+    .modal-actions { display:flex; gap:10px; margin-top:20px; }
+    .modal-btn-primary {
+      flex:1; padding:12px; background:var(--gold); color:var(--bg);
+      border:none; border-radius:6px; font-family:'Nunito',sans-serif;
+      font-size:0.9rem; font-weight:800; cursor:pointer; transition:all 0.3s;
+    }
+    .modal-btn-primary:hover { background:var(--gold-light); }
+    .modal-btn-secondary {
+      padding:12px 20px; background:transparent; color:var(--white-dim);
+      border:1px solid rgba(255,255,255,0.12); border-radius:6px;
+      font-family:'Nunito',sans-serif; font-size:0.875rem; font-weight:700; cursor:pointer; transition:all 0.3s;
+    }
+    .modal-btn-secondary:hover { border-color:var(--gold-dim); color:var(--gold); }
+
+    /* ════════════════════════════
+       INVOICE PREVIEW
+    ════════════════════════════ */
+    .invoice-preview {
+      background:var(--bg); border:1px solid var(--border);
+      border-radius:10px; padding:24px; margin-bottom:20px;
+    }
+    .invoice-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:24px; }
+    .invoice-logo-text { font-family:'Cinzel',serif; font-size:1.1rem; color:var(--gold); font-weight:700; }
+    .invoice-logo-sub  { font-size:0.65rem; color:var(--white-dim); letter-spacing:1px; text-transform:uppercase; }
+    .invoice-title { font-family:'Cinzel',serif; font-size:0.85rem; color:var(--white-dim); letter-spacing:2px; text-transform:uppercase; }
+    .invoice-num   { font-family:'Cinzel',serif; font-size:1.1rem; color:var(--gold); font-weight:700; }
+    .invoice-divider { height:1px; background:var(--border); margin:16px 0; }
+    .invoice-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+    .invoice-block p { font-size:0.7rem; color:var(--white-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+    .invoice-block span { font-size:0.83rem; color:var(--white); font-weight:600; }
+    .invoice-line { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+    .invoice-line span { font-size:0.83rem; color:var(--white-dim); }
+    .invoice-line strong { font-size:0.83rem; color:var(--white); font-weight:700; }
+    .invoice-total { display:flex; justify-content:space-between; align-items:center; padding:14px 0 0; }
+    .invoice-total span { font-family:'Cinzel',serif; font-size:0.85rem; color:var(--gold); }
+    .invoice-total strong { font-family:'Cinzel',serif; font-size:1.3rem; color:var(--gold); }
+    .invoice-bank {
+      background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.15);
+      border-radius:8px; padding:14px; margin-top:16px;
+    }
+    .invoice-bank p { font-size:0.7rem; color:var(--gold); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+    .invoice-bank-detail { display:flex; justify-content:space-between; margin-bottom:6px; }
+    .invoice-bank-detail span { font-size:0.78rem; color:var(--white-dim); }
+    .invoice-bank-detail strong { font-size:0.78rem; color:var(--white); font-weight:700; }
+
+    /* History log */
+    .history-log { display:flex; flex-direction:column; gap:10px; }
+    .history-item {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:8px; padding:14px 16px;
+      display:flex; align-items:center; gap:14px;
+    }
+    .history-dot {
+      width:10px; height:10px; border-radius:50%; flex-shrink:0;
+    }
+    .history-dot.paid    { background:var(--emerald); box-shadow:0 0 6px rgba(46,204,113,0.4); }
+    .history-dot.pending { background:var(--warn); }
+    .history-dot.overdue { background:var(--danger); }
+    .history-text { flex:1; }
+    .history-text p    { font-size:0.82rem; font-weight:600; color:var(--white); }
+    .history-text span { font-size:0.72rem; color:var(--white-dim); }
+    .history-amount { font-family:'Cinzel',serif; font-size:0.9rem; font-weight:700; }
+    .history-amount.paid    { color:var(--gold); }
+    .history-amount.pending { color:var(--warn); }
+
+    /* Section tabs */
+    .section-tabs {
+      display:flex; gap:4px;
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--border);
+      border-radius:7px; padding:4px;
+      width:fit-content; margin-bottom:20px;
+    }
+    .tab-btn {
+      padding:8px 20px; background:transparent; border:none; border-radius:5px;
+      font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:700;
+      color:var(--white-dim); cursor:pointer; transition:all 0.3s;
+    }
+    .tab-btn.active { background:var(--gold); color:var(--bg); }
+
+    .tab-content { display:none; }
+    .tab-content.active { display:block; animation:fadeUp 0.3s ease both; }
+
+    /* Notice */
+    .notice {
+      display:flex; gap:12px; align-items:flex-start;
+      background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.18);
+      border-radius:8px; padding:14px 16px; margin-bottom:20px;
+    }
+    .notice .ni { font-size:1.1rem; margin-top:1px; flex-shrink:0; }
+    .notice p { font-size:0.8rem; color:var(--white-dim); line-height:1.7; }
+    .notice p strong { color:var(--gold); }
+
+    /* Pricing plan cards */
+    .plans-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+    .plan-card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:10px; padding:22px; text-align:center;
+      transition:all 0.3s;
+    }
+    .plan-card:hover { border-color:var(--gold-dim); transform:translateY(-3px); }
+    .plan-card.featured { border-color:var(--gold); background:rgba(201,168,76,0.06); }
+    .plan-card .plan-name { font-family:'Cinzel',serif; font-size:0.9rem; color:var(--white); margin-bottom:8px; }
+    .plan-card .plan-price { font-family:'Cinzel',serif; font-size:1.8rem; color:var(--gold); font-weight:700; margin-bottom:4px; }
+    .plan-card .plan-period { font-size:0.72rem; color:var(--white-dim); margin-bottom:16px; }
+    .plan-card .plan-features { text-align:left; margin-bottom:16px; }
+    .plan-card .plan-features li { font-size:0.78rem; color:var(--white-dim); padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.05); list-style:none; display:flex; align-items:center; gap:7px; }
+    .plan-card .plan-features li::before { content:'✓'; color:var(--emerald); font-weight:700; }
+    .plan-edit-btn {
+      width:100%; padding:9px; background:transparent;
+      border:1px solid var(--gold-dim); border-radius:5px;
+      color:var(--gold); font-family:'Nunito',sans-serif;
+      font-size:0.78rem; font-weight:700; cursor:pointer; transition:all 0.3s;
+    }
+    .plan-edit-btn:hover { background:rgba(201,168,76,0.1); }
+
+    /* My bank info */
+    .bank-card {
+      background:linear-gradient(135deg, rgba(26,74,48,0.5), rgba(13,43,31,0.8));
+      border:1px solid rgba(201,168,76,0.25); border-radius:12px; padding:24px;
+      position:relative; overflow:hidden;
+    }
+    .bank-card::before {
+      content:''; position:absolute; bottom:-30px; right:-30px;
+      width:180px; height:180px;
+      background:radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    }
+    .bank-card h4 { font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); margin-bottom:20px; }
+    .bank-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(201,168,76,0.1); }
+    .bank-row:last-child { border-bottom:none; }
+    .bank-row span { font-size:0.75rem; color:var(--white-dim); text-transform:uppercase; letter-spacing:0.5px; }
+    .bank-row strong { font-size:0.9rem; color:var(--white); font-weight:700; font-family:'Cinzel',serif; }
+
+    /* Responsive */
+    @media (max-width:960px) {
+      .revenue-bar { grid-template-columns:1fr 1fr; }
+      .rev-item { padding:12px 0; border-right:none; border-bottom:1px solid rgba(201,168,76,0.1); }
+      .rev-item:nth-child(2n) { padding-left:20px; border-bottom:1px solid rgba(201,168,76,0.1); }
+      .plans-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:860px) {
+      .sidebar { transform:translateX(-100%); }
+      .sidebar.open { transform:translateX(0); }
+      .main { margin-left:0; }
+      .hamburger-btn { display:flex; }
+    }
+    @media (max-width:520px) {
+      .page-section { padding:16px 14px; }
+      .topbar { padding:0 14px; }
+      .form-row { grid-template-columns:1fr; }
+      .revenue-bar { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html">
+        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
+        <div class="sidebar-logo-text">
+          <span>AREWA SQUARE</span>
+          <span>Payment Management</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="admin-badge">
+      <div class="admin-avatar">AK</div>
+      <div>
+        <span>Abbaty Kausani</span>
+        <span>🔑 Platform Owner</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">Payment Sections</div>
+      <a class="nav-item active" onclick="showSection('tracker')"><span class="ni">💳</span> Payment Tracker</a>
+      <a class="nav-item" onclick="showSection('history')"><span class="ni">📜</span> Payment History</a>
+      <a class="nav-item" onclick="showSection('invoices')"><span class="ni">🧾</span> Invoices</a>
+      <a class="nav-item" onclick="showSection('plans')"><span class="ni">📦</span> Subscription Plans</a>
+      <a class="nav-item" onclick="showSection('bank')"><span class="ni">🏦</span> My Bank Details</a>
+
+      <div class="nav-label" style="margin-top:12px;">Quick Stats</div>
+      <div style="padding:10px 18px;">
+        <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.15);border-radius:6px;padding:10px 12px;margin-bottom:8px;">
+          <span style="font-size:0.65rem;color:var(--white-dim);display:block;text-transform:uppercase;letter-spacing:1px;">Collected This Month</span>
+          <span style="font-family:'Cinzel',serif;font-size:1rem;color:var(--emerald);font-weight:700;">₦36,000</span>
+        </div>
+        <div style="background:rgba(243,156,18,0.06);border:1px solid rgba(243,156,18,0.15);border-radius:6px;padding:10px 12px;">
+          <span style="font-size:0.65rem;color:var(--white-dim);display:block;text-transform:uppercase;letter-spacing:1px;">Awaiting Confirmation</span>
+          <span style="font-family:'Cinzel',serif;font-size:1rem;color:var(--warn);font-weight:700;">₦9,000</span>
+        </div>
+      </div>
+
+      <div class="nav-label" style="margin-top:4px;">Admin Panel</div>
+      <a class="nav-item" href="admin.html"><span class="ni">◀</span> Back to Admin</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="hamburger-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-left">
+          <h1 id="page-title">Payment Tracker</h1>
+          <p>Seller subscription management — confirm every payment manually</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-topbar btn-ghost" onclick="openInvoiceModal(null)">🧾 New Invoice</button>
+        <button class="btn-topbar btn-gold" onclick="openConfirmModal(null)">✅ Confirm Payment</button>
+      </div>
+    </div>
+
+    <!-- ══ TRACKER ══ -->
+    <section class="page-section active" id="sec-tracker">
+
+      <!-- Revenue summary bar -->
+      <div class="revenue-bar">
+        <div class="rev-item">
+          <div class="rev-label">Total Collected — This Month</div>
+          <span class="rev-amount">₦36,000</span>
+          <span class="rev-sub"><span class="rev-up">↑ 20% vs last month</span></span>
+        </div>
+        <div class="rev-item">
+          <div class="rev-label">Pending Confirmation</div>
+          <span class="rev-amount" style="color:var(--warn);">₦9,000</span>
+          <span class="rev-sub"><span class="rev-warn">3 sellers awaiting</span></span>
+        </div>
+        <div class="rev-item">
+          <div class="rev-label">Overdue Payments</div>
+          <span class="rev-amount" style="color:var(--danger);">₦6,000</span>
+          <span class="rev-sub"><span class="rev-danger">2 sellers overdue</span></span>
+        </div>
+        <div class="rev-item">
+          <div class="rev-label">Active Subscriptions</div>
+          <span class="rev-amount">18/20</span>
+          <span class="rev-sub"><span class="rev-up">90% collection rate</span></span>
+        </div>
+      </div>
+
+      <!-- Notice -->
+      <div class="notice">
+        <span class="ni">💡</span>
+        <p>
+          <strong>How this works:</strong> Every seller transfers their subscription fee to your bank account directly.
+          Once you see the transfer in your account, come here and click <strong>"Confirm Payment"</strong> to keep their shop Active.
+          If a seller is overdue, you can send a reminder or suspend their shop until they pay.
+        </p>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <input class="toolbar-search" type="text" placeholder="Search by seller name or shop number..." oninput="filterTable(this.value)"/>
+        <select class="filter-select" onchange="filterByStatus(this.value)">
+          <option value="all">All Status</option>
+          <option value="paid">Paid ✅</option>
+          <option value="pending">Pending ⏳</option>
+          <option value="overdue">Overdue ⚠️</option>
+          <option value="free">Free Period</option>
+        </select>
+        <select class="filter-select">
+          <option>This Month</option>
+          <option>Last Month</option>
+          <option>Last 3 Months</option>
+          <option>All Time</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Shop</th>
+              <th>Seller</th>
+              <th>Plan</th>
+              <th>Amount Due</th>
+              <th>Due Date</th>
+              <th>Last Paid</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="payment-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ PAYMENT HISTORY ══ -->
+    <section class="page-section" id="sec-history">
+      <div class="notice">
+        <span class="ni">📜</span>
+        <p>A full log of every payment you have confirmed. This is your financial record for AREWA SQUARE subscription income.</p>
+      </div>
+
+      <div class="toolbar">
+        <input class="toolbar-search" type="text" placeholder="Search history..."/>
+        <select class="filter-select">
+          <option>All Sellers</option>
+          <option>#001 — Zainab Footwear</option>
+          <option>#002 — Musa Gadgets</option>
+          <option>#003 — Fatima Fashion</option>
+        </select>
+        <select class="filter-select">
+          <option>All Time</option><option>This Month</option><option>Last Month</option>
+        </select>
+      </div>
+
+      <div class="history-log" id="history-log"></div>
+    </section>
+
+    <!-- ══ INVOICES ══ -->
+    <section class="page-section" id="sec-invoices">
+      <div class="notice">
+        <span class="ni">🧾</span>
+        <p>Generate and send payment invoices to sellers. Each invoice shows your bank details, the amount due, and the due date. <strong>Sellers send the money to your account directly.</strong></p>
+      </div>
+
+      <div class="toolbar">
+        <input class="toolbar-search" type="text" placeholder="Search invoices..."/>
+        <button class="btn-topbar btn-gold" onclick="openInvoiceModal(null)" style="padding:9px 18px;">+ New Invoice</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Invoice #</th><th>Shop</th><th>Seller</th><th>Amount</th><th>Issued</th><th>Due</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="invoice-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ SUBSCRIPTION PLANS ══ -->
+    <section class="page-section" id="sec-plans">
+      <div class="notice">
+        <span class="ni">📦</span>
+        <p>These are the subscription plans sellers pay to stay on AREWA SQUARE. You set the prices. Sellers pay directly to your bank account.</p>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card">
+          <p class="plan-name">Trial Period</p>
+          <p class="plan-price">Free</p>
+          <p class="plan-period">First 3 months</p>
+          <ul class="plan-features">
+            <li>Shop listing active</li>
+            <li>Up to 10 products</li>
+            <li>Verified badge</li>
+            <li>Basic analytics</li>
+          </ul>
+          <button class="plan-edit-btn" onclick="showToast('Edit Trial plan...','info')">Edit Plan</button>
+        </div>
+        <div class="plan-card featured">
+          <p class="plan-name">Monthly Subscription</p>
+          <p class="plan-price">₦3,000</p>
+          <p class="plan-period">Per month — paid in advance</p>
+          <ul class="plan-features">
+            <li>Full shop listing</li>
+            <li>Unlimited products</li>
+            <li>Verified badge</li>
+            <li>Full analytics</li>
+            <li>Priority in search results</li>
+          </ul>
+          <button class="plan-edit-btn" onclick="showToast('Edit Monthly plan...','info')">Edit Plan</button>
+        </div>
+        <div class="plan-card">
+          <p class="plan-name">Yearly Subscription</p>
+          <p class="plan-price">₦30,000</p>
+          <p class="plan-period">Per year — save ₦6,000</p>
+          <ul class="plan-features">
+            <li>Everything in Monthly</li>
+            <li>2 months free</li>
+            <li>Featured on Homepage</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="plan-edit-btn" onclick="showToast('Edit Yearly plan...','info')">Edit Plan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ MY BANK DETAILS ══ -->
+    <section class="page-section" id="sec-bank">
+      <div class="notice">
+        <span class="ni">🏦</span>
+        <p>This is the bank account you share with sellers when sending invoices. <strong>Sellers transfer subscription fees directly to this account.</strong> Update it here if your details change.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="bank-card">
+          <h4>💳 Your Payment Account</h4>
+          <div class="bank-row">
+            <span>Account Name</span>
+            <strong>ABBATY KAUSANI</strong>
+          </div>
+          <div class="bank-row">
+            <span>Account Number</span>
+            <strong>0123456789</strong>
+          </div>
+          <div class="bank-row">
+            <span>Bank Name</span>
+            <strong>First Bank Nigeria</strong>
+          </div>
+          <div class="bank-row">
+            <span>Account Type</span>
+            <strong>Savings</strong>
+          </div>
+          <div class="bank-row">
+            <span>Business Name</span>
+            <strong>KAUSANITECH</strong>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <h4 style="font-family:'Cinzel',serif;font-size:0.9rem;color:var(--gold);margin-bottom:18px;">✏️ Update Bank Details</h4>
+          <div class="form-group">
+            <label>Account Name</label>
+            <input type="text" value="ABBATY KAUSANI"/>
+          </div>
+          <div class="form-group">
+            <label>Account Number</label>
+            <input type="text" value="0123456789"/>
+          </div>
+          <div class="form-group">
+            <label>Bank Name</label>
+            <select>
+              <option>First Bank Nigeria</option>
+              <option>GTBank</option><option>Access Bank</option>
+              <option>UBA</option><option>Zenith Bank</option>
+              <option>Opay</option><option>Palmpay</option>
+              <option>Moniepoint</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Business / Trading Name</label>
+            <input type="text" value="KAUSANITECH"/>
+          </div>
+          <button class="modal-btn-primary" style="width:100%;margin-top:4px;" onclick="showToast('Bank details updated!','info')">Save Changes</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══ CONFIRM PAYMENT MODAL ══ -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>✅ Confirm Payment Received</h3>
+        <button class="modal-close" onclick="closeModal('confirm-modal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="confirm-shop-info" id="confirm-shop-info">
+          <div class="confirm-shop-icon" id="confirm-icon">🏪</div>
+          <div>
+            <p class="confirm-shop-name" id="confirm-name">Shop Name</p>
+            <p class="confirm-shop-meta" id="confirm-meta">Shop # | Category | Location</p>
+          </div>
+        </div>
+
+        <div class="amount-preview">
+          <span>Amount to Confirm</span>
+          <strong id="confirm-amount">₦3,000</strong>
+        </div>
+
+        <div class="notice" style="margin-bottom:16px;">
+          <span class="ni">⚠️</span>
+          <p>Only confirm after you have <strong>personally verified</strong> the transfer in your bank account or mobile app. Do not confirm based on screenshots alone.</p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Amount Received (₦) *</label>
+            <input type="number" id="received-amount" placeholder="e.g. 3000"/>
+          </div>
+          <div class="form-group">
+            <label>Date Received *</label>
+            <input type="date" id="received-date"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Payment Method</label>
+          <select id="payment-method">
+            <option>Bank Transfer</option>
+            <option>USSD Transfer</option>
+            <option>Opay / Palmpay</option>
+            <option>Moniepoint</option>
+            <option>Cash (in person)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Transaction Reference (Optional)</label>
+          <input type="text" id="tx-ref" placeholder="e.g. FBN2025041800012345"/>
+        </div>
+        <div class="form-group">
+          <label>Period Covered</label>
+          <select id="period-covered">
+            <option>April 2025</option><option>May 2025</option>
+            <option>June 2025</option><option>Q2 2025 (Apr–Jun)</option>
+            <option>Full Year 2025</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Notes (Optional)</label>
+          <textarea id="confirm-notes" placeholder="Any additional note about this payment..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-btn-primary" onclick="processConfirmation()">✅ Confirm & Activate Shop</button>
+          <button class="modal-btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ INVOICE MODAL ══ -->
+  <div class="modal-overlay" id="invoice-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>🧾 Payment Invoice</h3>
+        <button class="modal-close" onclick="closeModal('invoice-modal')">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="invoice-preview" id="invoice-preview">
+          <div class="invoice-header">
+            <div>
+              <p class="invoice-logo-text">AREWA SQUARE</p>
+              <p class="invoice-logo-sub">Northern Nigeria's Marketplace</p>
+              <p style="font-size:0.72rem;color:var(--white-dim);margin-top:4px;">Powered by KausaniTech</p>
+            </div>
+            <div style="text-align:right;">
+              <p class="invoice-title">Invoice</p>
+              <p class="invoice-num" id="inv-number">INV-2025-007</p>
+              <p style="font-size:0.72rem;color:var(--white-dim);margin-top:4px;" id="inv-date">Issued: April 2025</p>
+            </div>
+          </div>
+
+          <div class="invoice-divider"></div>
+
+          <div class="invoice-grid">
+            <div class="invoice-block">
+              <p>Billed To</p>
+              <span id="inv-seller-name">Rahama Beauty Store</span><br/>
+              <span style="font-size:0.75rem;color:var(--white-dim);" id="inv-shop-num">Shop #007 — Kano Central</span>
+            </div>
+            <div class="invoice-block">
+              <p>Payment To</p>
+              <span>Abbaty Kausani</span><br/>
+              <span style="font-size:0.75rem;color:var(--white-dim);">KAUSANITECH — AREWA SQUARE</span>
+            </div>
+          </div>
+
+          <div class="invoice-divider"></div>
+
+          <div class="invoice-line">
+            <span>Subscription Plan</span>
+            <strong id="inv-plan">Monthly Subscription</strong>
+          </div>
+          <div class="invoice-line">
+            <span>Period Covered</span>
+            <strong id="inv-period">April 2025</strong>
+          </div>
+          <div class="invoice-line">
+            <span>Shop Number (Permanent)</span>
+            <strong id="inv-shopnum">#007</strong>
+          </div>
+          <div class="invoice-total">
+            <span>Total Due</span>
+            <strong id="inv-total">₦3,000</strong>
+          </div>
+
+          <div class="invoice-bank">
+            <p>💳 Transfer to this account</p>
+            <div class="invoice-bank-detail"><span>Account Name</span><strong>ABBATY KAUSANI</strong></div>
+            <div class="invoice-bank-detail"><span>Account Number</span><strong>0123456789</strong></div>
+            <div class="invoice-bank-detail"><span>Bank</span><strong>First Bank Nigeria</strong></div>
+            <div class="invoice-bank-detail"><span>Due Date</span><strong id="inv-due">30 April 2025</strong></div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-btn-primary" onclick="showToast('Invoice sent to seller via WhatsApp/email!','info')">📤 Send to Seller</button>
+          <button class="modal-btn-secondary" onclick="window.print()">🖨️ Print</button>
+          <button class="modal-btn-secondary" onclick="closeModal('invoice-modal')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── AUTH GUARD — Admin only ── */
+    (function checkAuth() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'admin') {
+        window.location.href = 'auth.html';
+      }
+    })();
+
+    /* ── CUSTOM CONFIRM DIALOG ── */
+    function showConfirm(message, onConfirm) {
+      const existing = document.getElementById('as-confirm-overlay');
+      if (existing) existing.remove();
+      const overlay = document.createElement('div');
+      overlay.id = 'as-confirm-overlay';
+      Object.assign(overlay.style, {
+        position:'fixed',inset:'0',background:'rgba(0,0,0,0.75)',
+        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
+      });
+      overlay.innerHTML = `
+        <div style="background:#070d0a;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:400px;width:100%;text-align:center;">
+          <span style="font-size:2rem;display:block;margin-bottom:12px;">⚠️</span>
+          <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#f5f0e8;line-height:1.6;margin-bottom:24px;">${message}</p>
+          <div style="display:flex;gap:10px;justify-content:center;">
+            <button id="confirm-yes" style="padding:10px 28px;background:#e74c3c;color:#fff;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:800;cursor:pointer;">Confirm</button>
+            <button id="confirm-no"  style="padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">Cancel</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      document.getElementById('confirm-yes').onclick = () => { overlay.remove(); onConfirm(); };
+      document.getElementById('confirm-no').onclick  = () => overlay.remove();
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    }
+
+    // ── DATA ──
+    const payments = [
+      { num:'#001', icon:'👟', name:'Zainab Abdullahi',  biz:'Zainab Footwear',    plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 30, 2025', status:'paid'    },
+      { num:'#002', icon:'📱', name:'Musa Ibrahim',      biz:'Musa Gadgets Hub',   plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 28, 2025', status:'paid'    },
+      { num:'#003', icon:'👕', name:'Fatima Sani',       biz:'Fatima Fashion',     plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 31, 2025', status:'pending' },
+      { num:'#004', icon:'🥘', name:'Amina Garba',       biz:'Hajiya Amina Foods', plan:'yearly',  amount:30000,due:'Dec 31, 2025', lastPaid:'Jan 1, 2025',  status:'paid'    },
+      { num:'#005', icon:'💻', name:'Umar Tech',         biz:'Tech Zone Kano',     plan:'monthly', amount:3000, due:'Apr 15, 2025', lastPaid:'Mar 1, 2025',  status:'overdue' },
+      { num:'#006', icon:'🏠', name:'Alhaji Bello',      biz:'Alhaji Home Store',  plan:'monthly', amount:3000, due:'Apr 25, 2025', lastPaid:'Mar 25, 2025', status:'pending' },
+      { num:'#007', icon:'💊', name:'Rahama Abdullahi',  biz:'Rahama Beauty',      plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 30, 2025', status:'paid'    },
+      { num:'#008', icon:'🔧', name:'Usman Repairs',     biz:'Usman Fix-It',       plan:'monthly', amount:3000, due:'Apr 20, 2025', lastPaid:'Mar 5, 2025',  status:'overdue' },
+      { num:'#009', icon:'👗', name:'Hauwa Fashions',    biz:'Hauwa Collections',  plan:'free',    amount:0,    due:'Trial',        lastPaid:'—',            status:'free'    },
+      { num:'#010', icon:'🍎', name:'Ibrahim Fruits',    biz:'Ibrahim Groceries',  plan:'free',    amount:0,    due:'Trial',        lastPaid:'—',            status:'free'    },
+    ];
+
+    const history = [
+      { num:'#001', biz:'Zainab Footwear',    amount:3000, date:'Mar 30, 2025', method:'Bank Transfer',  ref:'FBN2025033000123', status:'paid'    },
+      { num:'#002', biz:'Musa Gadgets Hub',   amount:3000, date:'Mar 28, 2025', method:'Moniepoint',     ref:'MNP2025032800456', status:'paid'    },
+      { num:'#004', biz:'Hajiya Amina Foods', amount:30000,date:'Jan 1, 2025',  method:'Bank Transfer',  ref:'FBN2025010100789', status:'paid'    },
+      { num:'#007', biz:'Rahama Beauty',      amount:3000, date:'Mar 30, 2025', method:'Opay',           ref:'OPY2025033000321', status:'paid'    },
+      { num:'#003', biz:'Fatima Fashion',     amount:3000, date:'—',            method:'—',              ref:'—',               status:'pending' },
+      { num:'#006', biz:'Alhaji Home Store',  amount:3000, date:'—',            method:'—',              ref:'—',               status:'pending' },
+    ];
+
+    const invoices = [
+      { num:'INV-2025-001', shop:'#001', biz:'Zainab Footwear',    amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'paid'    },
+      { num:'INV-2025-002', shop:'#002', biz:'Musa Gadgets Hub',   amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'paid'    },
+      { num:'INV-2025-003', shop:'#003', biz:'Fatima Fashion',     amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'pending' },
+      { num:'INV-2025-004', shop:'#004', biz:'Hajiya Amina Foods', amount:30000,issued:'Jan 1, 2025', due:'Dec 31, 2025', status:'paid'    },
+      { num:'INV-2025-005', shop:'#005', biz:'Tech Zone Kano',     amount:3000, issued:'Mar 15, 2025',due:'Apr 15, 2025', status:'overdue' },
+      { num:'INV-2025-006', shop:'#006', biz:'Alhaji Home Store',  amount:3000, issued:'Apr 1, 2025', due:'Apr 25, 2025', status:'pending' },
+      { num:'INV-2025-007', shop:'#007', biz:'Rahama Beauty',      amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'paid'    },
+    ];
+
+    let currentSeller = null;
+
+    // ── RENDER PAYMENT TABLE ──
+    function renderPayments(data) {
+      document.getElementById('payment-tbody').innerHTML = data.map(p => {
+        const planLabel = p.plan === 'monthly' ? '<span class="plan-badge plan-monthly">Monthly</span>'
+                        : p.plan === 'yearly'  ? '<span class="plan-badge plan-yearly">Yearly</span>'
+                        : '<span class="plan-badge plan-free">Free Trial</span>';
+        const amountClass = p.status === 'paid' ? 'amount-paid' : p.status === 'overdue' ? 'amount-overdue' : 'amount-pending';
+        const amountText  = p.amount === 0 ? '—' : '₦' + p.amount.toLocaleString();
+        const dueClass    = p.status === 'overdue' ? 'due-overdue' : p.status === 'pending' ? 'due-soon' : 'due-ok';
+        const badge       = `<span class="badge ${p.status}">${p.status === 'paid' ? 'Paid' : p.status === 'pending' ? 'Pending' : p.status === 'overdue' ? 'Overdue' : 'Free Period'}</span>`;
+
+        let actions = '';
+        if (p.status === 'pending' || p.status === 'overdue') {
+          actions = `<button class="act-btn confirm" onclick="openConfirmModal(${payments.indexOf(p)})">✅ Confirm</button>
+                     <button class="act-btn remind" onclick="sendReminder('${p.biz}')">📩 Remind</button>
+                     <button class="act-btn invoice" onclick="openInvoiceModal(${payments.indexOf(p)})">🧾 Invoice</button>`;
+          if (p.status === 'overdue') actions += `<button class="act-btn suspend" onclick="suspendShop('${p.biz}')">⏸ Suspend</button>`;
+        } else if (p.status === 'paid') {
+          actions = `<button class="act-btn view" onclick="viewHistory('${p.num}')">📜 History</button>
+                     <button class="act-btn invoice" onclick="openInvoiceModal(${payments.indexOf(p)})">🧾 Invoice</button>`;
+        } else {
+          actions = `<button class="act-btn view" onclick="showToast('Trial period active — no payment due yet.','info')">ℹ️ Trial Active</button>`;
+        }
+
+        return `<tr>
+          <td><span class="shop-pill">${p.num}</span></td>
+          <td>
+            <div class="seller-cell">
+              <div class="seller-icon">${p.icon}</div>
+              <div><p class="seller-name">${p.name}</p><p class="seller-biz">${p.biz}</p></div>
+            </div>
+          </td>
+          <td>${planLabel}</td>
+          <td><span class="amount-cell ${amountClass}">${amountText}</span></td>
+          <td><span class="due-cell ${dueClass}">${p.due}</span></td>
+          <td style="font-size:0.75rem;">${p.lastPaid}</td>
+          <td>${badge}</td>
+          <td><div class="act-cell">${actions}</div></td>
+        </tr>`;
+      }).join('');
+    }
+
+    // ── RENDER HISTORY ──
+    function renderHistory() {
+      document.getElementById('history-log').innerHTML = history.map(h => `
+        <div class="history-item">
+          <div class="history-dot ${h.status}"></div>
+          <div class="history-text">
+            <p>${h.shop} — ${h.biz}</p>
+            <span>${h.date !== '—' ? 'Paid on ' + h.date + ' via ' + h.method : 'Awaiting payment'} ${h.ref !== '—' ? '| Ref: ' + h.ref : ''}</span>
+          </div>
+          <span class="history-amount ${h.status}">₦${h.amount.toLocaleString()}</span>
+        </div>`).join('');
+    }
+
+    // ── RENDER INVOICES ──
+    function renderInvoices() {
+      document.getElementById('invoice-tbody').innerHTML = invoices.map(inv => `
+        <tr>
+          <td style="font-family:'Cinzel',serif;font-size:0.78rem;color:var(--gold);">${inv.num}</td>
+          <td><span class="shop-pill">${inv.shop}</span></td>
+          <td style="color:var(--white);font-weight:600;">${inv.biz}</td>
+          <td><span class="amount-cell amount-paid">₦${inv.amount.toLocaleString()}</span></td>
+          <td style="font-size:0.75rem;">${inv.issued}</td>
+          <td style="font-size:0.75rem;">${inv.due}</td>
+          <td><span class="badge ${inv.status}">${inv.status.charAt(0).toUpperCase()+inv.status.slice(1)}</span></td>
+          <td><div class="act-cell">
+            <button class="act-btn view" onclick="openInvoiceModal(null,'${inv.num}')">View</button>
+            <button class="act-btn invoice" onclick="showToast('Sending invoice to seller...','info')">Send</button>
+          </div></td>
+        </tr>`).join('');
+    }
+
+    // ── MODALS ──
+    function openConfirmModal(idx) {
+      const p = idx !== null ? payments[idx] : payments.find(x => x.status === 'pending') || payments[0];
+      currentSeller = p;
+      document.getElementById('confirm-icon').textContent  = p.icon;
+      document.getElementById('confirm-name').textContent  = p.biz;
+      document.getElementById('confirm-meta').textContent  = p.num + ' | ' + (p.plan === 'monthly' ? 'Monthly Plan' : p.plan === 'yearly' ? 'Yearly Plan' : 'Free Trial');
+      document.getElementById('confirm-amount').textContent = '₦' + p.amount.toLocaleString();
+      document.getElementById('received-amount').value     = p.amount || '';
+      // Set today's date
+      document.getElementById('received-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('confirm-modal').classList.add('open');
+    }
+
+    function openInvoiceModal(idx, invNum) {
+      const p = idx !== null ? payments[idx] : payments[6]; // default Rahama Beauty
+      document.getElementById('inv-number').textContent      = invNum || 'INV-2025-0' + (idx !== null ? (idx+1) : '7');
+      document.getElementById('inv-seller-name').textContent = p.biz;
+      document.getElementById('inv-shop-num').textContent    = p.num + ' — Kano';
+      document.getElementById('inv-shopnum').textContent     = p.num;
+      document.getElementById('inv-plan').textContent        = p.plan === 'monthly' ? 'Monthly Subscription' : p.plan === 'yearly' ? 'Yearly Subscription' : 'Free Trial';
+      document.getElementById('inv-total').textContent       = '₦' + p.amount.toLocaleString();
+      document.getElementById('invoice-modal').classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function processConfirmation() {
+      const amount = document.getElementById('received-amount').value;
+      const date   = document.getElementById('received-date').value;
+      if (!amount || !date) { showToast('Please fill in the amount received and date.', 'error'); return; }
+      if (!currentSeller) return;
+      const idx = payments.indexOf(currentSeller);
+      if (idx > -1) {
+        payments[idx].status   = 'paid';
+        payments[idx].lastPaid = new Date(date).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+      }
+      closeModal('confirm-modal');
+      renderPayments(payments);
+      /* ── BACKEND HOOK ──
+         await fetch('/api/admin/payments/' + currentSeller.num + '/confirm', {
+           method: 'PUT',
+           headers: { 'Content-Type':'application/json', Authorization:'Bearer '+localStorage.getItem('as_token') },
+           body: JSON.stringify({ amount, date })
+         });
+      */
+      showToast('✅ Payment confirmed for ' + currentSeller.biz + ' (' + currentSeller.num + '). Status updated to Active.', 'success');
+    }
+
+    function sendReminder(biz) {
+      const msg = `As-salamu alaykum! This is a reminder that your AREWA SQUARE subscription of ₦3,000 is due. Please transfer to First Bank: 0123456789 (Abbaty Kausani). JazakAllah khayran.`;
+      window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+      showToast('📩 WhatsApp reminder opened for ' + biz, 'info');
+    }
+
+    function suspendShop(biz) {
+      showConfirm('Suspend <strong>' + biz + '</strong> due to overdue payment? Their shop will be hidden from buyers until payment is confirmed.', function() {
+        /* ── BACKEND HOOK ──
+           await fetch('/api/admin/sellers/suspend', { method:'PUT', ... });
+        */
+        showToast('Shop suspended. ' + biz + ' has been notified.', 'warning');
+      });
+    }
+
+    function viewHistory(num) {
+      showSection('history');
+    }
+
+    // ── FILTER ──
+    function filterTable(query) {
+      const q = query.toLowerCase();
+      const filtered = payments.filter(p => p.name.toLowerCase().includes(q) || p.biz.toLowerCase().includes(q) || p.num.toLowerCase().includes(q));
+      renderPayments(filtered);
+    }
+
+    function filterByStatus(status) {
+      const filtered = status === 'all' ? payments : payments.filter(p => p.status === status);
+      renderPayments(filtered);
+    }
+
+    // ── SECTION NAV ──
+    function showSection(id) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('sec-'+id).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const titles = { tracker:'Payment Tracker', history:'Payment History', invoices:'Invoices', plans:'Subscription Plans', bank:'My Bank Details' };
+      document.getElementById('page-title').textContent = titles[id] || 'Payments';
+      if (window.innerWidth < 860) document.getElementById('sidebar').classList.remove('open');
+    }
+
+    // Close modals on backdrop click
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', function(e) { if(e.target === this) this.classList.remove('open'); });
+    });
+
+    // ── INIT ──
+    renderPayments(payments);
+    renderHistory();
+    renderInvoices();
+  
+    /* ── TOAST NOTIFICATION SYSTEM ── */
+    function showToast(message, type) {
+      type = type || 'info';
+      var existing = document.querySelector('.as-toast');
+      if (existing) existing.remove();
+      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#c9a84c', warning: '#f39c12' };
+      var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+      var toast = document.createElement('div');
+      toast.className = 'as-toast';
+      toast.innerHTML = '<span>' + icons[type] + '</span><span>' + message + '</span>';
+      Object.assign(toast.style, {
+        position:'fixed', bottom:'28px', right:'28px', zIndex:'9999',
+        background:'#0d2b1f', border:'1px solid ' + colors[type],
+        color:'#f5f0e8', padding:'14px 20px', borderRadius:'8px',
+        fontFamily:'Nunito, sans-serif', fontSize:'0.9rem', fontWeight:'600',
+        display:'flex', alignItems:'center', gap:'10px',
+        boxShadow:'0 4px 24px rgba(0,0,0,0.5)', maxWidth:'340px'
+      });
+      document.body.appendChild(toast);
+      setTimeout(function(){ toast.remove(); }, 4000);
+    }
+
+  </script>
+</body>
+</html>

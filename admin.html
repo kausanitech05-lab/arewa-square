@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AREWA SQUARE — Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:         #070d0a;
+      --bg2:        #0d1a12;
+      --green-mid:  #1a4a30;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim:   #8a6e2f;
+      --emerald:    #2ecc71;
+      --em-dim:     #1a7a45;
+      --white:      #f5f0e8;
+      --white-dim:  #c8bfa8;
+      --danger:     #e74c3c;
+      --warn:       #f39c12;
+      --sidebar-w:  256px;
+      --card:       rgba(255,255,255,0.04);
+      --border:     rgba(201,168,76,0.15);
+    }
+    body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--white); min-height:100vh; display:flex; }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(26,74,48,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.05) 0%, transparent 50%);
+      pointer-events:none; z-index:0;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; background:rgba(5,10,7,0.98); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:100; transition:transform 0.3s; }
+    .sidebar-logo { padding:20px; border-bottom:1px solid var(--border); }
+    .sidebar-logo a { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .sidebar-logo img { width:34px; height:34px; object-fit:contain; }
+    .sidebar-logo-text span:first-child { display:block; font-family:'Cinzel',serif; font-size:0.82rem; font-weight:700; color:var(--gold); letter-spacing:1.5px; }
+    .sidebar-logo-text span:last-child { display:block; font-size:0.58rem; color:var(--white-dim); letter-spacing:1px; text-transform:uppercase; }
+    .admin-badge { margin:12px; padding:10px 14px; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-radius:7px; display:flex; align-items:center; gap:10px; }
+    .admin-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--green-mid),var(--gold-dim)); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; color:var(--gold); font-family:'Cinzel',serif; flex-shrink:0; }
+    .admin-badge span:first-of-type { display:block; font-size:0.78rem; font-weight:700; color:var(--white); }
+    .admin-badge span:last-of-type { display:block; font-size:0.65rem; color:var(--gold); font-weight:700; }
+
+    .sidebar-nav { flex:1; padding:8px 0; overflow-y:auto; }
+    .nav-section-label { padding:10px 18px 4px; font-size:0.6rem; font-weight:700; color:var(--gold-dim); letter-spacing:2px; text-transform:uppercase; }
+    .nav-item { display:flex; align-items:center; gap:10px; padding:10px 18px; cursor:pointer; transition:all 0.25s; border-left:2px solid transparent; color:var(--white-dim); font-size:0.83rem; font-weight:600; text-decoration:none; }
+    .nav-item:hover { background:rgba(201,168,76,0.07); color:var(--white); border-left-color:var(--gold-dim); }
+    .nav-item.active { background:rgba(201,168,76,0.1); color:var(--gold); border-left-color:var(--gold); }
+    .nav-item .nav-icon { font-size:0.95rem; min-width:18px; text-align:center; }
+    .nav-badge { margin-left:auto; background:var(--danger); color:#fff; font-size:0.62rem; font-weight:800; padding:2px 7px; border-radius:10px; }
+
+    .sidebar-footer { padding:14px 18px; border-top:1px solid var(--border); }
+    .logout-btn { display:flex; align-items:center; gap:10px; color:var(--white-dim); font-size:0.82rem; font-weight:600; cursor:pointer; transition:color 0.3s; background:none; border:none; font-family:'Nunito',sans-serif; padding:0; }
+    .logout-btn:hover { color:var(--danger); }
+
+    /* ── MAIN ── */
+    .main { margin-left:var(--sidebar-w); flex:1; min-height:100vh; position:relative; z-index:1; }
+    .topbar { position:sticky; top:0; z-index:50; background:rgba(7,13,10,0.96); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 28px; height:60px; display:flex; align-items:center; justify-content:space-between; }
+    .topbar h1 { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:700; color:var(--white); }
+    .topbar-right { display:flex; align-items:center; gap:10px; }
+    .topbar-btn { width:34px; height:34px; border-radius:5px; background:var(--card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.9rem; transition:all 0.3s; color:var(--white-dim); }
+    .topbar-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .hamburger-btn { display:none; width:34px; height:34px; background:none; border:none; cursor:pointer; flex-direction:column; gap:5px; align-items:center; justify-content:center; }
+    .hamburger-btn span { display:block; width:20px; height:2px; background:var(--gold); border-radius:2px; }
+
+    /* Sections */
+    .page-section { display:none; padding:24px 28px; animation:fadeUp 0.4s ease both; }
+    .page-section.active { display:block; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Stat cards */
+    .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px; }
+    .stat-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; transition:all 0.3s; }
+    .stat-card:hover { border-color:var(--gold-dim); transform:translateY(-2px); }
+    .stat-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .stat-icon { width:38px; height:38px; border-radius:7px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); display:flex; align-items:center; justify-content:center; font-size:1rem; }
+    .stat-trend-up { font-size:0.7rem; font-weight:700; color:var(--emerald); }
+    .stat-trend-warn { font-size:0.7rem; font-weight:700; color:var(--warn); }
+    .stat-num { font-family:'Cinzel',serif; font-size:1.7rem; font-weight:700; color:var(--white); display:block; }
+    .stat-lbl { font-size:0.72rem; color:var(--white-dim); }
+
+    .section-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .section-heading h3 { font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--white); }
+
+    /* Tables */
+    .table-wrap { background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:600px; }
+    thead th { text-align:left; padding:12px 16px; font-size:0.68rem; font-weight:700; color:var(--gold-dim); text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--border); white-space:nowrap; }
+    tbody td { padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8rem; color:var(--white-dim); vertical-align:middle; }
+    tbody tr:hover td { background:rgba(201,168,76,0.025); }
+    tbody tr:last-child td { border-bottom:none; }
+
+    /* Status badges */
+    .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.65rem; font-weight:700; }
+    .badge.pending  { background:rgba(243,156,18,0.12); color:var(--warn); border:1px solid rgba(243,156,18,0.25); }
+    .badge.approved { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .badge.active   { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .badge.rejected { background:rgba(231,76,60,0.1); color:var(--danger); border:1px solid rgba(231,76,60,0.2); }
+    .badge.suspended{ background:rgba(231,76,60,0.1); color:var(--danger); border:1px solid rgba(231,76,60,0.2); }
+    .badge.open     { background:rgba(243,156,18,0.12); color:var(--warn); border:1px solid rgba(243,156,18,0.25); }
+    .badge.resolved { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .badge.vacant   { background:rgba(255,255,255,0.05); color:var(--white-dim); border:1px solid rgba(255,255,255,0.1); }
+
+    /* Shop number pill */
+    .shop-num-pill { display:inline-block; background:rgba(201,168,76,0.12); border:1px solid var(--gold-dim); border-radius:4px; padding:2px 8px; font-family:'Cinzel',serif; font-size:0.72rem; font-weight:700; color:var(--gold); }
+
+    /* Action buttons */
+    .act-btn { padding:5px 12px; border-radius:4px; font-family:'Nunito',sans-serif; font-size:0.7rem; font-weight:700; cursor:pointer; transition:all 0.3s; border:1px solid; }
+    .act-btn.approve { background:rgba(46,204,113,0.1); border-color:rgba(46,204,113,0.3); color:var(--emerald); }
+    .act-btn.approve:hover { background:var(--emerald); color:var(--bg); }
+    .act-btn.reject  { background:rgba(231,76,60,0.08); border-color:rgba(231,76,60,0.25); color:var(--danger); }
+    .act-btn.reject:hover  { background:var(--danger); color:#fff; }
+    .act-btn.view    { background:rgba(201,168,76,0.08); border-color:var(--gold-dim); color:var(--gold); }
+    .act-btn.view:hover    { background:rgba(201,168,76,0.15); }
+    .act-btn.suspend { background:rgba(243,156,18,0.08); border-color:rgba(243,156,18,0.25); color:var(--warn); }
+    .act-btn.suspend:hover { background:rgba(243,156,18,0.15); }
+    .act-btn.remove  { background:rgba(231,76,60,0.08); border-color:rgba(231,76,60,0.25); color:var(--danger); }
+    .act-btn.remove:hover  { background:var(--danger); color:#fff; }
+    .action-cell { display:flex; gap:6px; flex-wrap:wrap; }
+
+    /* Filters/search */
+    .table-toolbar { display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+    .table-search { flex:1; min-width:180px; padding:9px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(201,168,76,0.2); border-radius:5px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.82rem; outline:none; }
+    .table-search:focus { border-color:var(--gold); }
+    .table-search::placeholder { color:rgba(200,191,168,0.35); }
+    .filter-select { padding:9px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(201,168,76,0.2); border-radius:5px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.82rem; outline:none; cursor:pointer; appearance:none; padding-right:28px; }
+    .filter-select option { background:var(--bg); }
+
+    /* Analytics bars */
+    .an-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:14px; }
+    .an-card h4 { font-family:'Cinzel',serif; font-size:0.82rem; color:var(--gold); margin-bottom:14px; }
+    .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .bar-label { font-size:0.72rem; color:var(--white-dim); width:90px; flex-shrink:0; }
+    .bar-track { flex:1; height:7px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; }
+    .bar-fill  { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); }
+    .bar-val   { font-size:0.72rem; color:var(--gold); font-weight:700; width:36px; text-align:right; flex-shrink:0; }
+
+    /* Platform settings */
+    .settings-section { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:22px; margin-bottom:14px; }
+    .settings-section h4 { font-family:'Cinzel',serif; font-size:0.85rem; color:var(--gold); margin-bottom:16px; }
+    .form-group { margin-bottom:14px; }
+    .form-group label { display:block; font-size:0.72rem; font-weight:700; color:var(--white-dim); margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase; }
+    .form-group input, .form-group textarea, .form-group select {
+      width:100%; padding:10px 13px; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(201,168,76,0.2); border-radius:5px; color:var(--white);
+      font-family:'Nunito',sans-serif; font-size:0.83rem; outline:none; appearance:none;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color:var(--gold); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color:rgba(200,191,168,0.3); }
+    .form-group select option { background:var(--bg); }
+    .form-group textarea { resize:vertical; min-height:70px; }
+    .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+    .toggle-row:last-child { border-bottom:none; }
+    .toggle-label p { font-size:0.83rem; font-weight:600; color:var(--white); }
+    .toggle-label span { font-size:0.72rem; color:var(--white-dim); }
+    .toggle { width:40px; height:22px; background:rgba(255,255,255,0.1); border-radius:11px; cursor:pointer; position:relative; transition:all 0.3s; flex-shrink:0; border:none; }
+    .toggle.on { background:var(--emerald); }
+    .toggle::after { content:''; position:absolute; top:3px; left:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform 0.3s; }
+    .toggle.on::after { transform:translateX(18px); }
+    .btn-save { padding:10px 24px; background:var(--gold); color:var(--bg); border:none; border-radius:5px; font-family:'Nunito',sans-serif; font-size:0.83rem; font-weight:800; cursor:pointer; transition:all 0.3s; }
+    .btn-save:hover { background:var(--gold-light); }
+
+    /* Responsive */
+    @media (max-width:900px) {
+      .sidebar { transform:translateX(-100%); }
+      .sidebar.open { transform:translateX(0); }
+      .main { margin-left:0; }
+      .hamburger-btn { display:flex; }
+      .stats-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:520px) {
+      .stats-grid { grid-template-columns:1fr; }
+      .page-section { padding:16px 14px; }
+      .topbar { padding:0 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html">
+        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
+        <div class="sidebar-logo-text">
+          <span>AREWA SQUARE</span>
+          <span>Admin Control Panel</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="admin-badge">
+      <div class="admin-avatar">AK</div>
+      <div>
+        <span>Abbaty Kausani</span>
+        <span>🔑 Platform Owner</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-item active" onclick="showSection('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
+
+      <div class="nav-section-label">Sellers</div>
+      <a class="nav-item" onclick="showSection('applications')"><span class="nav-icon">📋</span> Applications <span class="nav-badge">3</span></a>
+      <a class="nav-item" onclick="showSection('sellers')"><span class="nav-icon">🏪</span> Manage Sellers</a>
+      <a class="nav-item" onclick="showSection('shop-numbers')"><span class="nav-icon">🔢</span> Shop Numbers</a>
+
+      <div class="nav-section-label">Buyers</div>
+      <a class="nav-item" onclick="showSection('buyers')"><span class="nav-icon">👥</span> Manage Buyers</a>
+
+      <div class="nav-section-label">Platform</div>
+      <a class="nav-item" onclick="showSection('disputes')"><span class="nav-icon">🚩</span> Reports & Disputes <span class="nav-badge">2</span></a>
+      <a class="nav-item" onclick="showSection('analytics')"><span class="nav-icon">📈</span> Analytics</a>
+      <a class="nav-item" href="admin-payments.html"><span class="nav-icon">💳</span> Payment Tracking</a>
+      <a class="nav-item" onclick="showSection('settings')"><span class="nav-icon">⚙️</span> Platform Settings</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="window.location.href='auth.html'">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="hamburger-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+          <span></span><span></span><span></span>
+        </button>
+        <h1 id="page-title">Admin Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn">🔔</button>
+        <button class="topbar-btn" onclick="showToast('Admin profile settings...','info')">⚙️</button>
+        <a href="index.html" style="padding:7px 14px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);border-radius:5px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:700;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">← View Site</a>
+      </div>
+    </div>
+
+    <!-- ══ DASHBOARD ══ -->
+    <section class="page-section active" id="sec-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🏪</div><span class="stat-trend-up">+2 this week</span></div><span class="stat-num">20</span><span class="stat-lbl">Verified Sellers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👥</div><span class="stat-trend-up">+14 this week</span></div><span class="stat-num">183</span><span class="stat-lbl">Registered Buyers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📋</div><span class="stat-trend-warn">Needs review</span></div><span class="stat-num">3</span><span class="stat-lbl">Pending Applications</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🚩</div><span class="stat-trend-warn">Open</span></div><span class="stat-num">2</span><span class="stat-lbl">Open Disputes</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👁️</div><span class="stat-trend-up">Today</span></div><span class="stat-num">1,247</span><span class="stat-lbl">Platform Views Today</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🔢</div><span class="stat-trend-up">Next: #021</span></div><span class="stat-num">20</span><span class="stat-lbl">Assigned Shop Numbers</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:18px;">
+        <div>
+          <div class="section-heading"><h3>✦ Pending Applications</h3><a onclick="showSection('applications')" style="font-size:0.75rem;color:var(--gold);cursor:pointer;font-weight:700;">Review all →</a></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Business</th><th>Category</th><th>Applied</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--white);font-weight:600;">Ibrahim Sale</td><td>Sale Electronics</td><td>📱 Phones</td><td>Today</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Ibrahim Sale')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
+                <tr><td style="color:var(--white);font-weight:600;">Maryam Umar</td><td>Maryam Fabrics</td><td>👕 Fashion</td><td>Yesterday</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Maryam Umar')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
+                <tr><td style="color:var(--white);font-weight:600;">Bello Garba</td><td>Garba Shoes Hub</td><td>👟 Shoes</td><td>2 days ago</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Bello Garba')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="section-heading"><h3>✦ Open Disputes</h3><a onclick="showSection('disputes')" style="font-size:0.75rem;color:var(--gold);cursor:pointer;font-weight:700;">View all →</a></div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:var(--card);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--danger);">#001 — Zainab Footwear</span><span class="badge open">Open</span></div>
+              <p style="font-size:0.75rem;color:var(--white-dim);">Buyer says product not as described</p>
+              <button class="act-btn view" style="margin-top:10px;" onclick="showSection('disputes')">Review →</button>
+            </div>
+            <div style="background:var(--card);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--danger);">#005 — Tech Zone Kano</span><span class="badge open">Open</span></div>
+              <p style="font-size:0.75rem;color:var(--white-dim);">Buyer reports seller unresponsive</p>
+              <button class="act-btn view" style="margin-top:10px;" onclick="showSection('disputes')">Review →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ APPLICATIONS ══ -->
+    <section class="page-section" id="sec-applications">
+      <div class="table-toolbar">
+        <input class="table-search" type="text" placeholder="Search applications..."/>
+        <select class="filter-select"><option>All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Applicant</th><th>Business Name</th><th>Category</th><th>Location</th><th>Applied</th><th>Documents</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--white);font-weight:600;">Ibrahim Sale</td>
+              <td>Sale Electronics</td><td>📱 Phones</td><td>Sabon Gari, Kano</td><td>Today</td>
+              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
+              <td><span class="badge pending">Pending</span></td>
+              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Ibrahim Sale')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--white);font-weight:600;">Maryam Umar</td>
+              <td>Maryam Fabrics</td><td>👕 Fashion</td><td>Gwale, Kano</td><td>Yesterday</td>
+              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
+              <td><span class="badge pending">Pending</span></td>
+              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Maryam Umar')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--white);font-weight:600;">Bello Garba</td>
+              <td>Garba Shoes Hub</td><td>👟 Shoes</td><td>Kano Central</td><td>2 days ago</td>
+              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
+              <td><span class="badge pending">Pending</span></td>
+              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Bello Garba')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--white);font-weight:600;">Aisha Nuhu</td>
+              <td>Aisha Cosmetics</td><td>💊 Health</td><td>Nassarawa, Kano</td><td>3 days ago</td>
+              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
+              <td><span class="badge approved">Approved</span></td>
+              <td><div class="action-cell"><button class="act-btn view" onclick="showToast('Viewing seller profile...','info')">View</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ MANAGE SELLERS ══ -->
+    <section class="page-section" id="sec-sellers">
+      <div class="table-toolbar">
+        <input class="table-search" type="text" placeholder="Search sellers..."/>
+        <select class="filter-select"><option>All Categories</option><option>Shoes</option><option>Fashion</option><option>Phones</option><option>Food</option><option>Health</option></select>
+        <select class="filter-select"><option>All Status</option><option>Active</option><option>Suspended</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Shop #</th><th>Shop Name</th><th>Category</th><th>Location</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="sellers-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ SHOP NUMBERS ══ -->
+    <section class="page-section" id="sec-shop-numbers">
+      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:1.1rem;">🔒</span>
+        <div>
+          <p style="font-size:0.83rem;font-weight:700;color:var(--gold);margin-bottom:3px;">Shop Number Registry</p>
+          <p style="font-size:0.75rem;color:var(--white-dim);">Shop numbers are permanent and assigned manually by Admin only. Vacant numbers from deleted shops must be reassigned deliberately — never automatically.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Shop #</th><th>Seller Name</th><th>Business</th><th>Category</th><th>Assigned</th><th>Status</th></tr></thead>
+          <tbody id="shop-nums-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ BUYERS ══ -->
+    <section class="page-section" id="sec-buyers">
+      <div class="table-toolbar">
+        <input class="table-search" type="text" placeholder="Search buyers..."/>
+        <select class="filter-select"><option>All States</option><option>Kano</option><option>Kaduna</option><option>Katsina</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Location</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--white);font-weight:600;">Abubakar Musa</td><td>abubakar@email.com</td><td>08012345678</td><td>Nassarawa, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
+            <tr><td style="color:var(--white);font-weight:600;">Halima Usman</td><td>halima@email.com</td><td>08098765432</td><td>Gwale, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
+            <tr><td style="color:var(--white);font-weight:600;">Yusuf Danjuma</td><td>yusuf@email.com</td><td>08033344455</td><td>Kaduna</td><td>Feb 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
+            <tr><td style="color:var(--white);font-weight:600;">Fatima Bello</td><td>fatima@email.com</td><td>08055566677</td><td>Katsina</td><td>Feb 2025</td><td><span class="badge suspended">Suspended</span></td><td><div class="action-cell"><button class="act-btn approve" onclick="showToast('Account reactivated.','info')">Reactivate</button><button class="act-btn remove" onclick="showConfirm('Delete Fatima Bello\'s account permanently?', function(){ showToast('Account deleted.','error'); })">Delete</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ DISPUTES ══ -->
+    <section class="page-section" id="sec-disputes">
+      <div class="table-toolbar">
+        <input class="table-search" type="text" placeholder="Search disputes..."/>
+        <select class="filter-select"><option>All Status</option><option>Open</option><option>Under Review</option><option>Resolved</option><option>Dismissed</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Report ID</th><th>Shop</th><th>Reason</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--white);font-weight:700;">#RPT-001</td>
+              <td><span class="shop-num-pill">#001</span> Zainab Footwear</td>
+              <td>Product not as described</td><td>Today</td>
+              <td><span class="badge open">Open</span></td>
+              <td><div class="action-cell">
+                <button class="act-btn view" onclick="showToast('Viewing full report...','info')">Details</button>
+                <button class="act-btn suspend" onclick="showToast('Shop suspended pending review.','info')">Suspend Shop</button>
+                <button class="act-btn approve" onclick="showToast('Marked as resolved.','info')">Resolve</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--white);font-weight:700;">#RPT-002</td>
+              <td><span class="shop-num-pill">#005</span> Tech Zone Kano</td>
+              <td>Seller unresponsive after payment</td><td>Yesterday</td>
+              <td><span class="badge open">Open</span></td>
+              <td><div class="action-cell">
+                <button class="act-btn view" onclick="showToast('Viewing full report...','info')">Details</button>
+                <button class="act-btn suspend" onclick="showToast('Shop suspended pending review.','info')">Suspend Shop</button>
+                <button class="act-btn approve" onclick="showToast('Marked as resolved.','info')">Resolve</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--white);font-weight:700;">#RPT-000</td>
+              <td><span class="shop-num-pill">#003</span> Fatima Fashion</td>
+              <td>Wrong item delivered</td><td>Last week</td>
+              <td><span class="badge resolved">Resolved</span></td>
+              <td><div class="action-cell"><button class="act-btn view" onclick="showToast('View resolution notes...','info')">View Notes</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══ ANALYTICS ══ -->
+    <section class="page-section" id="sec-analytics">
+      <div class="stats-grid" style="margin-bottom:20px;">
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👁️</div><span class="stat-trend-up">Today</span></div><span class="stat-num">1,247</span><span class="stat-lbl">Platform Views Today</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📈</div><span class="stat-trend-up">This Month</span></div><span class="stat-num">28,450</span><span class="stat-lbl">Total Monthly Views</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🔍</div><span class="stat-trend-up">This Week</span></div><span class="stat-num">3,820</span><span class="stat-lbl">Searches Performed</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="an-card">
+          <h4>Daily Views This Week</h4>
+          <div class="bar-row"><span class="bar-label">Monday</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span class="bar-val">680</span></div>
+          <div class="bar-row"><span class="bar-label">Tuesday</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-val">870</span></div>
+          <div class="bar-row"><span class="bar-label">Wednesday</span><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span class="bar-val">744</span></div>
+          <div class="bar-row"><span class="bar-label">Thursday</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-val">1050</span></div>
+          <div class="bar-row"><span class="bar-label">Friday</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">1247</span></div>
+          <div class="bar-row"><span class="bar-label">Saturday</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-val">—</span></div>
+        </div>
+        <div class="an-card">
+          <h4>Most Searched Keywords</h4>
+          <div class="bar-row"><span class="bar-label">phones</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">412</span></div>
+          <div class="bar-row"><span class="bar-label">shoes</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-val">329</span></div>
+          <div class="bar-row"><span class="bar-label">food</span><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><span class="bar-val">268</span></div>
+          <div class="bar-row"><span class="bar-label">fashion</span><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span class="bar-val">206</span></div>
+          <div class="bar-row"><span class="bar-label">electronics</span><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><span class="bar-val">144</span></div>
+        </div>
+        <div class="an-card">
+          <h4>Seller Growth (Monthly)</h4>
+          <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span class="bar-val">10</span></div>
+          <div class="bar-row"><span class="bar-label">February</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-val">14</span></div>
+          <div class="bar-row"><span class="bar-label">March</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-val">17</span></div>
+          <div class="bar-row"><span class="bar-label">April</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">20</span></div>
+        </div>
+        <div class="an-card">
+          <h4>Most Active Locations</h4>
+          <div class="bar-row"><span class="bar-label">Kano Central</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">544</span></div>
+          <div class="bar-row"><span class="bar-label">Sabon Gari</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-val">381</span></div>
+          <div class="bar-row"><span class="bar-label">Nassarawa</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span class="bar-val">299</span></div>
+          <div class="bar-row"><span class="bar-label">Gwale</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="bar-val">207</span></div>
+          <div class="bar-row"><span class="bar-label">Fagge</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">152</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SETTINGS ══ -->
+    <section class="page-section" id="sec-settings">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="settings-section">
+          <h4>Platform Identity</h4>
+          <div class="form-group"><label>Platform Name</label><input type="text" value="AREWA SQUARE"/></div>
+          <div class="form-group"><label>Tagline</label><input type="text" value="Northern Nigeria's Marketplace"/></div>
+          <div class="form-group"><label>Contact Email</label><input type="email" value="hello@arewasquare.com"/></div>
+          <div class="form-group"><label>Contact Phone</label><input type="tel" value="08000000000"/></div>
+          <button class="btn-save" onclick="showToast('Settings saved!','info')">Save</button>
+        </div>
+        <div class="settings-section">
+          <h4>Announcement Banner</h4>
+          <div class="form-group"><label>Banner Message</label><textarea placeholder="e.g. Ramadan Sale — All verified shops open!"></textarea></div>
+          <div class="form-group"><label>Banner Status</label>
+            <select><option>Hidden</option><option>Visible to All</option><option>Buyers Only</option></select>
+          </div>
+          <button class="btn-save" onclick="showToast('Banner saved!','info')">Save</button>
+        </div>
+        <div class="settings-section" style="grid-column:1/-1;">
+          <h4>Platform Feature Toggles</h4>
+          <div class="toggle-row">
+            <div class="toggle-label"><p>Seller Applications</p><span>Allow new sellers to apply to join</span></div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-label"><p>Buyer Registration</p><span>Allow new buyers to register</span></div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-label"><p>Location Services</p><span>Enable proximity-based shop discovery</span></div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-label"><p>Maintenance Mode</p><span>Take the platform offline temporarily</span></div>
+            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* ── AUTH GUARD — Admin only ── */
+    (function checkAuth() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'admin') {
+        window.location.href = 'auth.html';
+      }
+    })();
+
+    /* ── CUSTOM CONFIRM DIALOG ── */
+    function showConfirm(message, onConfirm) {
+      const existing = document.getElementById('as-confirm-overlay');
+      if (existing) existing.remove();
+      const overlay = document.createElement('div');
+      overlay.id = 'as-confirm-overlay';
+      Object.assign(overlay.style, {
+        position:'fixed',inset:'0',background:'rgba(0,0,0,0.75)',
+        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
+      });
+      overlay.innerHTML = `
+        <div style="background:#070d0a;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:400px;width:100%;text-align:center;">
+          <span style="font-size:2rem;display:block;margin-bottom:12px;">⚠️</span>
+          <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#f5f0e8;line-height:1.6;margin-bottom:24px;">${message}</p>
+          <div style="display:flex;gap:10px;justify-content:center;">
+            <button id="confirm-yes" style="padding:10px 28px;background:#e74c3c;color:#fff;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:800;cursor:pointer;">Confirm</button>
+            <button id="confirm-no"  style="padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">Cancel</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      document.getElementById('confirm-yes').onclick = () => { overlay.remove(); onConfirm(); };
+      document.getElementById('confirm-no').onclick  = () => overlay.remove();
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    }
+
+    /* ── CUSTOM PROMPT DIALOG ── */
+    function showPrompt(message, placeholder, onSubmit) {
+      const existing = document.getElementById('as-prompt-overlay');
+      if (existing) existing.remove();
+      const overlay = document.createElement('div');
+      overlay.id = 'as-prompt-overlay';
+      Object.assign(overlay.style, {
+        position:'fixed',inset:'0',background:'rgba(0,0,0,0.75)',
+        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
+      });
+      overlay.innerHTML = `
+        <div style="background:#070d0a;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:420px;width:100%;">
+          <p style="font-family:'Cinzel',serif;font-size:0.9rem;color:#c9a84c;margin-bottom:16px;">${message}</p>
+          <textarea id="prompt-input" placeholder="${placeholder}" style="width:100%;padding:10px 13px;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:6px;color:#f5f0e8;font-family:'Nunito',sans-serif;font-size:0.83rem;outline:none;resize:vertical;min-height:80px;margin-bottom:16px;"></textarea>
+          <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button id="prompt-cancel" style="padding:9px 20px;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:5px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.83rem;font-weight:700;cursor:pointer;">Cancel</button>
+            <button id="prompt-submit" style="padding:9px 20px;background:#c9a84c;color:#080f0b;border:none;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.83rem;font-weight:800;cursor:pointer;">Submit</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      document.getElementById('prompt-submit').onclick = () => {
+        const val = document.getElementById('prompt-input').value.trim();
+        if (!val) { document.getElementById('prompt-input').style.borderColor = '#e74c3c'; return; }
+        overlay.remove();
+        onSubmit(val);
+      };
+      document.getElementById('prompt-cancel').onclick = () => overlay.remove();
+    }
+
+    const sellers = [
+      { num:'#001', icon:'👟', name:'Zainab Footwear',    cat:'Shoes',       loc:'Kano Central', joined:'Jan 2025', status:'active'    },
+      { num:'#002', icon:'📱', name:'Musa Gadgets Hub',   cat:'Phones',      loc:'Sabon Gari',   joined:'Jan 2025', status:'active'    },
+      { num:'#003', icon:'👕', name:'Fatima Fashion',     cat:'Fashion',     loc:'Gwale',        joined:'Jan 2025', status:'active'    },
+      { num:'#004', icon:'🥘', name:'Hajiya Amina Foods', cat:'Food',        loc:'Nassarawa',    joined:'Jan 2025', status:'active'    },
+      { num:'#005', icon:'💻', name:'Tech Zone Kano',     cat:'Electronics', loc:'Kano Central', joined:'Feb 2025', status:'suspended' },
+      { num:'#006', icon:'🏠', name:'Alhaji Home Store',  cat:'Home',        loc:'Fagge',        joined:'Feb 2025', status:'active'    },
+      { num:'#007', icon:'💊', name:'Rahama Beauty',      cat:'Health',      loc:'Kano Central', joined:'Feb 2025', status:'active'    },
+    ];
+
+    const shopNums = [
+      { num:'#001', seller:'Zainab Abdullahi',  biz:'Zainab Footwear',    cat:'Shoes',       assigned:'Jan 2025', status:'active'    },
+      { num:'#002', seller:'Musa Ibrahim',      biz:'Musa Gadgets Hub',   cat:'Phones',      assigned:'Jan 2025', status:'active'    },
+      { num:'#003', seller:'Fatima Sani',       biz:'Fatima Fashion',     cat:'Fashion',     assigned:'Jan 2025', status:'active'    },
+      { num:'#004', seller:'Amina Garba',       biz:'Hajiya Amina Foods', cat:'Food',        assigned:'Jan 2025', status:'active'    },
+      { num:'#005', seller:'Umar Tech',         biz:'Tech Zone Kano',     cat:'Electronics', assigned:'Feb 2025', status:'suspended' },
+      { num:'#006', seller:'Alhaji Bello',      biz:'Alhaji Home Store',  cat:'Home',        assigned:'Feb 2025', status:'active'    },
+      { num:'#007', seller:'Rahama Abdullahi',  biz:'Rahama Beauty',      cat:'Health',      assigned:'Feb 2025', status:'active'    },
+      { num:'#008', seller:'Usman Repairs',     biz:'Usman Fix-It',       cat:'Services',    assigned:'Feb 2025', status:'active'    },
+      { num:'#009', seller:'—',                 biz:'—',                  cat:'—',           assigned:'—',        status:'vacant'    },
+      { num:'#010', seller:'—',                 biz:'—',                  cat:'—',           assigned:'—',        status:'vacant'    },
+    ];
+
+    function renderSellers() {
+      document.getElementById('sellers-tbody').innerHTML = sellers.map(s => `
+        <tr>
+          <td><span class="shop-num-pill">${s.num}</span></td>
+          <td style="color:var(--white);font-weight:600;">${s.icon} ${s.name}</td>
+          <td>${s.cat}</td><td>${s.loc}</td><td>${s.joined}</td>
+          <td><span class="badge ${s.status}">${s.status==='active'?'Active':'Suspended'}</span></td>
+          <td><div class="action-cell">
+            <button class="act-btn view" onclick="showToast('Viewing ${s.name}...','info')">View</button>
+            <button class="act-btn ${s.status==='active'?'suspend':'approve'}" onclick="showToast('${s.status==='active'?'Shop suspended':'Shop reactivated'}.','${s.status==='active'?'warning':'success'}')">${s.status==='active'?'Suspend':'Reactivate'}</button>
+            <button class="act-btn remove" onclick="showConfirm('Permanently remove <strong>${s.name}</strong> from AREWA SQUARE? Their shop number will be revoked.', function(){ showToast('${s.name} removed permanently.','error'); })">Remove</button>
+          </div></td>
+        </tr>`).join('');
+    }
+
+    function renderShopNums() {
+      document.getElementById('shop-nums-tbody').innerHTML = shopNums.map(s => `
+        <tr>
+          <td><span class="shop-num-pill">${s.num}</span></td>
+          <td style="color:${s.status==='vacant'?'var(--white-dim)':'var(--white)'};font-weight:600;">${s.seller}</td>
+          <td>${s.biz}</td><td>${s.cat}</td><td>${s.assigned}</td>
+          <td><span class="badge ${s.status}">${s.status==='active'?'Active':s.status==='suspended'?'Suspended':'Vacant'}</span></td>
+        </tr>`).join('');
+    }
+
+    function approveApp(btn, name) {
+      const row = btn.closest('tr');
+      const badge = row.querySelector('.badge');
+      if(badge) { badge.textContent='Approved'; badge.className='badge approved'; }
+      btn.closest('.action-cell').innerHTML = '<button class="act-btn view" onclick="showToast(\'Viewing seller...\',\'info\')">View</button>';
+      showToast('✅ ' + name + ' approved! Shop number assigned and notification sent.', 'success');
+    }
+
+    function rejectApp(btn) {
+      const row = btn.closest('tr');
+      showPrompt('Rejection Reason', 'Explain why this application was not approved (will be sent to applicant)...', function(reason) {
+        const badge = row.querySelector('.badge');
+        if (badge) { badge.textContent = 'Rejected'; badge.className = 'badge rejected'; }
+        btn.closest('.action-cell').innerHTML = '';
+        /* ── BACKEND HOOK ──
+           await fetch('/api/admin/applications/' + appId + '/reject', {
+             method: 'PUT',
+             headers: { 'Content-Type':'application/json', Authorization:'Bearer '+localStorage.getItem('as_token') },
+             body: JSON.stringify({ reason })
+           });
+        */
+        showToast('Application rejected. Reason sent to applicant.', 'warning');
+      });
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('sec-'+id).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const titles = { dashboard:'Admin Dashboard', applications:'Seller Applications', sellers:'Manage Sellers', 'shop-numbers':'Shop Number Registry', buyers:'Manage Buyers', disputes:'Reports & Disputes', analytics:'Platform Analytics', settings:'Platform Settings' };
+      document.getElementById('page-title').textContent = titles[id] || 'Admin Panel';
+      if(window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
+    }
+
+    renderSellers();
+    renderShopNums();
+  
+    /* ── TOAST NOTIFICATION SYSTEM ── */
+    function showToast(message, type) {
+      type = type || 'info';
+      var existing = document.querySelector('.as-toast');
+      if (existing) existing.remove();
+      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#c9a84c', warning: '#f39c12' };
+      var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+      var toast = document.createElement('div');
+      toast.className = 'as-toast';
+      toast.innerHTML = '<span>' + icons[type] + '</span><span>' + message + '</span>';
+      Object.assign(toast.style, {
+        position:'fixed', bottom:'28px', right:'28px', zIndex:'9999',
+        background:'#0d2b1f', border:'1px solid ' + colors[type],
+        color:'#f5f0e8', padding:'14px 20px', borderRadius:'8px',
+        fontFamily:'Nunito, sans-serif', fontSize:'0.9rem', fontWeight:'600',
+        display:'flex', alignItems:'center', gap:'10px',
+        boxShadow:'0 4px 24px rgba(0,0,0,0.5)', maxWidth:'340px'
+      });
+      document.body.appendChild(toast);
+      setTimeout(function(){ toast.remove(); }, 4000);
+    }
+
+  </script>
+</body>
+</html>
