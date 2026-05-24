@@ -14,7 +14,7 @@
 const AS = (function () {
 
   // ── Base URL — change this once you deploy to Railway ──
-  const BASE_URL = 'https://your-api.railway.app/api';
+  const BASE_URL = 'https://arewa-square-api-production.up.railway.app/api';
   // For local development use: 'http://localhost:5000/api'
 
   // ══════════════════════════════════════════════
