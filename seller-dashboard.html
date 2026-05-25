@@ -33,7 +33,7 @@
     /* SIDEBAR */
     .sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; background:rgba(8,15,11,0.97); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:100; transition:transform 0.3s; }
     .sidebar-logo { padding:22px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .sidebar-logo img { width:36px; height:36px; object-fit:contain; }
+    .sidebar-logo img { width:36px; height:36px; border-radius: 36px; object-fit:contain; }
     .sidebar-logo-text span:first-child { display:block; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:700; color:var(--gold); letter-spacing:1.5px; }
     .sidebar-logo-text span:last-child { display:block; font-size:0.58rem; color:var(--white-dim); letter-spacing:1px; text-transform:uppercase; }
 
@@ -256,7 +256,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-      <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="logo.png" alt="Logo" onerror="this.style.display='none'"/>
       <div class="sidebar-logo-text">
         <span>AREWA SQUARE</span>
         <span>Seller Portal</span>

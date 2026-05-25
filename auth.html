@@ -498,36 +498,38 @@
             <div class="form-row">
               <div class="form-group">
                 <label>First Name <span class="required">*</span></label>
-                <input type="text" placeholder="Abubakar"/>
+                <input type="text" id="buyer-firstname" placeholder="Abubakar"/>
               </div>
               <div class="form-group">
                 <label>Last Name <span class="required">*</span></label>
-                <input type="text" placeholder="Musa"/>
+                <input type="text" id="buyer-lastname" placeholder="Musa"/>
               </div>
             </div>
             <div class="form-group">
               <label>Email Address <span class="required">*</span></label>
-              <input type="email" placeholder="abubakar@email.com"/>
+              <input type="email" id="buyer-email" placeholder="abubakar@email.com"/>
             </div>
             <div class="form-group">
               <label>Phone Number <span class="required">*</span></label>
-              <input type="tel" placeholder="080XXXXXXXX"/>
+              <input type="tel" id="buyer-phone" placeholder="080XXXXXXXX"/>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label>State <span class="required">*</span></label>
-                <select>
+                <select id="seller-category">
                   <option value="">Select State</option>
-                  <option>Kano</option><option>Kaduna</option><option>Katsina</option>
-                  <option>Sokoto</option><option>Zamfara</option><option>Kebbi</option>
-                  <option>Jigawa</option><option>Bauchi</option><option>Gombe</option>
-                  <option>Yobe</option><option>Borno</option><option>Adamawa</option>
-                  <option>Niger</option><option>Other</option>
+                  <option>Abuja</option><option>Adamawa</option><option>Bauchi</option>
+                  <option>Benue</option><option>Borno</option><option>Gombe</option>
+                  <option>Jigawa</option><option>Kaduna</option><option>Kano</option>
+                  <option>Katsina</option><option>Kebbi</option><option>Kogi</option>
+                  <option>Kwara</option><option>Nasarawa</option><option>Niger</option>
+                  <option>Plateau</option><option>Sokoto</option><option>Taraba</option>
+                  <option>Yobe</option><option>Zamfara</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>LGA / Area</label>
-                <input type="text" placeholder="e.g. Nassarawa"/>
+                <input type="text" id="buyer-city" placeholder="e.g. Nassarawa"/>
               </div>
             </div>
             <div class="form-group">
@@ -551,7 +553,7 @@
             </div>
             <div class="checkbox-group">
               <input type="checkbox" id="buyer-terms"/>
-              <label for="buyer-terms">I agree to the <a href="terms.html">Terms of Use</a> and <a href="privacy.html">Privacy Policy</a> of AREWA SQUARE</label>
+              <label for="buyer-terms">I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> of AREWA SQUARE</label>
             </div>
             <button class="btn-primary" onclick="completeBuyerReg()">Create Buyer Account</button>
             <button class="btn-secondary" onclick="goToStep('type')">← Back</button>
@@ -571,16 +573,16 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Full Name <span class="required">*</span></label>
-                <input type="text" placeholder="Your full name"/>
+                <input type="text" id="seller-name" placeholder="Your full name"/>
               </div>
               <div class="form-group">
                 <label>Business Name <span class="required">*</span></label>
-                <input type="text" placeholder="e.g. Zainab Footwear"/>
+                <input type="text" id="seller-bizname" placeholder="e.g. Zainab Footwear"/>
               </div>
             </div>
             <div class="form-group">
               <label>Business Category <span class="required">*</span></label>
-              <select>
+              <select id="seller-category">
                 <option value="">Select a category</option>
                 <option>👟 Shoes</option><option>👕 Fashion & Clothing</option>
                 <option>📱 Phones & Accessories</option><option>💻 Electronics</option>
@@ -591,33 +593,35 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Phone Number <span class="required">*</span></label>
-                <input type="tel" placeholder="080XXXXXXXX"/>
+                <input type="tel" id="buyer-phone" placeholder="080XXXXXXXX"/>
               </div>
               <div class="form-group">
                 <label>WhatsApp Number <span class="required">*</span></label>
-                <input type="tel" placeholder="080XXXXXXXX"/>
+                <input type="tel" id="buyer-phone" placeholder="080XXXXXXXX"/>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label>State <span class="required">*</span></label>
-                <select>
+                <select id="seller-category">
                   <option value="">Select State</option>
-                  <option>Kano</option><option>Kaduna</option><option>Katsina</option>
-                  <option>Sokoto</option><option>Zamfara</option><option>Kebbi</option>
-                  <option>Jigawa</option><option>Bauchi</option><option>Gombe</option>
-                  <option>Yobe</option><option>Borno</option><option>Adamawa</option>
-                  <option>Niger</option><option>Other</option>
+                  <option>Abuja</option><option>Adamawa</option><option>Bauchi</option>
+                  <option>Benue</option><option>Borno</option><option>Gombe</option>
+                  <option>Jigawa</option><option>Kaduna</option><option>Kano</option>
+                  <option>Katsina</option><option>Kebbi</option><option>Kogi</option>
+                  <option>Kwara</option><option>Nasarawa</option><option>Niger</option>
+                  <option>Plateau</option><option>Sokoto</option><option>Taraba</option>
+                  <option>Yobe</option><option>Zamfara</option>
                 </select>
               </div>
               <div class="form-group">
                 <label>LGA <span class="required">*</span></label>
-                <input type="text" placeholder="e.g. Kano Central"/>
+                <input type="text" id="seller-lga" placeholder="e.g. Kano Central"/>
               </div>
             </div>
             <div class="form-group">
               <label>Full Shop Address <span class="required">*</span></label>
-              <input type="text" placeholder="Street, area, landmark"/>
+              <input type="text" id="seller-address" placeholder="Street, area, landmark"/>
             </div>
             <div class="form-group">
               <label>What do you sell? <span class="required">*</span></label>
@@ -662,7 +666,7 @@
             </div>
             <div class="form-group">
               <label>Email Address <span class="required">*</span></label>
-              <input type="email" placeholder="Your email for application status updates"/>
+              <input type="email" id="seller-email" placeholder="Your email for application status updates"/>
             </div>
             <div class="form-group">
               <label>Create Password <span class="required">*</span></label>
@@ -678,7 +682,7 @@
             </div>
             <div class="checkbox-group">
               <input type="checkbox" id="seller-terms"/>
-              <label for="seller-terms">I agree to the <a href="seller-rules.html">Seller Rules</a>, <a href="terms.html">Terms of Use</a>, and <a href="privacy.html">Privacy Policy</a> of AREWA SQUARE</label>
+              <label for="seller-terms">I agree to the <a href="#">Seller Rules</a>, <a href="#">Terms of Use</a>, and <a href="#">Privacy Policy</a> of AREWA SQUARE</label>
             </div>
             <button class="btn-emerald" onclick="completeSellerReg()">📤 Submit Application</button>
             <button class="btn-secondary" onclick="goToStep('seller-details')">← Back</button>
@@ -815,59 +819,94 @@
       return /^(\+234|0)[789][01]\d{8}$/.test(phone.replace(/\s/g, ''));
     }
 
-    function completeBuyerReg() {
-      // Collect form data
-      const fullname = document.getElementById('buyer-name')?.value.trim();
-      const email    = document.getElementById('buyer-email')?.value.trim();
-      const phone    = document.getElementById('buyer-phone')?.value.trim();
-      const pass     = document.getElementById('buyer-pass')?.value;
-      const pass2    = document.getElementById('buyer-pass2')?.value;
-      const terms    = document.getElementById('buyer-terms')?.checked;
+    async function completeBuyerReg() {
+      const firstname = document.getElementById('buyer-firstname')?.value.trim();
+      const lastname  = document.getElementById('buyer-lastname')?.value.trim();
+      const fullname  = (firstname + ' ' + lastname).trim();
+      const email     = document.getElementById('buyer-email')?.value.trim();
+      const phone     = document.getElementById('buyer-phone')?.value.trim();
+      const state     = document.getElementById('buyer-state')?.value.trim();
+      const city      = document.getElementById('buyer-city')?.value.trim();
+      const pass      = document.getElementById('buyer-pass')?.value;
+      const pass2     = document.getElementById('buyer-pass2')?.value;
+      const terms     = document.getElementById('buyer-terms')?.checked;
 
-      if (!fullname) { showToast('Please enter your full name', 'error'); return; }
+      if (!firstname) { showToast('Please enter your first name', 'error'); return; }
+      if (!lastname)  { showToast('Please enter your last name', 'error'); return; }
       if (!validateEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
-      if (phone && !validatePhone(phone)) { showToast('Please enter a valid Nigerian phone number', 'error'); return; }
+      if (!phone) { showToast('Please enter your phone number', 'error'); return; }
+      if (!state) { showToast('Please select your state', 'error'); return; }
       if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
       if (pass !== pass2) { showToast('Passwords do not match', 'error'); return; }
       if (!terms) { showToast('Please accept the Terms of Use to continue', 'error'); return; }
 
-      // ── BACKEND HOOK: Replace this block with your API call ──
-      // Example: await fetch('/api/auth/register', { method:'POST', body: JSON.stringify({fullname, email, phone, pass, role:'buyer'}) })
-      console.log('[AREWA SQUARE] Buyer registration payload:', { fullname, email, phone, role: 'buyer' });
-      showToast('Account created! Redirecting…', 'success');
+      showToast('Creating your account…', 'info');
 
-      setTimeout(() => {
-        document.querySelectorAll('#page-register .form-step').forEach(el => el.classList.remove('active'));
-        const s = document.getElementById('success-buyer');
-        if (s) s.style.display = 'block';
-      }, 800);
+      try {
+        const res = await AS.auth.registerBuyer({ fullName: fullname, email, phone, password: pass, state, city: city || '' });
+        if (!res.success) { showToast(res.message || 'Registration failed', 'error'); return; }
+        showToast('Account created! Redirecting…', 'success');
+        setTimeout(() => {
+          document.querySelectorAll('#page-register .form-step').forEach(el => el.classList.remove('active'));
+          const s = document.getElementById('success-buyer');
+          if (s) s.style.display = 'block';
+        }, 800);
+        setTimeout(() => { window.location.href = 'buyer-dashboard.html'; }, 2000);
+      } catch(err) {
+        showToast('Connection error. Please try again.', 'error');
+      }
     }
 
-    function completeSellerReg() {
-      const bizname  = document.getElementById('seller-biz')?.value.trim();
-      const fullname = document.getElementById('seller-name')?.value.trim();
-      const email    = document.getElementById('seller-email')?.value.trim();
-      const phone    = document.getElementById('seller-phone')?.value.trim();
-      const pass     = document.getElementById('seller-pass')?.value;
-      const terms    = document.getElementById('seller-terms')?.checked;
+    async function completeSellerReg() {
+      const fullname  = document.getElementById('seller-name')?.value.trim();
+      const bizname   = document.getElementById('seller-bizname')?.value.trim();
+      const email     = document.getElementById('seller-email')?.value.trim();
+      const phone     = document.getElementById('seller-phone')?.value.trim();
+      const whatsapp  = document.getElementById('seller-whatsapp')?.value.trim();
+      const state     = document.getElementById('seller-state')?.value.trim();
+      const lga       = document.getElementById('seller-lga')?.value.trim();
+      const address   = document.getElementById('seller-address')?.value.trim();
+      const pass      = document.getElementById('seller-pass')?.value;
+      const terms     = document.getElementById('seller-terms')?.checked;
+      const govId     = document.getElementById('id-upload')?.files[0];
+      const shopPhoto = document.getElementById('shop-upload')?.files[0];
 
-      if (!bizname)  { showToast('Please enter your business name', 'error'); return; }
-      if (!fullname) { showToast('Please enter your full name', 'error'); return; }
+      if (!fullname)  { showToast('Please enter your full name', 'error'); return; }
+      if (!bizname)   { showToast('Please enter your business name', 'error'); return; }
       if (!validateEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
-      if (!validatePhone(phone)) { showToast('Please enter a valid Nigerian phone number', 'error'); return; }
+      if (!phone)     { showToast('Please enter your phone number', 'error'); return; }
+      if (!state)     { showToast('Please select your state', 'error'); return; }
+      if (!address)   { showToast('Please enter your shop address', 'error'); return; }
       if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
-      if (!terms) { showToast('Please accept the Seller Rules to continue', 'error'); return; }
+      if (!terms)     { showToast('Please accept the Seller Rules to continue', 'error'); return; }
 
-      // ── BACKEND HOOK: Replace this block with your API call ──
-      // Example: await fetch('/api/auth/register', { method:'POST', body: JSON.stringify({bizname, fullname, email, phone, pass, role:'seller'}) })
-      console.log('[AREWA SQUARE] Seller registration payload:', { bizname, fullname, email, phone, role: 'seller' });
-      showToast('Application submitted! Awaiting admin review.', 'success');
+      showToast('Submitting your application…', 'info');
 
-      setTimeout(() => {
-        document.querySelectorAll('#page-register .form-step').forEach(el => el.classList.remove('active'));
-        const s = document.getElementById('success-seller');
-        if (s) s.style.display = 'block';
-      }, 800);
+      try {
+        const formData = new FormData();
+        formData.append('fullName',       fullname);
+        formData.append('businessName',   bizname);
+        formData.append('email',          email);
+        formData.append('phone',          phone);
+        formData.append('whatsappNumber', whatsapp || phone);
+        formData.append('state',          state);
+        formData.append('city',           lga || '');
+        formData.append('address',        address);
+        formData.append('password',       pass);
+        if (govId)     formData.append('govId',     govId);
+        if (shopPhoto) formData.append('shopPhoto', shopPhoto);
+
+        const res = await AS.auth.registerSeller(formData);
+        if (!res.success) { showToast(res.message || 'Submission failed', 'error'); return; }
+        showToast('Application submitted! Awaiting admin review.', 'success');
+        setTimeout(() => {
+          document.querySelectorAll('#page-register .form-step').forEach(el => el.classList.remove('active'));
+          const s = document.getElementById('success-seller');
+          if (s) s.style.display = 'block';
+        }, 800);
+      } catch(err) {
+        showToast('Connection error. Please try again.', 'error');
+      }
     }
 
     function togglePass(id, btn) {
@@ -933,5 +972,6 @@
 
     showPage('register');
   </script>
+  <script src="./api.js"></script>
 </body>
 </html>

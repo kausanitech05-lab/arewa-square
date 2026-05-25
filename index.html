@@ -25,6 +25,7 @@
     html { scroll-behavior: smooth; }
 
     body {
+      overflow-x: hidden;
       font-family: 'Nunito', sans-serif;
       background-color: var(--green-deep);
       color: var(--white);
@@ -70,7 +71,6 @@
     .nav-logo img {
       height: 44px;
       width: 44px;
-      border-radius: 44px;
       object-fit: contain;
     }
 
@@ -1079,29 +1079,13 @@
       .btn-hero-primary, .btn-hero-secondary, .btn-cta-green, .btn-gold { width: 100%; justify-content: center; max-width: 280px; }
     }
   </style>
-
-  <!-- PWA Support -->
-  <link rel="manifest" href="./manifest.json"/>
-  <meta name="theme-color" content="#c9a84c"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Arewa Square"/>
-  <link rel="apple-touch-icon" href="./icons/icon-192.png"/>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="AREWA SQUARE — Northern Nigeria's trusted digital marketplace. Find verified shops in Kano, Kaduna, Sokoto and across the North. Every seller is real, verified, and has a permanent shop number."/>
-  <meta name="keywords" content="Arewa Square, Northern Nigeria marketplace, Kano online market, verified sellers, buy online Nigeria, Arewa market"/>
-  <meta property="og:title" content="AREWA SQUARE — Northern Nigeria's Marketplace"/>
-  <meta property="og:description" content="Find verified shops near you. Every seller is manually verified with a permanent shop number."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://arewasquare.com"/>
 </head>
 <body>
 
   <!-- ══ NAVBAR ══ -->
   <nav>
     <a href="./index.html" class="nav-logo">
-      <img src="logo.png" alt="AREWA SQUARE Logo" onerror="this.style.display='none'"/>
+      <img src="./logo.png" alt="AREWA SQUARE Logo" onerror="this.style.display='none'"/>
       <div class="nav-logo-text">
         <span>AREWA SQUARE</span>
         <span>Northern Nigeria's Marketplace</span>
@@ -1128,7 +1112,7 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#how-it-works" onclick="closeMobileMenu()">📖 How It Works</a>
+    <a href="#how-it-works" onclick="closeMobileMenu(); setTimeout(()=>{ const el=document.getElementById('how-it-works'); if(el) el.scrollIntoView({behavior:'smooth'}); },100); return false;">📖 How It Works</a>
     <a href="#shops" onclick="closeMobileMenu()">🛒 Browse Shops</a>
     <a href="#categories" onclick="closeMobileMenu()">🏷️ Categories</a>
     <a href="#about" onclick="closeMobileMenu()">ℹ️ About Us</a>
@@ -1576,11 +1560,11 @@
       <p>We are here for buyers, sellers, and anyone who wants to know more about AREWA SQUARE.</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:800px;margin:0 auto;">
-      <a href="mailto:support@arewasquare.com" style="text-decoration:none;">
+      <a href="mailto:Support@arewsquare.com" style="text-decoration:none;">
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;cursor:pointer;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'">
           <div style="font-size:2rem;margin-bottom:12px;">✉️</div>
           <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);margin-bottom:6px;">Email Support</h4>
-          <p style="font-size:0.78rem;color:var(--white-dim);">support@arewasquare.com</p>
+          <p style="font-size:0.78rem;color:var(--white-dim);">Support@arewsquare.com</p>
           <p style="font-size:0.7rem;color:var(--white-dim);margin-top:6px;">Response within 24 hours</p>
         </div>
       </a>
@@ -1657,8 +1641,8 @@
         <h4>Support & Contact</h4>
         <ul>
           <li>
-            <a href="mailto:support@arewasquare.com" style="display:flex;align-items:center;gap:8px;">
-              <span style="color:var(--gold);">✉️</span> support@arewasquare.com
+            <a href="mailto:Support@arewsquare.com" style="display:flex;align-items:center;gap:8px;">
+              <span style="color:var(--gold);">✉️</span> Support@arewsquare.com
             </a>
           </li>
           <li>
@@ -1764,16 +1748,6 @@
     });
   </script>
 
-  <!-- Service Worker Registration (PWA offline support) -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('./sw.js')
-          .then(function(reg) { console.log('[AREWA SQUARE] Service Worker registered:', reg.scope); })
-          .catch(function(err) { console.warn('[AREWA SQUARE] SW registration failed:', err); });
-      });
-    }
-  </script>
-
+  <script src="./api.js"></script>
 </body>
 </html>
