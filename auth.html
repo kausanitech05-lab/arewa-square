@@ -516,7 +516,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label>State <span class="required">*</span></label>
-                <select id="seller-category">
+                <select id="buyer-state">
                   <option value="">Select State</option>
                   <option>Abuja</option><option>Adamawa</option><option>Bauchi</option>
                   <option>Benue</option><option>Borno</option><option>Gombe</option>
@@ -582,7 +582,7 @@
             </div>
             <div class="form-group">
               <label>Business Category <span class="required">*</span></label>
-              <select id="seller-category">
+              <select>
                 <option value="">Select a category</option>
                 <option>👟 Shoes</option><option>👕 Fashion & Clothing</option>
                 <option>📱 Phones & Accessories</option><option>💻 Electronics</option>
@@ -603,7 +603,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label>State <span class="required">*</span></label>
-                <select id="seller-category">
+                <select id="seller-state">
                   <option value="">Select State</option>
                   <option>Abuja</option><option>Adamawa</option><option>Bauchi</option>
                   <option>Benue</option><option>Borno</option><option>Gombe</option>
@@ -833,15 +833,14 @@
 
       if (!firstname) { showToast('Please enter your first name', 'error'); return; }
       if (!lastname)  { showToast('Please enter your last name', 'error'); return; }
-      if (!validateEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
-      if (!phone) { showToast('Please enter your phone number', 'error'); return; }
-      if (!state) { showToast('Please select your state', 'error'); return; }
-      if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+      if (!email || !validateEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
+      if (!phone)     { showToast('Please enter your phone number', 'error'); return; }
+      if (!state)     { showToast('Please select your state', 'error'); return; }
+      if (!pass || pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
       if (pass !== pass2) { showToast('Passwords do not match', 'error'); return; }
-      if (!terms) { showToast('Please accept the Terms of Use to continue', 'error'); return; }
+      if (!terms)     { showToast('Please accept the Terms of Use to continue', 'error'); return; }
 
       showToast('Creating your account…', 'info');
-
       try {
         const res = await AS.auth.registerBuyer({ fullName: fullname, email, phone, password: pass, state, city: city || '' });
         if (!res.success) { showToast(res.message || 'Registration failed', 'error'); return; }
@@ -851,7 +850,7 @@
           const s = document.getElementById('success-buyer');
           if (s) s.style.display = 'block';
         }, 800);
-        setTimeout(() => { window.location.href = 'buyer-dashboard.html'; }, 2000);
+        setTimeout(() => { window.location.href = 'buyer-dashboard.html'; }, 2500);
       } catch(err) {
         showToast('Connection error. Please try again.', 'error');
       }
@@ -873,15 +872,14 @@
 
       if (!fullname)  { showToast('Please enter your full name', 'error'); return; }
       if (!bizname)   { showToast('Please enter your business name', 'error'); return; }
-      if (!validateEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
+      if (!email || !validateEmail(email)) { showToast('Please enter a valid email address', 'error'); return; }
       if (!phone)     { showToast('Please enter your phone number', 'error'); return; }
       if (!state)     { showToast('Please select your state', 'error'); return; }
       if (!address)   { showToast('Please enter your shop address', 'error'); return; }
-      if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+      if (!pass || pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
       if (!terms)     { showToast('Please accept the Seller Rules to continue', 'error'); return; }
 
       showToast('Submitting your application…', 'info');
-
       try {
         const formData = new FormData();
         formData.append('fullName',       fullname);
