@@ -35,7 +35,7 @@
     .sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; background:rgba(5,10,7,0.98); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:100; transition:transform 0.3s; }
     .sidebar-logo { padding:20px; border-bottom:1px solid var(--border); }
     .sidebar-logo a { display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .sidebar-logo img { width:34px; height:34px; border-radius: 34px; object-fit:contain; }
+    .sidebar-logo img { width:34px; height:34px; object-fit:contain; }
     .sidebar-logo-text span:first-child { display:block; font-family:'Cinzel',serif; font-size:0.82rem; font-weight:700; color:var(--gold); letter-spacing:1.5px; }
     .sidebar-logo-text span:last-child { display:block; font-size:0.58rem; color:var(--white-dim); letter-spacing:1px; text-transform:uppercase; }
     .admin-badge { margin:12px; padding:10px 14px; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-radius:7px; display:flex; align-items:center; gap:10px; }
@@ -183,7 +183,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <a href="index.html">
-        <img src="logo.png" alt="Logo" onerror="this.style.display='none'"/>
+        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
         <div class="sidebar-logo-text">
           <span>AREWA SQUARE</span>
           <span>Admin Control Panel</span>
@@ -370,7 +370,7 @@
             <tr><td style="color:var(--white);font-weight:600;">Abubakar Musa</td><td>abubakar@email.com</td><td>08012345678</td><td>Nassarawa, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
             <tr><td style="color:var(--white);font-weight:600;">Halima Usman</td><td>halima@email.com</td><td>08098765432</td><td>Gwale, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
             <tr><td style="color:var(--white);font-weight:600;">Yusuf Danjuma</td><td>yusuf@email.com</td><td>08033344455</td><td>Kaduna</td><td>Feb 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Fatima Bello</td><td>fatima@email.com</td><td>08055566677</td><td>Katsina</td><td>Feb 2025</td><td><span class="badge suspended">Suspended</span></td><td><div class="action-cell"><button class="act-btn approve" onclick="showToast('Account reactivated.','info')">Reactivate</button><button class="act-btn remove" onclick="showConfirm('Delete Fatima Bello\'s account permanently?', function(){ showToast('Account deleted.','error'); })">Delete</button></div></td></tr>
+            <tr><td style="color:var(--white);font-weight:600;">Fatima Bello</td><td>fatima@email.com</td><td>08055566677</td><td>Katsina</td><td>Feb 2025</td><td><span class="badge suspended">Suspended</span></td><td><div class="action-cell"><button class="act-btn approve" onclick="showToast('Account reactivated.','info')">Reactivate</button><button class="act-btn remove" onclick="confirm('Delete account?')&&alert('Deleted.')">Delete</button></div></td></tr>
           </tbody>
         </table>
       </div>
@@ -507,69 +507,6 @@
   </main>
 
   <script>
-    /* ── AUTH GUARD — Admin only ── */
-    (function checkAuth() {
-      const token = localStorage.getItem('as_token');
-      const role  = localStorage.getItem('as_role');
-      if (!token || role !== 'admin') {
-        window.location.href = 'auth.html';
-      }
-    })();
-
-    /* ── CUSTOM CONFIRM DIALOG ── */
-    function showConfirm(message, onConfirm) {
-      const existing = document.getElementById('as-confirm-overlay');
-      if (existing) existing.remove();
-      const overlay = document.createElement('div');
-      overlay.id = 'as-confirm-overlay';
-      Object.assign(overlay.style, {
-        position:'fixed',inset:'0',background:'rgba(0,0,0,0.75)',
-        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
-      });
-      overlay.innerHTML = `
-        <div style="background:#070d0a;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:400px;width:100%;text-align:center;">
-          <span style="font-size:2rem;display:block;margin-bottom:12px;">⚠️</span>
-          <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#f5f0e8;line-height:1.6;margin-bottom:24px;">${message}</p>
-          <div style="display:flex;gap:10px;justify-content:center;">
-            <button id="confirm-yes" style="padding:10px 28px;background:#e74c3c;color:#fff;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:800;cursor:pointer;">Confirm</button>
-            <button id="confirm-no"  style="padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">Cancel</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-      document.getElementById('confirm-yes').onclick = () => { overlay.remove(); onConfirm(); };
-      document.getElementById('confirm-no').onclick  = () => overlay.remove();
-      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-    }
-
-    /* ── CUSTOM PROMPT DIALOG ── */
-    function showPrompt(message, placeholder, onSubmit) {
-      const existing = document.getElementById('as-prompt-overlay');
-      if (existing) existing.remove();
-      const overlay = document.createElement('div');
-      overlay.id = 'as-prompt-overlay';
-      Object.assign(overlay.style, {
-        position:'fixed',inset:'0',background:'rgba(0,0,0,0.75)',
-        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
-      });
-      overlay.innerHTML = `
-        <div style="background:#070d0a;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:420px;width:100%;">
-          <p style="font-family:'Cinzel',serif;font-size:0.9rem;color:#c9a84c;margin-bottom:16px;">${message}</p>
-          <textarea id="prompt-input" placeholder="${placeholder}" style="width:100%;padding:10px 13px;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:6px;color:#f5f0e8;font-family:'Nunito',sans-serif;font-size:0.83rem;outline:none;resize:vertical;min-height:80px;margin-bottom:16px;"></textarea>
-          <div style="display:flex;gap:10px;justify-content:flex-end;">
-            <button id="prompt-cancel" style="padding:9px 20px;background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:5px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.83rem;font-weight:700;cursor:pointer;">Cancel</button>
-            <button id="prompt-submit" style="padding:9px 20px;background:#c9a84c;color:#080f0b;border:none;border-radius:5px;font-family:'Nunito',sans-serif;font-size:0.83rem;font-weight:800;cursor:pointer;">Submit</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-      document.getElementById('prompt-submit').onclick = () => {
-        const val = document.getElementById('prompt-input').value.trim();
-        if (!val) { document.getElementById('prompt-input').style.borderColor = '#e74c3c'; return; }
-        overlay.remove();
-        onSubmit(val);
-      };
-      document.getElementById('prompt-cancel').onclick = () => overlay.remove();
-    }
-
     const sellers = [
       { num:'#001', icon:'👟', name:'Zainab Footwear',    cat:'Shoes',       loc:'Kano Central', joined:'Jan 2025', status:'active'    },
       { num:'#002', icon:'📱', name:'Musa Gadgets Hub',   cat:'Phones',      loc:'Sabon Gari',   joined:'Jan 2025', status:'active'    },
@@ -603,7 +540,7 @@
           <td><div class="action-cell">
             <button class="act-btn view" onclick="showToast('Viewing ${s.name}...','info')">View</button>
             <button class="act-btn ${s.status==='active'?'suspend':'approve'}" onclick="showToast('${s.status==='active'?'Shop suspended':'Shop reactivated'}.','${s.status==='active'?'warning':'success'}')">${s.status==='active'?'Suspend':'Reactivate'}</button>
-            <button class="act-btn remove" onclick="showConfirm('Permanently remove <strong>${s.name}</strong> from AREWA SQUARE? Their shop number will be revoked.', function(){ showToast('${s.name} removed permanently.','error'); })">Remove</button>
+            <button class="act-btn remove" onclick="confirm('Remove ${s.name} permanently?')&&showToast('Seller removed.','error')">Remove</button>
           </div></td>
         </tr>`).join('');
     }
@@ -627,20 +564,14 @@
     }
 
     function rejectApp(btn) {
-      const row = btn.closest('tr');
-      showPrompt('Rejection Reason', 'Explain why this application was not approved (will be sent to applicant)...', function(reason) {
+      const reason = prompt('Enter rejection reason (will be sent to applicant):');
+      if(reason) {
+        const row = btn.closest('tr');
         const badge = row.querySelector('.badge');
-        if (badge) { badge.textContent = 'Rejected'; badge.className = 'badge rejected'; }
+        if(badge) { badge.textContent='Rejected'; badge.className='badge rejected'; }
         btn.closest('.action-cell').innerHTML = '';
-        /* ── BACKEND HOOK ──
-           await fetch('/api/admin/applications/' + appId + '/reject', {
-             method: 'PUT',
-             headers: { 'Content-Type':'application/json', Authorization:'Bearer '+localStorage.getItem('as_token') },
-             body: JSON.stringify({ reason })
-           });
-        */
-        showToast('Application rejected. Reason sent to applicant.', 'warning');
-      });
+        alert('Application rejected. Reason sent to applicant.');
+      }
     }
 
     function showSection(id) {
@@ -678,5 +609,6 @@
     }
 
   </script>
+  <script src="./theme.js"></script>
 </body>
 </html>

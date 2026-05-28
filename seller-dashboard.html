@@ -33,7 +33,7 @@
     /* SIDEBAR */
     .sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; background:rgba(8,15,11,0.97); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:100; transition:transform 0.3s; }
     .sidebar-logo { padding:22px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .sidebar-logo img { width:36px; height:36px; border-radius: 36px; object-fit:contain; }
+    .sidebar-logo img { width:36px; height:36px; object-fit:contain; }
     .sidebar-logo-text span:first-child { display:block; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:700; color:var(--gold); letter-spacing:1.5px; }
     .sidebar-logo-text span:last-child { display:block; font-size:0.58rem; color:var(--white-dim); letter-spacing:1px; text-transform:uppercase; }
 
@@ -256,7 +256,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-      <img src="logo.png" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
       <div class="sidebar-logo-text">
         <span>AREWA SQUARE</span>
         <span>Seller Portal</span>
@@ -285,7 +285,7 @@
       <button class="logout-btn" onclick="window.location.href='auth.html'">🚪 Logout</button>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,0.1);">
         <p style="font-size:0.65rem;color:var(--white-dim);margin-bottom:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Need Help?</p>
-        <a href="mailto:support@arewasquare.com" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Email Support">✉️ support@arewasquare.com</a>
+        <a href="mailto:Support@arewsquare.com" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Email Support">✉️ Support@arewsquare.com</a>
         <a href="tel:+2347082783618" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Call Us">📞 07082783618</a>
         <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:#25D366;text-decoration:none;font-weight:700;" title="WhatsApp">💬 Message on WhatsApp</a>
       </div>
@@ -569,7 +569,7 @@
         <p style="font-size:0.78rem;color:var(--white-dim);margin-bottom:18px;">These actions are permanent. Think carefully before proceeding.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
           <button class="btn-danger" onclick="showToast('Shop suspension requested. Admin will be notified.','info')">⏸️ Suspend My Shop</button>
-          <button class="btn-danger" onclick="showConfirm('Are you sure you want to delete your account? Your shop number will be permanently revoked. This cannot be undone.', function(){ showToast('Deletion request submitted. Admin will process within 24 hours.', 'warning'); })">🗑️ Delete Account</button>
+          <button class="btn-danger" onclick="confirm('Are you sure? This cannot be undone.') && alert('Deletion request submitted.')">🗑️ Delete Account</button>
         </div>
       </div>
     </section>
@@ -654,53 +654,6 @@
   </div>
 
   <script>
-    /* ══════════════════════════════════════════════════
-       AUTH GUARD — redirects to login if not authenticated
-       Replace localStorage checks with real JWT verification
-       once the backend is connected.
-    ══════════════════════════════════════════════════ */
-    (function checkAuth() {
-      const token = localStorage.getItem('as_token');
-      const role  = localStorage.getItem('as_role');
-      if (!token || role !== 'seller') {
-        window.location.href = 'auth.html';
-      }
-    })();
-
-    /* ══════════════════════════════════════════════════
-       CUSTOM CONFIRM DIALOG
-       Replaces browser-native confirm() / alert()
-    ══════════════════════════════════════════════════ */
-    function showConfirm(message, onConfirm) {
-      const existing = document.getElementById('as-confirm-overlay');
-      if (existing) existing.remove();
-      const overlay = document.createElement('div');
-      overlay.id = 'as-confirm-overlay';
-      Object.assign(overlay.style, {
-        position:'fixed',inset:'0',background:'rgba(0,0,0,0.7)',
-        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
-      });
-      overlay.innerHTML = `
-        <div style="background:#0d2b1f;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:400px;width:100%;text-align:center;animation:fadeUp 0.3s ease both;">
-          <span style="font-size:2rem;display:block;margin-bottom:12px;">⚠️</span>
-          <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#f5f0e8;line-height:1.6;margin-bottom:24px;">${message}</p>
-          <div style="display:flex;gap:10px;justify-content:center;">
-            <button id="as-confirm-yes" style="padding:10px 28px;background:#e74c3c;color:#fff;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:800;cursor:pointer;">Confirm</button>
-            <button id="as-confirm-no"  style="padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">Cancel</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-      document.getElementById('as-confirm-yes').onclick = () => { overlay.remove(); onConfirm(); };
-      document.getElementById('as-confirm-no').onclick  = () => overlay.remove();
-      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
-    }
-
-    /* ══════════════════════════════════════════════════
-       PRODUCTS — API-ready structure
-       Replace 'products' array with API call once backend ready:
-       const res = await fetch('/api/products', { headers: { Authorization: 'Bearer ' + localStorage.getItem('as_token') } });
-       const products = await res.json();
-    ══════════════════════════════════════════════════ */
     const products = [
       { icon:'💊', name:'Neutrogena Face Cream', price:'₦3,500', cat:'Skincare',    date:'Jan 15, 2025' },
       { icon:'🧴', name:'Nivea Body Lotion',     price:'₦2,200', cat:'Body Care',   date:'Jan 20, 2025' },
@@ -740,34 +693,17 @@
     }
 
     function saveProduct() {
-      const name  = document.getElementById('prod-name').value.trim();
-      const price = document.getElementById('prod-price').value.trim();
-      if (!name)  { showToast('Please enter a product name', 'error');  return; }
-      if (!price) { showToast('Please enter a product price', 'error'); return; }
-      /* ── BACKEND HOOK ──
-         await fetch('/api/products', {
-           method: 'POST',
-           headers: { 'Content-Type':'application/json', Authorization:'Bearer '+localStorage.getItem('as_token') },
-           body: JSON.stringify({ name, price, ... })
-         });
-      */
-      showToast('Product saved successfully! ✅', 'success');
+      const name = document.getElementById('prod-name').value.trim();
+      if (!name) { alert('Please enter a product name.'); return; }
+      alert('Product saved successfully!');
       document.getElementById('product-modal').classList.remove('open');
-      renderProducts();
     }
 
     function deleteProduct(idx) {
-      showConfirm('Delete "' + products[idx].name + '"? This cannot be undone.', function() {
-        /* ── BACKEND HOOK ──
-           await fetch('/api/products/' + products[idx]._id, {
-             method: 'DELETE',
-             headers: { Authorization: 'Bearer ' + localStorage.getItem('as_token') }
-           });
-        */
+      if (confirm('Delete "' + products[idx].name + '"?')) {
         products.splice(idx, 1);
         renderProducts();
-        showToast('Product deleted.', 'info');
-      });
+      }
     }
 
     function showSection(id) {
@@ -810,19 +746,16 @@
       },
     ];
 
-    /* ── ORDERS — in-memory state (replace with API once backend ready) ──
-       BACKEND HOOK:
-       async function fetchOrdersFromAPI() {
-         const res = await fetch('/api/orders', {
-           headers: { Authorization: 'Bearer ' + localStorage.getItem('as_token') }
-         });
-         return await res.json();
-       }
-    */
-    let liveOrders = [...seedOrders]; // In-memory store — replaced by API in production
-
     function getOrders() {
-      return liveOrders;
+      try {
+        const stored = JSON.parse(localStorage.getItem('as_orders') || '[]');
+        // Merge seed + stored, dedup by id
+        const all = [...stored, ...seedOrders];
+        const seen = new Set();
+        return all.filter(o => { if(seen.has(o.id)) return false; seen.add(o.id); return true; });
+      } catch(e) {
+        return seedOrders;
+      }
     }
 
     function refreshOrders() {
@@ -874,13 +807,15 @@
     }
 
     function confirmOrder(idx) {
-      /* ── BACKEND HOOK ──
-         await fetch('/api/orders/' + liveOrders[idx].id + '/confirm', {
-           method: 'PUT',
-           headers: { Authorization: 'Bearer ' + localStorage.getItem('as_token') }
-         });
-      */
-      liveOrders[idx].status = 'Confirmed';
+      try {
+        const orders = getOrders();
+        orders[idx].status = 'Confirmed';
+        // Save back (only stored orders)
+        const stored = JSON.parse(localStorage.getItem('as_orders') || '[]');
+        const target = stored.find(o => o.id === orders[idx].id);
+        if (target) target.status = 'Confirmed';
+        localStorage.setItem('as_orders', JSON.stringify(stored));
+      } catch(e){}
       showToast('Order confirmed! ✅', 'success');
       refreshOrders();
     }
@@ -894,7 +829,8 @@
 
     // Check for new orders on load and update badge
     (function initOrders() {
-      const newCount = liveOrders.filter(o => o.status === 'New').length;
+      const orders = getOrders();
+      const newCount = orders.filter(o => o.status === 'New').length;
       const badge = document.getElementById('orders-badge');
       if (newCount > 0 && badge) { badge.textContent = newCount; badge.style.display = 'inline'; }
     })();
@@ -926,5 +862,6 @@
     }
 
   </script>
+  <script src="./theme.js"></script>
 </body>
 </html>

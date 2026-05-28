@@ -59,7 +59,7 @@
     .sidebar-logo a {
       display:flex; align-items:center; gap:10px; text-decoration:none;
     }
-    .sidebar-logo img { width:34px; height:34px; border-radius: 34px; object-fit:contain; }
+    .sidebar-logo img { width:34px; height:34px; object-fit:contain; }
     .sidebar-logo-text span:first-child {
       display:block; font-family:'Cinzel',serif;
       font-size:0.82rem; font-weight:700; color:var(--gold); letter-spacing:1.5px;
@@ -537,7 +537,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <a href="index.html">
-        <img src="logo.png" alt="Logo" onerror="this.style.display='none'"/>
+        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
         <div class="sidebar-logo-text">
           <span>AREWA SQUARE</span>
           <span>Payment Management</span>
@@ -980,40 +980,6 @@
   </div>
 
   <script>
-    /* ── AUTH GUARD — Admin only ── */
-    (function checkAuth() {
-      const token = localStorage.getItem('as_token');
-      const role  = localStorage.getItem('as_role');
-      if (!token || role !== 'admin') {
-        window.location.href = 'auth.html';
-      }
-    })();
-
-    /* ── CUSTOM CONFIRM DIALOG ── */
-    function showConfirm(message, onConfirm) {
-      const existing = document.getElementById('as-confirm-overlay');
-      if (existing) existing.remove();
-      const overlay = document.createElement('div');
-      overlay.id = 'as-confirm-overlay';
-      Object.assign(overlay.style, {
-        position:'fixed',inset:'0',background:'rgba(0,0,0,0.75)',
-        zIndex:'9998',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px'
-      });
-      overlay.innerHTML = `
-        <div style="background:#070d0a;border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:32px;max-width:400px;width:100%;text-align:center;">
-          <span style="font-size:2rem;display:block;margin-bottom:12px;">⚠️</span>
-          <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#f5f0e8;line-height:1.6;margin-bottom:24px;">${message}</p>
-          <div style="display:flex;gap:10px;justify-content:center;">
-            <button id="confirm-yes" style="padding:10px 28px;background:#e74c3c;color:#fff;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:800;cursor:pointer;">Confirm</button>
-            <button id="confirm-no"  style="padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#c8bfa8;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">Cancel</button>
-          </div>
-        </div>`;
-      document.body.appendChild(overlay);
-      document.getElementById('confirm-yes').onclick = () => { overlay.remove(); onConfirm(); };
-      document.getElementById('confirm-no').onclick  = () => overlay.remove();
-      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
-    }
-
     // ── DATA ──
     const payments = [
       { num:'#001', icon:'👟', name:'Zainab Abdullahi',  biz:'Zainab Footwear',    plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 30, 2025', status:'paid'    },
@@ -1154,8 +1120,9 @@
     function processConfirmation() {
       const amount = document.getElementById('received-amount').value;
       const date   = document.getElementById('received-date').value;
-      if (!amount || !date) { showToast('Please fill in the amount received and date.', 'error'); return; }
+      if (!amount || !date) { alert('Please fill in the amount received and date.'); return; }
       if (!currentSeller) return;
+      // Update status
       const idx = payments.indexOf(currentSeller);
       if (idx > -1) {
         payments[idx].status   = 'paid';
@@ -1163,29 +1130,17 @@
       }
       closeModal('confirm-modal');
       renderPayments(payments);
-      /* ── BACKEND HOOK ──
-         await fetch('/api/admin/payments/' + currentSeller.num + '/confirm', {
-           method: 'PUT',
-           headers: { 'Content-Type':'application/json', Authorization:'Bearer '+localStorage.getItem('as_token') },
-           body: JSON.stringify({ amount, date })
-         });
-      */
-      showToast('✅ Payment confirmed for ' + currentSeller.biz + ' (' + currentSeller.num + '). Status updated to Active.', 'success');
+      alert('✅ Payment confirmed!\n\n' + currentSeller.biz + ' (' + currentSeller.num + ') is now Active.\nAmount: ₦' + Number(amount).toLocaleString() + '\nPeriod: ' + document.getElementById('period-covered').value);
     }
 
     function sendReminder(biz) {
-      const msg = `As-salamu alaykum! This is a reminder that your AREWA SQUARE subscription of ₦3,000 is due. Please transfer to First Bank: 0123456789 (Abbaty Kausani). JazakAllah khayran.`;
-      window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
-      showToast('📩 WhatsApp reminder opened for ' + biz, 'info');
+      alert('📩 Payment reminder sent to ' + biz + ' via WhatsApp.\n\nMessage: "As-salamu alaykum! This is a reminder that your AREWA SQUARE subscription of ₦3,000 is due. Please transfer to First Bank: 0123456789 (Abbaty Kausani). JazakAllah khayran."');
     }
 
     function suspendShop(biz) {
-      showConfirm('Suspend <strong>' + biz + '</strong> due to overdue payment? Their shop will be hidden from buyers until payment is confirmed.', function() {
-        /* ── BACKEND HOOK ──
-           await fetch('/api/admin/sellers/suspend', { method:'PUT', ... });
-        */
-        showToast('Shop suspended. ' + biz + ' has been notified.', 'warning');
-      });
+      if (confirm('Suspend ' + biz + '\'s shop due to overdue payment?')) {
+        alert('Shop suspended. ' + biz + ' has been notified. Their listing is now hidden from buyers until payment is confirmed.');
+      }
     }
 
     function viewHistory(num) {
@@ -1247,5 +1202,6 @@
     }
 
   </script>
+  <script src="./theme.js"></script>
 </body>
 </html>
