@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How Verification Works — AREWA SQUARE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #c9a84c; --gold-light: #e8c97a; --gold-dim: #8a6e2f;
+      --emerald: #2ecc71; --emerald-dim: #1a7a45;
+      --error: #e74c3c;
+    }
+
+    /* ── DARK (default) ── */
+    body {
+      --bg-page:    #0d2b1f;
+      --bg-nav:     rgba(8,15,11,0.96);
+      --bg-card:    rgba(255,255,255,0.04);
+      --bg-card-hov:rgba(255,255,255,0.07);
+      --bg-subtle:  rgba(201,168,76,0.06);
+      --bg-danger:  rgba(231,76,60,0.06);
+      --text-main:  #f5f0e8;
+      --text-dim:   #c8bfa8;
+      --text-muted: #8a9e8a;
+      --border:     rgba(201,168,76,0.15);
+      --border-hov: rgba(201,168,76,0.35);
+      --pattern:    rgba(201,168,76,0.022);
+      --step-bg:    rgba(201,168,76,0.08);
+      --shadow:     0 8px 32px rgba(0,0,0,0.4);
+      --shadow-sm:  0 2px 12px rgba(0,0,0,0.25);
+    }
+
+    /* ── LIGHT ── */
+    body.light {
+      --bg-page:    #f4f1ea;
+      --bg-nav:     rgba(255,255,255,0.96);
+      --bg-card:    #ffffff;
+      --bg-card-hov:#faf8f4;
+      --bg-subtle:  rgba(201,168,76,0.08);
+      --bg-danger:  rgba(231,76,60,0.05);
+      --text-main:  #1a2e1f;
+      --text-dim:   #4a5e45;
+      --text-muted: #7a8e7a;
+      --border:     rgba(139,90,20,0.16);
+      --border-hov: rgba(139,90,20,0.35);
+      --pattern:    rgba(139,90,20,0.032);
+      --step-bg:    rgba(201,168,76,0.10);
+      --shadow:     0 8px 32px rgba(0,0,0,0.08);
+      --shadow-sm:  0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      transition: background 0.35s, color 0.35s;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 44px, var(--pattern) 44px, var(--pattern) 45px),
+        repeating-linear-gradient(-45deg, transparent, transparent 44px, var(--pattern) 44px, var(--pattern) 45px);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 5%;
+      background: var(--bg-nav);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.35s, border-color 0.35s;
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 36px; width: 36px; object-fit: contain; }
+    .nav-logo-wordmark { display: flex; flex-direction: column; line-height: 1.15; }
+    .nav-logo-wordmark .brand {
+      font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 2px;
+    }
+    .nav-logo-wordmark .tagline {
+      font-size: 0.55rem; color: var(--text-muted);
+      letter-spacing: 1.5px; text-transform: uppercase;
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn-nav-back {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 6px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      text-decoration: none; transition: all 0.25s;
+    }
+    .btn-nav-back:hover { border-color: var(--gold); color: var(--gold); }
+
+    .btn-register {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 6px;
+      background: var(--gold); border: none;
+      color: #080f0b; font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 800; cursor: pointer;
+      text-decoration: none; transition: all 0.25s;
+    }
+    .btn-register:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .theme-btn {
+      width: 36px; height: 36px; border-radius: 7px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; transition: all 0.25s;
+      color: var(--text-dim);
+    }
+    .theme-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      padding: 112px 5% 64px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(46,204,113,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 20px;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      font-size: 0.75rem; font-weight: 700; color: var(--gold);
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; color: var(--text-main);
+      line-height: 1.25; margin-bottom: 18px;
+    }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+
+    .hero p {
+      max-width: 540px; margin: 0 auto 36px;
+      font-size: 1rem; color: var(--text-dim); line-height: 1.8;
+    }
+
+    .hero-tabs {
+      display: inline-flex; gap: 4px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 4px;
+    }
+    .tab-btn {
+      padding: 10px 24px; border-radius: 7px; border: none;
+      font-family: 'Nunito', sans-serif; font-size: 0.85rem;
+      font-weight: 700; cursor: pointer; transition: all 0.25s;
+      background: transparent; color: var(--text-dim);
+    }
+    .tab-btn.active { background: var(--gold); color: #080f0b; }
+    .tab-btn:not(.active):hover { color: var(--text-main); }
+
+    /* ── MAIN CONTENT ── */
+    .content {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 0 5% 80px;
+    }
+
+    /* Tab panels */
+    .tab-panel { display: none; animation: fadeUp 0.4s ease both; }
+    .tab-panel.active { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── TIMELINE (seller steps) ── */
+    .timeline { position: relative; padding-left: 0; }
+
+    .tl-item {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 0 24px; margin-bottom: 12px;
+      position: relative;
+    }
+
+    .tl-left { display: flex; flex-direction: column; align-items: center; }
+
+    .tl-num {
+      width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+      background: var(--step-bg); border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--gold); transition: all 0.3s; z-index: 1;
+    }
+
+    .tl-line {
+      width: 2px; flex: 1; min-height: 28px;
+      background: linear-gradient(to bottom, var(--gold-dim), transparent);
+      margin-top: 4px; margin-bottom: 4px;
+    }
+    .tl-item:last-child .tl-line { display: none; }
+
+    .tl-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px 24px; margin-bottom: 12px;
+      transition: all 0.3s;
+    }
+    .tl-card:hover {
+      border-color: var(--border-hov);
+      background: var(--bg-card-hov);
+      box-shadow: var(--shadow-sm);
+      transform: translateX(4px);
+    }
+
+    .tl-card-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 12px; margin-bottom: 10px;
+    }
+
+    .tl-icon {
+      width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+    }
+
+    .tl-title {
+      font-family: 'Cinzel', serif; font-size: 1rem;
+      font-weight: 700; color: var(--text-main); flex: 1;
+    }
+
+    .tl-badge {
+      display: inline-flex; align-items: center;
+      padding: 3px 10px; border-radius: 10px; font-size: 0.65rem;
+      font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 0;
+    }
+    .tl-badge.time   { background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.25); color: var(--emerald); }
+    .tl-badge.free   { background: var(--bg-subtle); border: 1px solid var(--border); color: var(--gold); }
+    .tl-badge.manual { background: rgba(201,168,76,0.1); border: 1px solid var(--border); color: var(--gold); }
+    .tl-badge.perm   { background: rgba(46,204,113,0.08); border: 1px solid rgba(46,204,113,0.2); color: var(--emerald); }
+
+    .tl-body { font-size: 0.875rem; color: var(--text-dim); line-height: 1.75; }
+
+    .tl-docs {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+    }
+    .doc-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 6px; font-size: 0.75rem;
+      font-weight: 700; background: var(--bg-subtle);
+      border: 1px solid var(--border); color: var(--text-dim);
+      transition: border-color 0.25s;
+    }
+    .doc-chip:hover { border-color: var(--gold); }
+
+    /* ── BUYER STEPS (simpler cards) ── */
+    .buyer-steps { display: flex; flex-direction: column; gap: 12px; }
+
+    .buyer-card {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px 24px;
+      transition: all 0.3s;
+    }
+    .buyer-card:hover {
+      border-color: var(--border-hov);
+      background: var(--bg-card-hov);
+      box-shadow: var(--shadow-sm);
+    }
+    .buyer-num {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--step-bg); border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 700;
+      color: var(--gold);
+    }
+    .buyer-info { flex: 1; }
+    .buyer-info strong {
+      display: block; font-family: 'Cinzel', serif; font-size: 0.92rem;
+      font-weight: 700; color: var(--text-main); margin-bottom: 6px;
+    }
+    .buyer-info p { font-size: 0.875rem; color: var(--text-dim); line-height: 1.75; }
+
+    /* ── FAQ SECTION ── */
+    .faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+
+    .faq-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden; transition: border-color 0.25s;
+    }
+    .faq-item:hover { border-color: var(--border-hov); }
+    .faq-item.open   { border-color: var(--gold); }
+
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; cursor: pointer; gap: 12px;
+      font-size: 0.875rem; font-weight: 700; color: var(--text-main);
+      list-style: none; user-select: none;
+    }
+    .faq-q::-webkit-details-marker { display: none; }
+    .faq-q .faq-arrow {
+      font-size: 0.7rem; color: var(--gold); flex-shrink: 0;
+      transition: transform 0.25s;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      display: none; padding: 0 20px 16px;
+      font-size: 0.85rem; color: var(--text-dim); line-height: 1.8;
+      border-top: 1px solid var(--border);
+    }
+    .faq-a.open { display: block; padding-top: 14px; }
+
+    /* ── WHY BOX ── */
+    .why-box {
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px 32px; margin-top: 40px;
+      text-align: center;
+    }
+    .why-box h3 {
+      font-family: 'Cinzel', serif; font-size: 1.05rem;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .why-box p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.8; max-width: 520px; margin: 0 auto 24px; }
+
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-cta-gold {
+      padding: 12px 28px; background: var(--gold); color: #080f0b;
+      border: none; border-radius: 7px; font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; font-weight: 800; cursor: pointer; transition: all 0.25s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-cta-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(201,168,76,0.3); }
+    .btn-cta-outline {
+      padding: 12px 28px; background: transparent;
+      border: 1px solid var(--border); border-radius: 7px;
+      font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700;
+      color: var(--text-dim); cursor: pointer; transition: all 0.25s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-cta-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── SECTION HEADING ── */
+    .section-head { margin-bottom: 28px; }
+    .section-head h2 {
+      font-family: 'Cinzel', serif; font-size: 1.35rem;
+      font-weight: 700; color: var(--text-main); margin-bottom: 8px;
+    }
+    .section-head h2 span { color: var(--gold); }
+    .section-head p { font-size: 0.875rem; color: var(--text-dim); line-height: 1.7; }
+
+    .divider-line {
+      height: 1px; background: var(--border); margin: 40px 0;
+    }
+
+    /* ── CHECKLIST ── */
+    .check-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-top: 16px;
+    }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 14px 16px; border-radius: 8px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .check-item .ci-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .check-item .ci-text strong { display: block; font-weight: 700; color: var(--text-main); margin-bottom: 2px; font-size: 0.82rem; }
+    .check-item .ci-text span { color: var(--text-dim); font-size: 0.75rem; line-height: 1.6; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .tl-item { grid-template-columns: 44px 1fr; }
+      .tl-num { width: 44px; height: 44px; font-size: 0.95rem; }
+      .check-grid { grid-template-columns: 1fr; }
+      .hero-tabs { flex-direction: column; width: 100%; }
+      .tab-btn { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="./logo.png" alt="AREWA SQUARE" onerror="this.style.display='none'"/>
+      <div class="nav-logo-wordmark">
+        <span class="brand">AREWA SQUARE</span>
+        <span class="tagline">Northern Nigeria's Marketplace</span>
+      </div>
+    </a>
+    <div class="nav-actions">
+      <a href="auth.html" class="btn-nav-back">← Back to Register</a>
+      <a href="auth.html" class="btn-register">Register Now</a>
+      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark / light mode">🌙</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">🔍 Transparency First</div>
+    <h1>How <em>Verification</em><br/>Works on AREWA SQUARE</h1>
+    <p>We verify every seller manually — not by algorithm. Here is exactly what happens from the moment you apply to the moment buyers find your shop.</p>
+    <div class="hero-tabs">
+      <button class="tab-btn active" onclick="switchTab('sellers', this)">🏪 For Sellers</button>
+      <button class="tab-btn" onclick="switchTab('buyers', this)">🛒 For Buyers</button>
+      <button class="tab-btn" onclick="switchTab('faq', this)">❓ FAQ</button>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ SELLERS TAB ══ -->
+    <div class="tab-panel active" id="panel-sellers">
+
+      <div class="section-head">
+        <h2>✦ The Seller <span>Verification Process</span></h2>
+        <p>AREWA SQUARE is not a self-serve platform. Every shop you see on this site has been manually reviewed and approved by a real person on our team.</p>
+      </div>
+
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-num">1</div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-top">
+              <div class="tl-icon">📝</div>
+              <div class="tl-title">Submit Your Application</div>
+              <span class="tl-badge free">Free</span>
+            </div>
+            <p class="tl-body">Fill in your business details — name, category, location, phone, WhatsApp, and a description of what you sell. Then upload two required documents. The entire process takes about 5 minutes.</p>
+            <div class="tl-docs">
+              <div class="doc-chip">🪪 Government-issued ID</div>
+              <div class="doc-chip">🏪 Photo of your shop or stall</div>
+              <div class="doc-chip">📋 Business details form</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-num">2</div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-top">
+              <div class="tl-icon">🔎</div>
+              <div class="tl-title">Manual Review by Our Team</div>
+              <span class="tl-badge time">24 – 48 hrs</span>
+            </div>
+            <p class="tl-body">A real member of the AREWA SQUARE team personally reviews your application. We check that your ID is valid, your shop photo matches your address, and your business is legitimate. No automated bots — only human review.</p>
+            <div class="tl-docs">
+              <div class="doc-chip">✅ ID authenticity check</div>
+              <div class="doc-chip">✅ Shop photo verification</div>
+              <div class="doc-chip">✅ Business details review</div>
+              <div class="doc-chip">✅ Northern Nigeria location confirmed</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-num">3</div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-top">
+              <div class="tl-icon">🔢</div>
+              <div class="tl-title">Approval & Permanent Shop Number Assigned</div>
+              <span class="tl-badge perm">Permanent</span>
+            </div>
+            <p class="tl-body">Once approved, you receive a <strong style="color:var(--gold)">permanent shop number</strong> — for example, Shop #007. This number is yours forever. It cannot be transferred, re-assigned, or duplicated. You will receive it via email along with your login credentials.</p>
+            <div class="tl-docs">
+              <div class="doc-chip">🔢 Unique shop number issued</div>
+              <div class="doc-chip">📧 Email confirmation sent</div>
+              <div class="doc-chip">🔐 Seller account activated</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-num">4</div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-top">
+              <div class="tl-icon">🛍️</div>
+              <div class="tl-title">Set Up Your Shop & Go Live</div>
+              <span class="tl-badge manual">Self-service</span>
+            </div>
+            <p class="tl-body">Log in to your Seller Dashboard with the email and password from your application. Add your products, update your shop photo, and customise your description. Your shop goes live immediately and buyers in your area can find you.</p>
+            <div class="tl-docs">
+              <div class="doc-chip">📦 Add products with photos & prices</div>
+              <div class="doc-chip">🖼️ Upload a shop banner</div>
+              <div class="doc-chip">📍 Location visible to nearby buyers</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-num">5</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-top">
+              <div class="tl-icon">📈</div>
+              <div class="tl-title">Buyers Find You & Place Orders</div>
+              <span class="tl-badge time">Ongoing</span>
+            </div>
+            <p class="tl-body">Buyers browse by category, search by product, or discover shops near them. When they find your shop, they can call you, send you a WhatsApp message, or build a cart and send you a full order via WhatsApp automatically.</p>
+            <div class="tl-docs">
+              <div class="doc-chip">📞 Direct phone call</div>
+              <div class="doc-chip">💬 WhatsApp order</div>
+              <div class="doc-chip">💾 Buyers save your shop</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end timeline -->
+
+      <div class="divider-line"></div>
+
+      <div class="section-head">
+        <h2>✦ What to <span>Prepare</span></h2>
+        <p>Have these ready before you start your application to make the process as smooth as possible.</p>
+      </div>
+      <div class="check-grid">
+        <div class="check-item">
+          <span class="ci-icon">🪪</span>
+          <div class="ci-text">
+            <strong>Valid Government ID</strong>
+            <span>NIN slip, national ID card, voter's card, driver's licence, or international passport. Photo or scan accepted.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">🏪</span>
+          <div class="ci-text">
+            <strong>Photo of Your Shop</strong>
+            <span>A clear, recent photo of your shop, stall, store, or home business location. Must show your actual operating space.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">📱</span>
+          <div class="ci-text">
+            <strong>Active Phone & WhatsApp</strong>
+            <span>The phone number you register must be active and the same number buyers will reach you on.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">📧</span>
+          <div class="ci-text">
+            <strong>Working Email Address</strong>
+            <span>Used for your shop approval notification, login credentials, and any updates from AREWA SQUARE.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">📍</span>
+          <div class="ci-text">
+            <strong>Northern Nigeria Location</strong>
+            <span>AREWA SQUARE is exclusively for businesses located in one of the 20 Northern Nigerian states and Abuja.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">📋</span>
+          <div class="ci-text">
+            <strong>Business Description Ready</strong>
+            <span>A short, clear description of what you sell so buyers know immediately if your shop is right for them.</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end sellers panel -->
+
+    <!-- ══ BUYERS TAB ══ -->
+    <div class="tab-panel" id="panel-buyers">
+
+      <div class="section-head">
+        <h2>✦ How Buying Works <span>on AREWA SQUARE</span></h2>
+        <p>As a buyer, you do not need to provide any documents. Registration is free, instant, and takes under 2 minutes.</p>
+      </div>
+
+      <div class="buyer-steps">
+
+        <div class="buyer-card">
+          <div class="buyer-num">1</div>
+          <div class="buyer-info">
+            <strong>Create a Free Buyer Account</strong>
+            <p>Register with your name, email, phone number, and state. No ID, no documents, no waiting. Your account is activated immediately.</p>
+          </div>
+        </div>
+
+        <div class="buyer-card">
+          <div class="buyer-num">2</div>
+          <div class="buyer-info">
+            <strong>Browse Only Verified Shops</strong>
+            <p>Every shop on AREWA SQUARE has been manually verified. You will never see a fake listing, an inactive account, or an unverified seller. Every shop has a permanent number, a real address, and a real owner.</p>
+          </div>
+        </div>
+
+        <div class="buyer-card">
+          <div class="buyer-num">3</div>
+          <div class="buyer-info">
+            <strong>Search, Filter & Discover Near You</strong>
+            <p>Search by product name, browse by category, or use your location to find shops closest to you. Save shops you like for easy access later.</p>
+          </div>
+        </div>
+
+        <div class="buyer-card">
+          <div class="buyer-num">4</div>
+          <div class="buyer-info">
+            <strong>Contact the Seller Directly</strong>
+            <p>When you find a shop you like, tap Call to phone the seller directly, or tap WhatsApp to open a conversation. You can also build a cart and send a full order list to the seller's WhatsApp in one tap — no middleman, no platform fee.</p>
+          </div>
+        </div>
+
+        <div class="buyer-card">
+          <div class="buyer-num">5</div>
+          <div class="buyer-info">
+            <strong>Agree on Price, Delivery & Payment with the Seller</strong>
+            <p>All final arrangements — price confirmation, delivery method, and payment — are made directly between you and the seller via WhatsApp or phone. AREWA SQUARE does not process payments; we simply connect you.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="divider-line"></div>
+
+      <div class="section-head">
+        <h2>✦ Your <span>Protection as a Buyer</span></h2>
+        <p>Although AREWA SQUARE does not process transactions, we take buyer safety seriously.</p>
+      </div>
+      <div class="check-grid">
+        <div class="check-item">
+          <span class="ci-icon">✅</span>
+          <div class="ci-text">
+            <strong>Only Verified Sellers</strong>
+            <span>Every seller has been ID-verified. You know you are dealing with a real, identifiable person.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">🚩</span>
+          <div class="ci-text">
+            <strong>Report Suspicious Shops</strong>
+            <span>Any shop can be reported. Reports are reviewed by our team and action is taken swiftly — up to permanent removal.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">🔢</span>
+          <div class="ci-text">
+            <strong>Traceable Shop Numbers</strong>
+            <span>Every shop has a permanent, unique shop number. If a seller misbehaves, their number is flagged in our records permanently.</span>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="ci-icon">📧</span>
+          <div class="ci-text">
+            <strong>Contact AREWA SQUARE Directly</strong>
+            <span>If you have a dispute or concern, email support@arewasquare.com or WhatsApp us. We respond within 24 hours.</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end buyers panel -->
+
+    <!-- ══ FAQ TAB ══ -->
+    <div class="tab-panel" id="panel-faq">
+
+      <div class="section-head">
+        <h2>✦ Frequently Asked <span>Questions</span></h2>
+        <p>Answers to the questions we receive most often about how verification and the platform works.</p>
+      </div>
+
+      <div class="faq-list">
+
+        <div class="faq-item" id="faq-1">
+          <div class="faq-q" onclick="toggleFaq('faq-1')">
+            How long does seller approval take?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-1-a">
+            Applications are reviewed within <strong>24 to 48 hours</strong> of submission during business days (Monday to Saturday). If your application is submitted on a Friday evening, you may receive your response on Monday morning. You will be notified by email regardless of the outcome.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-2">
+          <div class="faq-q" onclick="toggleFaq('faq-2')">
+            What happens if my application is rejected?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-2-a">
+            You will receive an email explaining why your application was not approved. Common reasons include a blurry ID photo, a shop photo that does not clearly show a business location, or a business outside our covered states. You are welcome to correct the issue and re-apply immediately at no cost.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-3">
+          <div class="faq-q" onclick="toggleFaq('faq-3')">
+            Is my government ID stored safely?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-3-a">
+            Yes. Uploaded documents are stored on secure, encrypted servers (Cloudinary). They are only accessed by the AREWA SQUARE admin team for the purpose of verification and are never shared with third parties, buyers, or other sellers. Once verified, documents are not displayed publicly anywhere on the platform.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-4">
+          <div class="faq-q" onclick="toggleFaq('faq-4')">
+            Can I change my shop number later?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-4-a">
+            No. Shop numbers are <strong>permanent and non-transferable</strong>. This is by design — the permanence of a shop number means buyers can trust it, refer back to it, and know it belongs to one real business. If your business name changes, you can update it, but your number stays the same.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-5">
+          <div class="faq-q" onclick="toggleFaq('faq-5')">
+            Which states are covered by AREWA SQUARE?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-5-a">
+            AREWA SQUARE covers all <strong>20 Northern Nigerian states</strong> plus <strong>Abuja (FCT)</strong>: Abuja, Adamawa, Bauchi, Benue, Borno, Gombe, Jigawa, Kaduna, Kano, Katsina, Kebbi, Kogi, Kwara, Nasarawa, Niger, Plateau, Sokoto, Taraba, Yobe, and Zamfara. Businesses physically located outside these states are not eligible at this time.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-6">
+          <div class="faq-q" onclick="toggleFaq('faq-6')">
+            Is registration free? Are there any fees?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-6-a">
+            Buyer registration is completely free with no hidden costs. Seller registration is also free. An optional subscription plan for sellers unlocks additional features such as promoted listing and analytics. Basic shop listing and product uploads are always free.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-7">
+          <div class="faq-q" onclick="toggleFaq('faq-7')">
+            I operate from home. Can I still register?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-7-a">
+            Yes. Home-based businesses are welcome. For your shop photo, simply upload a clear photo of your workspace, product display, or home setup. As long as we can confirm you are operating a real business from a real location within the covered states, your application will be considered.
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-8">
+          <div class="faq-q" onclick="toggleFaq('faq-8')">
+            Does AREWA SQUARE handle payments between buyers and sellers?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-a" id="faq-8-a">
+            No. AREWA SQUARE is a <strong>discovery and connection platform</strong>. All payments and delivery arrangements are made directly between the buyer and the seller via WhatsApp or phone. We do not process, hold, or guarantee any payments. We encourage buyers to use trusted payment methods and to report any sellers who behave dishonestly.
+          </div>
+        </div>
+
+      </div><!-- end faq-list -->
+
+    </div><!-- end faq panel -->
+
+    <!-- WHY BOX (all tabs) -->
+    <div class="why-box">
+      <h3>✦ Why Manual Verification?</h3>
+      <p>Algorithms miss things. A real person reviewing your application means fewer fake shops, fewer scams, and a marketplace that buyers in Northern Nigeria can actually trust. That is what AREWA SQUARE is built on.</p>
+      <div class="cta-row">
+        <a href="auth.html" class="btn-cta-gold">Start Your Application →</a>
+        <a href="seller-rules.html" class="btn-cta-outline">Read Seller Rules</a>
+      </div>
+    </div>
+
+  </div><!-- end content -->
+
+  <script>
+    /* ── THEME ── */
+    function toggleTheme() {
+      const isLight = document.body.classList.toggle('light');
+      localStorage.setItem('as_theme', isLight ? 'light' : 'dark');
+      document.getElementById('theme-btn').textContent = isLight ? '☀️' : '🌙';
+    }
+    (function() {
+      if (localStorage.getItem('as_theme') === 'light') {
+        document.body.classList.add('light');
+        document.getElementById('theme-btn').textContent = '☀️';
+      }
+    })();
+
+    /* ── TABS ── */
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('active');
+      // Scroll to content smoothly
+      document.querySelector('.content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── FAQ ACCORDION ── */
+    function toggleFaq(id) {
+      const item = document.getElementById(id);
+      const ans  = document.getElementById(id + '-a');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        const a = document.getElementById(i.id + '-a');
+        if (a) a.classList.remove('open');
+      });
+      // Open clicked if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+        ans.classList.add('open');
+      }
+    }
+  </script>
+</body>
+</html>
