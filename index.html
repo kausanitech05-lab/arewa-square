@@ -70,8 +70,7 @@
     .nav-logo img {
       height: 44px;
       width: 44px;
-      border-radius: 50%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     .nav-logo-text {
@@ -1101,7 +1100,6 @@
     </ul>
 
     <div class="nav-buttons">
-      <button id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Mode" style="width:36px;height:36px;border-radius:6px;background:transparent;border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.3s;margin-right:4px;">☀️</button>
       <button class="btn-outline" onclick="window.location.href='auth.html'">Login</button>
       <button class="btn-gold" onclick="window.location.href='auth.html'">Register</button>
     </div>
@@ -1113,7 +1111,7 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#how-it-works" onclick="closeMobileMenu(); setTimeout(()=>{const el=document.getElementById('how-it-works');if(el)el.scrollIntoView({behavior:'smooth'});},150);">📖 How It Works</a>
+    <a href="#how-it-works" onclick="closeMobileMenu()">📖 How It Works</a>
     <a href="#shops" onclick="closeMobileMenu()">🛒 Browse Shops</a>
     <a href="#categories" onclick="closeMobileMenu()">🏷️ Categories</a>
     <a href="#about" onclick="closeMobileMenu()">ℹ️ About Us</a>
@@ -1121,6 +1119,9 @@
     <div class="mob-buttons">
       <button class="btn-outline" onclick="window.location.href='auth.html'">Login</button>
       <button class="btn-gold" onclick="window.location.href='auth.html'">Register</button>
+    </div>
+    <div style="display:flex;justify-content:center;padding:12px 0 4px;">
+      <button class="as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="width:44px;height:44px;border-radius:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1.2rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.3s;">☀️</button>
     </div>
   </div>
 
@@ -1296,7 +1297,7 @@
 
 
   <!-- ══ HOW IT WORKS ══ -->
-  <section class="section" id="how-it-works">
+  <section class="section">
     <div class="section-header">
       <span class="section-tag">✦ Simple Process</span>
       <h2>How It Works</h2>
@@ -1304,8 +1305,8 @@
     </div>
 
     <div class="how-tabs">
-      <button class="tab-btn active" onclick="switchTab('buyers', this)">👤 For Buyers</button>
-      <button class="tab-btn" onclick="switchTab('sellers', this)">🏪 For Sellers</button>
+      <button class="tab-btn active" onclick="switchTab('buyers')">👤 For Buyers</button>
+      <button class="tab-btn" onclick="switchTab('sellers')">🏪 For Sellers</button>
     </div>
 
     <div id="tab-buyers" class="tab-content active steps-grid">
@@ -1602,8 +1603,8 @@
         </a>
         <p>The trusted digital marketplace built for Northern Nigeria. Verified sellers, permanent shop numbers, and a community rooted in Arewa market culture.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/profile.php?id=61590530846832" target="_blank" class="social-link" title="Facebook">f</a>
-          <a href="https://www.instagram.com/arewa_square_01?igsh=Y2VtNnZ4NHRpMWxn" target="_blank" class="social-link" title="Instagram">ig</a>
+          <a href="https://www.facebook.com/profile.php?id=61590530846832" target="_blank" class="social-link" title="Facebook" style="color:#1877F2;">f</a>
+          <a href="https://www.instagram.com/arewa_square_01?igsh=Y2VtNnZ4NHRpMWxn" target="_blank" class="social-link" title="Instagram" style="color:#2ecc71;">ig</a>
           <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" class="social-link" title="WhatsApp" style="color:#25D366;">wa</a>
         </div>
       </div>
@@ -1719,11 +1720,11 @@
     });
 
     // ── HOW IT WORKS TABS ──
-    function switchTab(tab, el) {
+    function switchTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
-      if (el) el.classList.add('active');
+      event.target.classList.add('active');
     }
 
     // ── SCROLL REVEAL ──
@@ -1747,111 +1748,6 @@
       const nav = document.querySelector('nav');
       nav.style.boxShadow = window.scrollY > 10 ? '0 4px 30px rgba(0,0,0,0.5)' : 'none';
     });
-  </script>
-
-
-  <!-- ══ THEME SYSTEM ══ -->
-  <script>
-    // ── Light mode variables ──
-    const LIGHT_VARS = {
-      '--green-deep':   '#f5f0e8',
-      '--green-mid':    '#e8e2d0',
-      '--green-light':  '#d4ccb4',
-      '--gold':         '#8a5e10',
-      '--gold-light':   '#6b4a0d',
-      '--gold-dim':     '#a07020',
-      '--emerald':      '#1a7a3c',
-      '--white':        '#1a1a0f',
-      '--white-dim':    '#3a3520',
-      '--dark':         '#f5f0e8',
-      '--card-bg':      'rgba(0,0,0,0.05)',
-      '--border':       'rgba(138,94,16,0.2)',
-      '--input-bg':     'rgba(0,0,0,0.05)',
-      '--input-border': 'rgba(138,94,16,0.25)',
-    };
-
-    const DARK_VARS = {
-      '--green-deep':   '#0d2b1f',
-      '--green-mid':    '#1a4a30',
-      '--green-light':  '#2a6645',
-      '--gold':         '#c9a84c',
-      '--gold-light':   '#e8c97a',
-      '--gold-dim':     '#8a6e2f',
-      '--emerald':      '#2ecc71',
-      '--white':        '#f5f0e8',
-      '--white-dim':    '#c8bfa8',
-      '--dark':         '#080f0b',
-      '--card-bg':      'rgba(255,255,255,0.04)',
-      '--border':       'rgba(201,168,76,0.15)',
-      '--input-bg':     'rgba(255,255,255,0.05)',
-      '--input-border': 'rgba(201,168,76,0.2)',
-    };
-
-    function applyThemeVars(theme) {
-      const vars = theme === 'light' ? LIGHT_VARS : DARK_VARS;
-      const root = document.documentElement;
-      Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
-      document.body.setAttribute('data-theme', theme);
-
-      // Update body background
-      document.body.style.backgroundColor = theme === 'light' ? '#f5f0e8' : '#0d2b1f';
-
-      // Update toggle button
-      const btn = document.getElementById('theme-toggle-btn');
-      if (btn) {
-        btn.textContent = theme === 'light' ? '🌙' : '☀️';
-        btn.title = theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
-      }
-
-      // Inject or remove light override styles
-      let existing = document.getElementById('as-light-css');
-      if (theme === 'light') {
-        if (!existing) {
-          existing = document.createElement('style');
-          existing.id = 'as-light-css';
-          document.head.appendChild(existing);
-        }
-        existing.textContent = `
-          body[data-theme="light"] { background:#f5f0e8 !important; color:#1a1a0f !important; }
-          body[data-theme="light"]::before { background-image: repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px), repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px) !important; }
-          body[data-theme="light"] nav { background:rgba(245,240,232,0.97) !important; border-bottom:1px solid rgba(138,94,16,0.2) !important; }
-          body[data-theme="light"] .hero { background:linear-gradient(135deg,#e8e2d0,#f5f0e8,#e0d8c4) !important; }
-          body[data-theme="light"] .section-alt { background:rgba(0,0,0,0.03) !important; }
-          body[data-theme="light"] .step-card,
-          body[data-theme="light"] .feature-card,
-          body[data-theme="light"] .trust-card,
-          body[data-theme="light"] .shop-card,
-          body[data-theme="light"] .category-card,
-          body[data-theme="light"] .stat-card { background:rgba(0,0,0,0.04) !important; border-color:rgba(138,94,16,0.15) !important; }
-          body[data-theme="light"] .section-tag { background:rgba(138,94,16,0.1) !important; color:#8a5e10 !important; border-color:rgba(138,94,16,0.2) !important; }
-          body[data-theme="light"] footer { background:#e8e2d0 !important; }
-          body[data-theme="light"] .footer-bottom { border-color:rgba(138,94,16,0.15) !important; }
-          body[data-theme="light"] .mobile-menu { background:#f5f0e8 !important; border-color:rgba(138,94,16,0.2) !important; }
-          body[data-theme="light"] .mobile-menu a { color:#1a1a0f !important; border-color:rgba(138,94,16,0.1) !important; }
-          body[data-theme="light"] .hamburger span { background:#8a5e10 !important; }
-          body[data-theme="light"] .how-tabs { background:rgba(0,0,0,0.05) !important; }
-          body[data-theme="light"] .tab-btn { color:#3a3520 !important; }
-          body[data-theme="light"] .tab-btn.active { background:#f5f0e8 !important; color:#8a5e10 !important; }
-          body[data-theme="light"] .step-number { background:rgba(138,94,16,0.1) !important; border-color:rgba(138,94,16,0.25) !important; color:#8a5e10 !important; }
-          body[data-theme="light"] #theme-toggle-btn { border-color:rgba(138,94,16,0.3) !important; }
-        `;
-      } else {
-        if (existing) existing.textContent = '';
-      }
-    }
-
-    function toggleTheme() {
-      const current = localStorage.getItem('as_theme') || 'dark';
-      const next = current === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', next);
-      applyThemeVars(next);
-    }
-
-    // Apply saved theme immediately on load
-    (function() {
-      const saved = localStorage.getItem('as_theme') || 'dark';
-      applyThemeVars(saved);
-    })();
   </script>
 
 </body>
