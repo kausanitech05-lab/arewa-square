@@ -233,7 +233,7 @@
         <h1 id="page-title">Admin Dashboard</h1>
       </div>
       <div class="topbar-right">
-        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="font-size:1.1rem;">☀️</button>
+        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn">🔔</button>
         <button class="topbar-btn" onclick="showToast('Admin profile settings...','info')">⚙️</button>
         <a href="index.html" style="padding:7px 14px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);border-radius:5px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:700;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">← View Site</a>
@@ -611,91 +611,286 @@
 
   </script>
 
-  <!-- ══ AREWA SQUARE THEME ENGINE ══ -->
+  <!-- ══ REAL DATA LOADER ══ -->
   <script>
-    const _AS_LIGHT = {
-      '--green-deep':'#f5f0e8','--green-mid':'#e8e2d0','--green-light':'#d4ccb4',
-      '--gold':'#8a5e10','--gold-light':'#6b4a0d','--gold-dim':'#a07020',
-      '--emerald':'#1a7a3c','--emerald-dim':'#145c2d',
-      '--white':'#1a1a0f','--white-dim':'#3a3520','--dark':'#f5f0e8',
-      '--bg':'#f5f0e8','--danger':'#c0392b','--warn':'#d68910','--whatsapp':'#1a9e4c',
-      '--card-bg':'rgba(0,0,0,0.05)','--border':'rgba(138,94,16,0.2)',
-      '--input-bg':'rgba(0,0,0,0.05)','--input-border':'rgba(138,94,16,0.25)',
-    };
-    const _AS_DARK = {
-      '--green-deep':'#0d2b1f','--green-mid':'#1a4a30','--green-light':'#2a6645',
-      '--gold':'#c9a84c','--gold-light':'#e8c97a','--gold-dim':'#8a6e2f',
-      '--emerald':'#2ecc71','--emerald-dim':'#1a7a45',
-      '--white':'#f5f0e8','--white-dim':'#c8bfa8','--dark':'#080f0b',
-      '--bg':'#070d0a','--danger':'#e74c3c','--warn':'#f39c12','--whatsapp':'#25D366',
-      '--card-bg':'rgba(255,255,255,0.04)','--border':'rgba(201,168,76,0.15)',
-      '--input-bg':'rgba(255,255,255,0.05)','--input-border':'rgba(201,168,76,0.2)',
-    };
+    // ── AUTH GUARD ──
+    (function() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'admin') {
+        window.location.href = 'auth.html';
+        return;
+      }
+    })();
 
-    function _asApply(theme) {
-      const vars = theme === 'light' ? _AS_LIGHT : _AS_DARK;
-      const root = document.documentElement;
-      Object.entries(vars).forEach(([k,v]) => root.style.setProperty(k,v));
-      document.body.setAttribute('data-theme', theme);
-      document.body.style.backgroundColor = theme === 'light' ? '#f5f0e8' : '';
+    const API = 'https://arewa-square-api-production.up.railway.app/api';
 
-      // Update all toggle buttons on page
-      document.querySelectorAll('.as-theme-btn').forEach(btn => {
-        btn.textContent = theme === 'light' ? '🌙' : '☀️';
-        btn.title = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+    function getHeaders() {
+      return { 'Authorization': 'Bearer ' + localStorage.getItem('as_token'), 'Content-Type': 'application/json' };
+    }
+
+    // ── LOAD REAL STATS ──
+    async function loadRealStats() {
+      try {
+        const res  = await fetch(API + '/admin/stats', { headers: getHeaders() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const s = data.stats;
+        const el = (id) => document.getElementById(id);
+        if (el('stat-buyers'))       el('stat-buyers').textContent       = s.totalBuyers       || 0;
+        if (el('stat-sellers'))      el('stat-sellers').textContent      = s.totalSellers      || 0;
+        if (el('stat-pending'))      el('stat-pending').textContent      = s.pendingApplications || 0;
+        if (el('stat-products'))     el('stat-products').textContent     = s.totalProducts     || 0;
+        if (el('stat-orders'))       el('stat-orders').textContent       = s.totalOrders       || 0;
+        if (el('stat-new-orders'))   el('stat-new-orders').textContent   = s.newOrders         || 0;
+      } catch(e) { console.warn('Stats error:', e); }
+    }
+
+    // ── LOAD REAL APPLICATIONS ──
+    async function loadRealApplications() {
+      try {
+        const res  = await fetch(API + '/admin/applications?status=pending', { headers: getHeaders() });
+        const data = await res.json();
+        if (!res.ok || !data.applications) return;
+
+        const tbody = document.getElementById('applications-tbody') || document.querySelector('.applications-table tbody');
+        if (!tbody) return;
+
+        if (data.applications.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">No pending applications</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.applications.map(app => `
+          <tr>
+            <td style="color:var(--white);font-weight:600;">${app.user?.fullName || ''}</td>
+            <td>${app.businessName || ''}</td>
+            <td>${app.category || ''}</td>
+            <td>${app.state || ''}</td>
+            <td>${app.user?.phone || ''}</td>
+            <td>${app.user?.email || ''}</td>
+            <td><span class="badge pending">Pending</span></td>
+            <td>
+              <div class="action-cell">
+                <button class="act-btn approve" onclick="approveApplication('${app._id}', this)">Approve</button>
+                <button class="act-btn reject"  onclick="rejectApplication('${app._id}', this)">Reject</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.warn('Applications error:', e); }
+    }
+
+    // ── LOAD REAL SELLERS ──
+    async function loadRealSellers() {
+      try {
+        const res  = await fetch(API + '/admin/sellers', { headers: getHeaders() });
+        const data = await res.json();
+        if (!res.ok || !data.sellers) return;
+
+        const tbody = document.getElementById('sellers-tbody') || document.querySelector('.sellers-table tbody');
+        if (!tbody) return;
+
+        if (data.sellers.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">No sellers yet</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.sellers.map(s => `
+          <tr>
+            <td><span class="shop-num-pill">${s.shopNumber || 'Pending'}</span></td>
+            <td style="color:var(--white);font-weight:600;">${s.businessName || ''}</td>
+            <td>${s.user?.fullName || ''}</td>
+            <td>${s.category || ''}</td>
+            <td>${s.state || ''}</td>
+            <td>${s.user?.phone || ''}</td>
+            <td><span class="badge ${s.status}">${s.status}</span></td>
+            <td>
+              <div class="action-cell">
+                ${s.status === 'suspended'
+                  ? `<button class="act-btn approve" onclick="reactivateSeller('${s._id}', this)">Reactivate</button>`
+                  : `<button class="act-btn reject"  onclick="suspendSeller('${s._id}', this)">Suspend</button>`
+                }
+                <button class="act-btn remove" onclick="removeSeller('${s._id}', this)">Remove</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.warn('Sellers error:', e); }
+    }
+
+    // ── LOAD REAL BUYERS ──
+    async function loadRealBuyers() {
+      try {
+        const res  = await fetch(API + '/admin/buyers', { headers: getHeaders() });
+        const data = await res.json();
+        if (!res.ok || !data.buyers) return;
+
+        const tbody = document.getElementById('buyers-tbody') || document.querySelector('.buyers-table tbody');
+        if (!tbody) return;
+
+        if (data.buyers.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--white-dim);">No buyers yet</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.buyers.map(b => `
+          <tr>
+            <td style="color:var(--white);font-weight:600;">${b.fullName || ''}</td>
+            <td>${b.email || ''}</td>
+            <td>${b.phone || ''}</td>
+            <td>${b.state || ''}</td>
+            <td>${new Date(b.createdAt).toLocaleDateString('en-GB')}</td>
+            <td><span class="badge ${b.isActive ? 'active' : 'suspended'}">${b.isActive ? 'Active' : 'Suspended'}</span></td>
+            <td>
+              <div class="action-cell">
+                ${b.isActive
+                  ? `<button class="act-btn reject" onclick="suspendBuyer('${b._id}', this)">Suspend</button>`
+                  : `<button class="act-btn approve" onclick="reactivateBuyer('${b._id}', this)">Reactivate</button>`
+                }
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch(e) { console.warn('Buyers error:', e); }
+    }
+
+    // ── APPROVE APPLICATION ──
+    async function approveApplication(id, btn) {
+      showConfirm('Approve this seller application and assign a shop number?', async function() {
+        try {
+          const res  = await fetch(API + '/admin/applications/' + id + '/approve', { method: 'PUT', headers: getHeaders() });
+          const data = await res.json();
+          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+          showToast('✅ ' + data.message, 'success');
+          loadRealApplications();
+          loadRealSellers();
+          loadRealStats();
+        } catch(e) { showToast('Connection error', 'error'); }
       });
+    }
 
-      // Inject/remove light CSS overrides
-      let s = document.getElementById('_as_light_css');
-      if (theme === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light_css'; document.head.appendChild(s); }
+    // ── REJECT APPLICATION ──
+    function rejectApplication(id, btn) {
+      showPrompt('Rejection Reason', 'Explain why this application was not approved...', async function(reason) {
+        try {
+          const res  = await fetch(API + '/admin/applications/' + id + '/reject', {
+            method: 'PUT', headers: getHeaders(), body: JSON.stringify({ reason })
+          });
+          const data = await res.json();
+          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+          showToast('Application rejected. Seller notified.', 'warning');
+          loadRealApplications();
+        } catch(e) { showToast('Connection error', 'error'); }
+      });
+    }
+
+    // ── SUSPEND SELLER ──
+    async function suspendSeller(id, btn) {
+      showConfirm('Suspend this seller? Their shop will be hidden from buyers.', async function() {
+        try {
+          const res = await fetch(API + '/admin/sellers/' + id + '/suspend', { method: 'PUT', headers: getHeaders() });
+          const data = await res.json();
+          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+          showToast('Seller suspended.', 'warning');
+          loadRealSellers();
+        } catch(e) { showToast('Connection error', 'error'); }
+      });
+    }
+
+    // ── REACTIVATE SELLER ──
+    async function reactivateSeller(id, btn) {
+      try {
+        const res = await fetch(API + '/admin/sellers/' + id + '/reactivate', { method: 'PUT', headers: getHeaders() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller reactivated! ✅', 'success');
+        loadRealSellers();
+      } catch(e) { showToast('Connection error', 'error'); }
+    }
+
+    // ── REMOVE SELLER ──
+    async function removeSeller(id, btn) {
+      showConfirm('Permanently remove this seller? Their shop number will be revoked forever.', async function() {
+        try {
+          const res = await fetch(API + '/admin/sellers/' + id, { method: 'DELETE', headers: getHeaders() });
+          const data = await res.json();
+          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+          showToast('Seller permanently removed.', 'error');
+          loadRealSellers();
+          loadRealStats();
+        } catch(e) { showToast('Connection error', 'error'); }
+      });
+    }
+
+    // ── SUSPEND BUYER ──
+    async function suspendBuyer(id, btn) {
+      showConfirm('Suspend this buyer account?', async function() {
+        try {
+          const res = await fetch(API + '/admin/buyers/' + id + '/suspend', { method: 'PUT', headers: getHeaders() });
+          const data = await res.json();
+          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+          showToast('Buyer suspended.', 'warning');
+          loadRealBuyers();
+        } catch(e) { showToast('Connection error', 'error'); }
+      });
+    }
+
+    // ── REACTIVATE BUYER ──
+    async function reactivateBuyer(id, btn) {
+      try {
+        const res = await fetch(API + '/admin/buyers/' + id + '/reactivate', { method: 'PUT', headers: getHeaders() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Buyer reactivated! ✅', 'success');
+        loadRealBuyers();
+      } catch(e) { showToast('Connection error', 'error'); }
+    }
+
+    // ── LOGOUT ──
+    function logoutUser() {
+      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
+      window.location.href = 'auth.html';
+    }
+
+    // ── THEME ──
+    function toggleTheme() {
+      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('as_theme', t);
+      applyTheme(t);
+    }
+    function applyTheme(t) {
+      document.querySelectorAll('.as-theme-btn').forEach(b => {
+        b.textContent = t === 'light' ? '🌙' : '☀️';
+      });
+      document.body.setAttribute('data-theme', t);
+      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
+      let s = document.getElementById('_as_light');
+      if (t === 'light') {
+        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
         s.textContent = `
           body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"]::before{background-image:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px),repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px)!important}
-          body[data-theme="light"] nav,body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
           body[data-theme="light"] .sidebar{background:rgba(245,240,232,0.99)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .hero{background:linear-gradient(135deg,#e8e2d0,#f5f0e8,#e0d8c4)!important}
-          body[data-theme="light"] .step-card,body[data-theme="light"] .feature-card,body[data-theme="light"] .trust-card,body[data-theme="light"] .shop-card,body[data-theme="light"] .category-card,body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card,body[data-theme="light"] .auth-card,body[data-theme="light"] .auth-box,body[data-theme="light"] .highlight-box{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .table-wrap{background:rgba(0,0,0,0.03)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] thead th{color:#8a5e10!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] tbody td{color:#3a3520!important;border-color:rgba(138,94,16,0.06)!important}
-          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
-          body[data-theme="light"] input::placeholder,body[data-theme="light"] textarea::placeholder{color:rgba(26,26,15,0.4)!important}
-          body[data-theme="light"] select option{background:#f5f0e8!important;color:#1a1a0f!important}
+          body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
           body[data-theme="light"] .nav-item{color:#3a3520!important}
-          body[data-theme="light"] .nav-item:hover,body[data-theme="light"] .nav-item.active{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
-          body[data-theme="light"] .section-tag{background:rgba(138,94,16,0.1)!important;color:#8a5e10!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .how-tabs{background:rgba(0,0,0,0.05)!important}
-          body[data-theme="light"] .tab-btn{color:#3a3520!important}
-          body[data-theme="light"] .tab-btn.active{background:#f5f0e8!important;color:#8a5e10!important}
-          body[data-theme="light"] footer,body[data-theme="light"] .footer{background:#e8e2d0!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .mobile-menu{background:#f5f0e8!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .mobile-menu a{color:#1a1a0f!important;border-color:rgba(138,94,16,0.1)!important}
-          body[data-theme="light"] .hamburger span,.hamburger-btn span{background:#8a5e10!important}
-          body[data-theme="light"] .modal{background:#f0ece0!important}
-          body[data-theme="light"] .as-toast{background:#f0ece0!important;color:#1a1a0f!important}
-          body[data-theme="light"] .shop-num-pill{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.3)!important}
-          body[data-theme="light"] .logout-btn{color:#3a3520!important}
-          body[data-theme="light"] .sidebar-footer{border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
+          body[data-theme="light"] .stat-card,body[data-theme="light"] .table-wrap{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
           body[data-theme="light"] .topbar-btn{background:rgba(0,0,0,0.05)!important;border-color:rgba(138,94,16,0.15)!important;color:#3a3520!important}
-          body[data-theme="light"] .nav-section-label{color:#a07020!important}
-          body[data-theme="light"] .doc-section p,body[data-theme="light"] .doc-section li{color:#3a3520!important}
-          body[data-theme="light"] .warning-box{background:rgba(192,57,43,0.06)!important}
-          body[data-theme="light"] .as-theme-btn{border-color:rgba(138,94,16,0.3)!important}
+          body[data-theme="light"] tbody td{color:#3a3520!important}
+          body[data-theme="light"] thead th{color:#8a5e10!important;border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .shop-num-pill{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.3)!important}
         `;
-      } else {
-        if (s) s.textContent = '';
-      }
+      } else { if(s) s.textContent=''; document.body.style.backgroundColor=''; }
     }
+    applyTheme(localStorage.getItem('as_theme') || 'dark');
 
-    function toggleTheme() {
-      const next = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', next);
-      _asApply(next);
-    }
-
-    // Apply on load immediately
-    _asApply(localStorage.getItem('as_theme') || 'dark');
+    // ── RUN ON LOAD ──
+    document.addEventListener('DOMContentLoaded', function() {
+      loadRealStats();
+      loadRealApplications();
+      loadRealSellers();
+      loadRealBuyers();
+    });
   </script>
 
 </body>

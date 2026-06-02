@@ -1100,6 +1100,7 @@
     </ul>
 
     <div class="nav-buttons">
+      <button id="as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="width:36px;height:36px;border-radius:6px;background:transparent;border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.3s;margin-right:4px;">☀️</button>
       <button class="btn-outline" onclick="window.location.href='auth.html'">Login</button>
       <button class="btn-gold" onclick="window.location.href='auth.html'">Register</button>
     </div>
@@ -1116,12 +1117,12 @@
     <a href="#categories" onclick="closeMobileMenu()">🏷️ Categories</a>
     <a href="#about" onclick="closeMobileMenu()">ℹ️ About Us</a>
     <a href="#contact-section" onclick="closeMobileMenu()">📞 Contact</a>
+    <div style="text-align:center;padding:10px 0 4px;">
+      <button id="as-theme-btn-mob" onclick="toggleTheme()" style="width:44px;height:44px;border-radius:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1.2rem;display:inline-flex;align-items:center;justify-content:center;">☀️</button>
+    </div>
     <div class="mob-buttons">
       <button class="btn-outline" onclick="window.location.href='auth.html'">Login</button>
       <button class="btn-gold" onclick="window.location.href='auth.html'">Register</button>
-    </div>
-    <div style="display:flex;justify-content:center;padding:12px 0 4px;">
-      <button class="as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="width:44px;height:44px;border-radius:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1.2rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.3s;">☀️</button>
     </div>
   </div>
 
@@ -1297,7 +1298,7 @@
 
 
   <!-- ══ HOW IT WORKS ══ -->
-  <section class="section">
+  <section class="section" id="how-it-works">
     <div class="section-header">
       <span class="section-tag">✦ Simple Process</span>
       <h2>How It Works</h2>
@@ -1305,8 +1306,8 @@
     </div>
 
     <div class="how-tabs">
-      <button class="tab-btn active" onclick="switchTab('buyers')">👤 For Buyers</button>
-      <button class="tab-btn" onclick="switchTab('sellers')">🏪 For Sellers</button>
+      <button class="tab-btn active" onclick="switchTab('buyers', this)">👤 For Buyers</button>
+      <button class="tab-btn" onclick="switchTab('sellers', this)">🏪 For Sellers</button>
     </div>
 
     <div id="tab-buyers" class="tab-content active steps-grid">
@@ -1720,11 +1721,11 @@
     });
 
     // ── HOW IT WORKS TABS ──
-    function switchTab(tab) {
+    function switchTab(tab, el) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
-      event.target.classList.add('active');
+      if (el) el.classList.add('active');
     }
 
     // ── SCROLL REVEAL ──
@@ -1750,5 +1751,54 @@
     });
   </script>
 
+
+  <!-- ══ THEME ENGINE ══ -->
+  <script>
+    function toggleTheme() {
+      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('as_theme', t);
+      applyTheme(t);
+    }
+    function applyTheme(t) {
+      const btn    = document.getElementById('as-theme-btn');
+      const btnMob = document.getElementById('as-theme-btn-mob');
+      if (btn)    { btn.textContent    = t === 'light' ? '🌙' : '☀️'; btn.title    = t === 'light' ? 'Dark Mode' : 'Light Mode'; }
+      if (btnMob) { btnMob.textContent = t === 'light' ? '🌙' : '☀️'; btnMob.title = t === 'light' ? 'Dark Mode' : 'Light Mode'; }
+      document.body.setAttribute('data-theme', t);
+      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
+      let s = document.getElementById('_as_light');
+      if (t === 'light') {
+        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
+        s.textContent = `
+          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
+          body[data-theme="light"]::before{background-image:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px),repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px)!important}
+          body[data-theme="light"] nav{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
+          body[data-theme="light"] .hero{background:linear-gradient(135deg,#e8e2d0,#f5f0e8,#e0d8c4)!important}
+          body[data-theme="light"] .step-card,body[data-theme="light"] .feature-card,body[data-theme="light"] .trust-card,body[data-theme="light"] .shop-card,body[data-theme="light"] .category-card,body[data-theme="light"] .stat-mini{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .section-alt{background:rgba(0,0,0,0.03)!important}
+          body[data-theme="light"] .section-tag{background:rgba(138,94,16,0.1)!important;color:#8a5e10!important;border-color:rgba(138,94,16,0.2)!important}
+          body[data-theme="light"] .how-tabs{background:rgba(0,0,0,0.05)!important}
+          body[data-theme="light"] .tab-btn{color:#3a3520!important}
+          body[data-theme="light"] .tab-btn.active{background:#f5f0e8!important;color:#8a5e10!important;box-shadow:none!important}
+          body[data-theme="light"] .step-number{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.25)!important;color:#8a5e10!important}
+          body[data-theme="light"] footer{background:#e8e2d0!important;border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .footer-bottom{border-color:rgba(138,94,16,0.12)!important}
+          body[data-theme="light"] .mobile-menu{background:#f5f0e8!important;border-color:rgba(138,94,16,0.2)!important}
+          body[data-theme="light"] .mobile-menu a{color:#1a1a0f!important;border-color:rgba(138,94,16,0.1)!important}
+          body[data-theme="light"] .hamburger span{background:#8a5e10!important}
+          body[data-theme="light"] .info-modal-box{background:#f0ece0!important;border-color:rgba(138,94,16,0.2)!important}
+          body[data-theme="light"] .verif-step-body p{color:#3a3520!important}
+          body[data-theme="light"] .verif-step-num{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.25)!important;color:#8a5e10!important}
+          body[data-theme="light"] input,body[data-theme="light"] select{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
+          body[data-theme="light"] #as-theme-btn{border-color:rgba(138,94,16,0.35)!important}
+        `;
+      } else {
+        if (s) s.textContent = '';
+        document.body.style.backgroundColor = '';
+      }
+    }
+    // Apply on load
+    applyTheme(localStorage.getItem('as_theme') || 'dark');
+  </script>
 </body>
 </html>

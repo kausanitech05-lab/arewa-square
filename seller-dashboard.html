@@ -305,7 +305,7 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="font-size:1.1rem;">☀️</button>
+        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn">🔔</button>
         <button class="btn-add-product" onclick="openProductModal(null)">+ Add Product</button>
       </div>
@@ -864,91 +864,274 @@
 
   </script>
 
-  <!-- ══ AREWA SQUARE THEME ENGINE ══ -->
+  <!-- ══ REAL DATA LOADER ══ -->
   <script>
-    const _AS_LIGHT = {
-      '--green-deep':'#f5f0e8','--green-mid':'#e8e2d0','--green-light':'#d4ccb4',
-      '--gold':'#8a5e10','--gold-light':'#6b4a0d','--gold-dim':'#a07020',
-      '--emerald':'#1a7a3c','--emerald-dim':'#145c2d',
-      '--white':'#1a1a0f','--white-dim':'#3a3520','--dark':'#f5f0e8',
-      '--bg':'#f5f0e8','--danger':'#c0392b','--warn':'#d68910','--whatsapp':'#1a9e4c',
-      '--card-bg':'rgba(0,0,0,0.05)','--border':'rgba(138,94,16,0.2)',
-      '--input-bg':'rgba(0,0,0,0.05)','--input-border':'rgba(138,94,16,0.25)',
-    };
-    const _AS_DARK = {
-      '--green-deep':'#0d2b1f','--green-mid':'#1a4a30','--green-light':'#2a6645',
-      '--gold':'#c9a84c','--gold-light':'#e8c97a','--gold-dim':'#8a6e2f',
-      '--emerald':'#2ecc71','--emerald-dim':'#1a7a45',
-      '--white':'#f5f0e8','--white-dim':'#c8bfa8','--dark':'#080f0b',
-      '--bg':'#070d0a','--danger':'#e74c3c','--warn':'#f39c12','--whatsapp':'#25D366',
-      '--card-bg':'rgba(255,255,255,0.04)','--border':'rgba(201,168,76,0.15)',
-      '--input-bg':'rgba(255,255,255,0.05)','--input-border':'rgba(201,168,76,0.2)',
-    };
+    // ── AUTH GUARD ──
+    (function() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'seller') {
+        window.location.href = 'auth.html';
+        return;
+      }
+    })();
 
-    function _asApply(theme) {
-      const vars = theme === 'light' ? _AS_LIGHT : _AS_DARK;
-      const root = document.documentElement;
-      Object.entries(vars).forEach(([k,v]) => root.style.setProperty(k,v));
-      document.body.setAttribute('data-theme', theme);
-      document.body.style.backgroundColor = theme === 'light' ? '#f5f0e8' : '';
+    // ── LOAD REAL SELLER DATA ──
+    (function loadSellerData() {
+      try {
+        const user   = JSON.parse(localStorage.getItem('as_user')   || '{}');
+        const seller = JSON.parse(localStorage.getItem('as_seller') || '{}');
 
-      // Update all toggle buttons on page
-      document.querySelectorAll('.as-theme-btn').forEach(btn => {
-        btn.textContent = theme === 'light' ? '🌙' : '☀️';
-        btn.title = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-      });
+        // Topbar
+        const pageSub = document.getElementById('page-sub');
+        if (pageSub) {
+          if (seller.shopNumber) {
+            pageSub.textContent = seller.shopNumber + ' — ' + (seller.businessName || '');
+          } else {
+            pageSub.textContent = 'Pending Verification';
+          }
+        }
 
-      // Inject/remove light CSS overrides
-      let s = document.getElementById('_as_light_css');
-      if (theme === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light_css'; document.head.appendChild(s); }
-        s.textContent = `
-          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"]::before{background-image:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px),repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px)!important}
-          body[data-theme="light"] nav,body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .sidebar{background:rgba(245,240,232,0.99)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .hero{background:linear-gradient(135deg,#e8e2d0,#f5f0e8,#e0d8c4)!important}
-          body[data-theme="light"] .step-card,body[data-theme="light"] .feature-card,body[data-theme="light"] .trust-card,body[data-theme="light"] .shop-card,body[data-theme="light"] .category-card,body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card,body[data-theme="light"] .auth-card,body[data-theme="light"] .auth-box,body[data-theme="light"] .highlight-box{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .table-wrap{background:rgba(0,0,0,0.03)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] thead th{color:#8a5e10!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] tbody td{color:#3a3520!important;border-color:rgba(138,94,16,0.06)!important}
-          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
-          body[data-theme="light"] input::placeholder,body[data-theme="light"] textarea::placeholder{color:rgba(26,26,15,0.4)!important}
-          body[data-theme="light"] select option{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"] .nav-item{color:#3a3520!important}
-          body[data-theme="light"] .nav-item:hover,body[data-theme="light"] .nav-item.active{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
-          body[data-theme="light"] .section-tag{background:rgba(138,94,16,0.1)!important;color:#8a5e10!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .how-tabs{background:rgba(0,0,0,0.05)!important}
-          body[data-theme="light"] .tab-btn{color:#3a3520!important}
-          body[data-theme="light"] .tab-btn.active{background:#f5f0e8!important;color:#8a5e10!important}
-          body[data-theme="light"] footer,body[data-theme="light"] .footer{background:#e8e2d0!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .mobile-menu{background:#f5f0e8!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .mobile-menu a{color:#1a1a0f!important;border-color:rgba(138,94,16,0.1)!important}
-          body[data-theme="light"] .hamburger span,.hamburger-btn span{background:#8a5e10!important}
-          body[data-theme="light"] .modal{background:#f0ece0!important}
-          body[data-theme="light"] .as-toast{background:#f0ece0!important;color:#1a1a0f!important}
-          body[data-theme="light"] .shop-num-pill{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.3)!important}
-          body[data-theme="light"] .logout-btn{color:#3a3520!important}
-          body[data-theme="light"] .sidebar-footer{border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .topbar-btn{background:rgba(0,0,0,0.05)!important;border-color:rgba(138,94,16,0.15)!important;color:#3a3520!important}
-          body[data-theme="light"] .nav-section-label{color:#a07020!important}
-          body[data-theme="light"] .doc-section p,body[data-theme="light"] .doc-section li{color:#3a3520!important}
-          body[data-theme="light"] .warning-box{background:rgba(192,57,43,0.06)!important}
-          body[data-theme="light"] .as-theme-btn{border-color:rgba(138,94,16,0.3)!important}
-        `;
-      } else {
-        if (s) s.textContent = '';
+        // Topbar title
+        const pageTitle = document.getElementById('page-title');
+        if (pageTitle) pageTitle.textContent = user.fullName || 'My Dashboard';
+
+        // Sidebar shop badge
+        const shopNumDisplay = document.querySelector('.shop-num-display');
+        if (shopNumDisplay) shopNumDisplay.textContent = seller.shopNumber || 'Pending';
+
+        const shopNameDisplay = document.querySelector('.shop-name-display');
+        if (shopNameDisplay) shopNameDisplay.textContent = seller.businessName || '';
+
+        const verifiedTag = document.querySelector('.verified-tag');
+        if (verifiedTag) {
+          if (seller.status === 'approved') {
+            verifiedTag.textContent = '✅ Verified Seller';
+            verifiedTag.style.color = 'var(--emerald)';
+          } else {
+            verifiedTag.textContent = '⏳ Pending Verification';
+            verifiedTag.style.color = 'var(--warn)';
+          }
+        }
+
+        // Profile section
+        const profileName = document.getElementById('profile-name');
+        if (profileName) profileName.textContent = user.fullName || '';
+        const profileBiz = document.getElementById('profile-biz');
+        if (profileBiz) profileBiz.textContent = seller.businessName || '';
+        const profileCat = document.getElementById('profile-cat');
+        if (profileCat) profileCat.textContent = seller.category || '';
+        const profileState = document.getElementById('profile-state');
+        if (profileState) profileState.textContent = seller.state || '';
+        const profilePhone = document.getElementById('profile-phone');
+        if (profilePhone) profilePhone.textContent = user.phone || '';
+        const profileEmail = document.getElementById('profile-email');
+        if (profileEmail) profileEmail.textContent = user.email || '';
+        const profileAddr = document.getElementById('profile-address');
+        if (profileAddr) profileAddr.textContent = seller.address || '';
+
+        // My shop section
+        const myShopNum = document.getElementById('my-shop-number');
+        if (myShopNum) myShopNum.textContent = seller.shopNumber || 'Pending';
+        const myShopName = document.getElementById('my-shop-name');
+        if (myShopName) myShopName.textContent = seller.businessName || '';
+        const myShopCat = document.getElementById('my-shop-category');
+        if (myShopCat) myShopCat.textContent = seller.category || '';
+
+        // Large shop number in dashboard
+        document.querySelectorAll('.stat-shop-num').forEach(el => {
+          el.textContent = seller.shopNumber || 'Pending';
+        });
+
+      } catch(e) { console.warn('Could not load seller data:', e); }
+    })();
+
+    // ── LOAD REAL PRODUCTS FROM API ──
+    async function loadRealProducts() {
+      try {
+        const token = localStorage.getItem('as_token');
+        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/products/mine', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (!res.ok) return;
+
+        const apiProducts = (data.products || []).map(p => ({
+          id:    p._id,
+          name:  p.name,
+          price: '₦' + Number(p.price).toLocaleString(),
+          cat:   p.category,
+          stock: p.inStock ? 'In Stock' : 'Out of Stock',
+          img:   p.images?.[0] || '📦',
+          icon:  '📦',
+        }));
+
+        // Replace demo products with real ones
+        if (apiProducts.length > 0) {
+          products.length = 0;
+          apiProducts.forEach(p => products.push(p));
+          if (typeof renderProducts === 'function') renderProducts();
+        }
+
+        // Update product count stat
+        const statProducts = document.getElementById('stat-products');
+        if (statProducts) statProducts.textContent = apiProducts.length;
+
+      } catch(e) { console.warn('Could not load products:', e); }
+    }
+
+    // ── SAVE PRODUCT TO API ──
+    async function saveProduct() {
+      const name  = document.getElementById('prod-name')?.value.trim();
+      const price = document.getElementById('prod-price')?.value.trim();
+      const desc  = document.getElementById('prod-desc')?.value.trim() || '';
+      const cat   = document.getElementById('prod-cat')?.value.trim()  || '';
+
+      if (!name)  { showToast('Please enter a product name', 'error');  return; }
+      if (!price) { showToast('Please enter a product price', 'error'); return; }
+
+      try {
+        const token = localStorage.getItem('as_token');
+        const fd = new FormData();
+        fd.append('name',        name);
+        fd.append('price',       price);
+        fd.append('description', desc);
+        fd.append('category',    cat || 'Other');
+
+        const imgs = document.getElementById('prod-imgs')?.files;
+        if (imgs) Array.from(imgs).forEach(f => fd.append('images', f));
+
+        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/products', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token },
+          body: fd
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to save product', 'error'); return; }
+
+        showToast('Product saved successfully! ✅', 'success');
+        document.getElementById('product-modal').classList.remove('open');
+        loadRealProducts();
+
+      } catch(e) {
+        showToast('Connection error. Try again.', 'error');
       }
     }
 
-    function toggleTheme() {
-      const next = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', next);
-      _asApply(next);
+    // ── LOAD REAL ORDERS FROM API ──
+    async function loadRealOrders() {
+      try {
+        const token = localStorage.getItem('as_token');
+        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/orders/seller', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (!res.ok) return;
+
+        const apiOrders = (data.orders || []).map(o => ({
+          id:      o.orderId,
+          buyer:   o.buyer?.fullName || 'Unknown Buyer',
+          phone:   o.buyer?.phone   || '',
+          items:   o.items?.map(i => i.name).join(', ') || '',
+          total:   '₦' + Number(o.total).toLocaleString(),
+          status:  o.status.charAt(0).toUpperCase() + o.status.slice(1),
+          date:    new Date(o.createdAt).toLocaleDateString('en-GB'),
+          rawId:   o._id,
+        }));
+
+        // Update stats
+        const newCount  = apiOrders.filter(o => o.status === 'New').length;
+        const totalVal  = data.orders.reduce((s, o) => s + o.total, 0);
+
+        const statNew   = document.getElementById('stat-new-orders');
+        const statTotal = document.getElementById('stat-total-orders');
+        const statVal   = document.getElementById('stat-order-value');
+
+        if (statNew)   statNew.textContent   = newCount;
+        if (statTotal) statTotal.textContent  = data.orders.length;
+        if (statVal)   statVal.textContent    = '₦' + totalVal.toLocaleString();
+
+        // Update order badge in nav
+        const badge = document.getElementById('orders-badge');
+        if (badge && newCount > 0) {
+          badge.textContent = newCount;
+          badge.style.display = 'inline';
+        }
+
+        // Replace demo orders
+        if (apiOrders.length > 0 && typeof liveOrders !== 'undefined') {
+          liveOrders.length = 0;
+          apiOrders.forEach(o => liveOrders.push(o));
+          if (typeof refreshOrders === 'function') refreshOrders();
+        }
+
+      } catch(e) { console.warn('Could not load orders:', e); }
     }
 
-    // Apply on load immediately
-    _asApply(localStorage.getItem('as_theme') || 'dark');
+    // ── CONFIRM ORDER VIA API ──
+    async function confirmOrder(idx) {
+      const order = liveOrders[idx];
+      if (!order) return;
+      try {
+        const token = localStorage.getItem('as_token');
+        await fetch('https://arewa-square-api-production.up.railway.app/api/orders/' + order.rawId + '/confirm', {
+          method: 'PUT',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        liveOrders[idx].status = 'Confirmed';
+        showToast('Order confirmed! ✅', 'success');
+        refreshOrders();
+      } catch(e) {
+        showToast('Connection error. Try again.', 'error');
+      }
+    }
+
+    // ── LOGOUT ──
+    function logoutUser() {
+      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
+      window.location.href = 'auth.html';
+    }
+
+    // ── THEME ──
+    function toggleTheme() {
+      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('as_theme', t);
+      applyTheme(t);
+    }
+    function applyTheme(t) {
+      document.querySelectorAll('.as-theme-btn').forEach(b => {
+        b.textContent = t === 'light' ? '🌙' : '☀️';
+      });
+      document.body.setAttribute('data-theme', t);
+      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
+      let s = document.getElementById('_as_light');
+      if (t === 'light') {
+        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
+        s.textContent = `
+          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
+          body[data-theme="light"] .sidebar{background:rgba(245,240,232,0.99)!important;border-color:rgba(138,94,16,0.2)!important}
+          body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
+          body[data-theme="light"] .nav-item{color:#3a3520!important}
+          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
+          body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card,body[data-theme="light"] .table-wrap{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .topbar-btn{background:rgba(0,0,0,0.05)!important;border-color:rgba(138,94,16,0.15)!important;color:#3a3520!important}
+          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
+          body[data-theme="light"] tbody td{color:#3a3520!important}
+          body[data-theme="light"] thead th{color:#8a5e10!important;border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .modal{background:#f0ece0!important}
+          body[data-theme="light"] .sidebar-footer{border-color:rgba(138,94,16,0.15)!important}
+          body[data-theme="light"] .logout-btn{color:#3a3520!important}
+          body[data-theme="light"] .shop-num-display{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.3)!important}
+        `;
+      } else { if(s) s.textContent=''; document.body.style.backgroundColor=''; }
+    }
+    applyTheme(localStorage.getItem('as_theme') || 'dark');
+
+    // ── RUN ON LOAD ──
+    document.addEventListener('DOMContentLoaded', function() {
+      loadRealProducts();
+      loadRealOrders();
+    });
   </script>
 
 </body>
