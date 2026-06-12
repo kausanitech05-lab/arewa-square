@@ -8,26 +8,22 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg:         #070d0a;
-      --bg2:        #0d1a12;
-      --green-mid:  #1a4a30;
-      --gold:       #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-dim:   #8a6e2f;
-      --emerald:    #2ecc71;
-      --em-dim:     #1a7a45;
-      --white:      #f5f0e8;
-      --white-dim:  #c8bfa8;
-      --danger:     #e74c3c;
-      --warn:       #f39c12;
-      --sidebar-w:  256px;
-      --card:       rgba(255,255,255,0.04);
-      --border:     rgba(201,168,76,0.15);
+      --green-deep:   #0a1628;
+      --green-mid:    #0f2040;
+      --green-light:  #1a3a6e;
+      --gold:         #FFD700;
+      --gold-light:   #FFE55C;
+      --gold-dim:     #B8860B;
+      --emerald:      #4FC3F7;
+      --emerald-dim:  #0288D1;
+      --white:        #f0f4ff;
+      --white-dim:    #a8b8d8;
+      --dark:         #060d1a;
     }
     body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--white); min-height:100vh; display:flex; }
     body::before {
       content:''; position:fixed; inset:0;
-      background: radial-gradient(ellipse at 20% 50%, rgba(26,74,48,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.05) 0%, transparent 50%);
+      background: radial-gradient(ellipse at 20% 50%, rgba(15,32,64,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255,215,0,0.05) 0%, transparent 50%);
       pointer-events:none; z-index:0;
     }
 
@@ -38,7 +34,7 @@
     .sidebar-logo img { width:34px; height:34px; object-fit:contain; }
     .sidebar-logo-text span:first-child { display:block; font-family:'Cinzel',serif; font-size:0.82rem; font-weight:700; color:var(--gold); letter-spacing:1.5px; }
     .sidebar-logo-text span:last-child { display:block; font-size:0.58rem; color:var(--white-dim); letter-spacing:1px; text-transform:uppercase; }
-    .admin-badge { margin:12px; padding:10px 14px; background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-radius:7px; display:flex; align-items:center; gap:10px; }
+    .admin-badge { margin:12px; padding:10px 14px; background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.2); border-radius:7px; display:flex; align-items:center; gap:10px; }
     .admin-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,var(--green-mid),var(--gold-dim)); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; color:var(--gold); font-family:'Cinzel',serif; flex-shrink:0; }
     .admin-badge span:first-of-type { display:block; font-size:0.78rem; font-weight:700; color:var(--white); }
     .admin-badge span:last-of-type { display:block; font-size:0.65rem; color:var(--gold); font-weight:700; }
@@ -46,8 +42,8 @@
     .sidebar-nav { flex:1; padding:8px 0; overflow-y:auto; }
     .nav-section-label { padding:10px 18px 4px; font-size:0.6rem; font-weight:700; color:var(--gold-dim); letter-spacing:2px; text-transform:uppercase; }
     .nav-item { display:flex; align-items:center; gap:10px; padding:10px 18px; cursor:pointer; transition:all 0.25s; border-left:2px solid transparent; color:var(--white-dim); font-size:0.83rem; font-weight:600; text-decoration:none; }
-    .nav-item:hover { background:rgba(201,168,76,0.07); color:var(--white); border-left-color:var(--gold-dim); }
-    .nav-item.active { background:rgba(201,168,76,0.1); color:var(--gold); border-left-color:var(--gold); }
+    .nav-item:hover { background:rgba(255,215,0,0.07); color:var(--white); border-left-color:var(--gold-dim); }
+    .nav-item.active { background:rgba(255,215,0,0.1); color:var(--gold); border-left-color:var(--gold); }
     .nav-item .nav-icon { font-size:0.95rem; min-width:18px; text-align:center; }
     .nav-badge { margin-left:auto; background:var(--danger); color:#fff; font-size:0.62rem; font-weight:800; padding:2px 7px; border-radius:10px; }
 
@@ -75,7 +71,7 @@
     .stat-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; transition:all 0.3s; }
     .stat-card:hover { border-color:var(--gold-dim); transform:translateY(-2px); }
     .stat-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-    .stat-icon { width:38px; height:38px; border-radius:7px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); display:flex; align-items:center; justify-content:center; font-size:1rem; }
+    .stat-icon { width:38px; height:38px; border-radius:7px; background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.2); display:flex; align-items:center; justify-content:center; font-size:1rem; }
     .stat-trend-up { font-size:0.7rem; font-weight:700; color:var(--emerald); }
     .stat-trend-warn { font-size:0.7rem; font-weight:700; color:var(--warn); }
     .stat-num { font-family:'Cinzel',serif; font-size:1.7rem; font-weight:700; color:var(--white); display:block; }
@@ -89,31 +85,31 @@
     table { width:100%; border-collapse:collapse; min-width:600px; }
     thead th { text-align:left; padding:12px 16px; font-size:0.68rem; font-weight:700; color:var(--gold-dim); text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--border); white-space:nowrap; }
     tbody td { padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8rem; color:var(--white-dim); vertical-align:middle; }
-    tbody tr:hover td { background:rgba(201,168,76,0.025); }
+    tbody tr:hover td { background:rgba(255,215,0,0.025); }
     tbody tr:last-child td { border-bottom:none; }
 
     /* Status badges */
     .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.65rem; font-weight:700; }
     .badge.pending  { background:rgba(243,156,18,0.12); color:var(--warn); border:1px solid rgba(243,156,18,0.25); }
-    .badge.approved { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
-    .badge.active   { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .badge.approved { background:rgba(79,195,247,0.1); color:var(--emerald); border:1px solid rgba(79,195,247,0.2); }
+    .badge.active   { background:rgba(79,195,247,0.1); color:var(--emerald); border:1px solid rgba(79,195,247,0.2); }
     .badge.rejected { background:rgba(231,76,60,0.1); color:var(--danger); border:1px solid rgba(231,76,60,0.2); }
     .badge.suspended{ background:rgba(231,76,60,0.1); color:var(--danger); border:1px solid rgba(231,76,60,0.2); }
     .badge.open     { background:rgba(243,156,18,0.12); color:var(--warn); border:1px solid rgba(243,156,18,0.25); }
-    .badge.resolved { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .badge.resolved { background:rgba(79,195,247,0.1); color:var(--emerald); border:1px solid rgba(79,195,247,0.2); }
     .badge.vacant   { background:rgba(255,255,255,0.05); color:var(--white-dim); border:1px solid rgba(255,255,255,0.1); }
 
     /* Shop number pill */
-    .shop-num-pill { display:inline-block; background:rgba(201,168,76,0.12); border:1px solid var(--gold-dim); border-radius:4px; padding:2px 8px; font-family:'Cinzel',serif; font-size:0.72rem; font-weight:700; color:var(--gold); }
+    .shop-num-pill { display:inline-block; background:rgba(255,215,0,0.12); border:1px solid var(--gold-dim); border-radius:4px; padding:2px 8px; font-family:'Cinzel',serif; font-size:0.72rem; font-weight:700; color:var(--gold); }
 
     /* Action buttons */
     .act-btn { padding:5px 12px; border-radius:4px; font-family:'Nunito',sans-serif; font-size:0.7rem; font-weight:700; cursor:pointer; transition:all 0.3s; border:1px solid; }
-    .act-btn.approve { background:rgba(46,204,113,0.1); border-color:rgba(46,204,113,0.3); color:var(--emerald); }
+    .act-btn.approve { background:rgba(79,195,247,0.1); border-color:rgba(79,195,247,0.3); color:var(--emerald); }
     .act-btn.approve:hover { background:var(--emerald); color:var(--bg); }
     .act-btn.reject  { background:rgba(231,76,60,0.08); border-color:rgba(231,76,60,0.25); color:var(--danger); }
     .act-btn.reject:hover  { background:var(--danger); color:#fff; }
-    .act-btn.view    { background:rgba(201,168,76,0.08); border-color:var(--gold-dim); color:var(--gold); }
-    .act-btn.view:hover    { background:rgba(201,168,76,0.15); }
+    .act-btn.view    { background:rgba(255,215,0,0.08); border-color:var(--gold-dim); color:var(--gold); }
+    .act-btn.view:hover    { background:rgba(255,215,0,0.15); }
     .act-btn.suspend { background:rgba(243,156,18,0.08); border-color:rgba(243,156,18,0.25); color:var(--warn); }
     .act-btn.suspend:hover { background:rgba(243,156,18,0.15); }
     .act-btn.remove  { background:rgba(231,76,60,0.08); border-color:rgba(231,76,60,0.25); color:var(--danger); }
@@ -122,10 +118,10 @@
 
     /* Filters/search */
     .table-toolbar { display:flex; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
-    .table-search { flex:1; min-width:180px; padding:9px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(201,168,76,0.2); border-radius:5px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.82rem; outline:none; }
+    .table-search { flex:1; min-width:180px; padding:9px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,215,0,0.2); border-radius:5px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.82rem; outline:none; }
     .table-search:focus { border-color:var(--gold); }
     .table-search::placeholder { color:rgba(200,191,168,0.35); }
-    .filter-select { padding:9px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(201,168,76,0.2); border-radius:5px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.82rem; outline:none; cursor:pointer; appearance:none; padding-right:28px; }
+    .filter-select { padding:9px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,215,0,0.2); border-radius:5px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.82rem; outline:none; cursor:pointer; appearance:none; padding-right:28px; }
     .filter-select option { background:var(--bg); }
 
     /* Analytics bars */
@@ -144,7 +140,7 @@
     .form-group label { display:block; font-size:0.72rem; font-weight:700; color:var(--white-dim); margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase; }
     .form-group input, .form-group textarea, .form-group select {
       width:100%; padding:10px 13px; background:rgba(255,255,255,0.05);
-      border:1px solid rgba(201,168,76,0.2); border-radius:5px; color:var(--white);
+      border:1px solid rgba(255,215,0,0.2); border-radius:5px; color:var(--white);
       font-family:'Nunito',sans-serif; font-size:0.83rem; outline:none; appearance:none;
     }
     .form-group input:focus, .form-group textarea:focus { border-color:var(--gold); }
@@ -183,7 +179,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <a href="index.html">
-        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
+        <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
         <div class="sidebar-logo-text">
           <span>AREWA SQUARE</span>
           <span>Admin Control Panel</span>
@@ -233,10 +229,9 @@
         <h1 id="page-title">Admin Dashboard</h1>
       </div>
       <div class="topbar-right">
-        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn">🔔</button>
         <button class="topbar-btn" onclick="showToast('Admin profile settings...','info')">⚙️</button>
-        <a href="index.html" style="padding:7px 14px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);border-radius:5px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:700;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(201,168,76,0.2)'" onmouseout="this.style.background='rgba(201,168,76,0.1)'">← View Site</a>
+        <a href="index.html" style="padding:7px 14px;background:rgba(255,215,0,0.1);border:1px solid var(--gold-dim);border-radius:5px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:700;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,215,0,0.2)'" onmouseout="this.style.background='rgba(255,215,0,0.1)'">← View Site</a>
       </div>
     </div>
 
@@ -343,7 +338,7 @@
 
     <!-- ══ SHOP NUMBERS ══ -->
     <section class="page-section" id="sec-shop-numbers">
-      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start;">
+      <div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start;">
         <span style="font-size:1.1rem;">🔒</span>
         <div>
           <p style="font-size:0.83rem;font-weight:700;color:var(--gold);margin-bottom:3px;">Shop Number Registry</p>
@@ -592,15 +587,15 @@
       type = type || 'info';
       var existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#c9a84c', warning: '#f39c12' };
+      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       var toast = document.createElement('div');
       toast.className = 'as-toast';
       toast.innerHTML = '<span>' + icons[type] + '</span><span>' + message + '</span>';
       Object.assign(toast.style, {
         position:'fixed', bottom:'28px', right:'28px', zIndex:'9999',
-        background:'#0d2b1f', border:'1px solid ' + colors[type],
-        color:'#f5f0e8', padding:'14px 20px', borderRadius:'8px',
+        background:'#0a1628', border:'1px solid ' + colors[type],
+        color:'#f0f4ff', padding:'14px 20px', borderRadius:'8px',
         fontFamily:'Nunito, sans-serif', fontSize:'0.9rem', fontWeight:'600',
         display:'flex', alignItems:'center', gap:'10px',
         boxShadow:'0 4px 24px rgba(0,0,0,0.5)', maxWidth:'340px'
@@ -610,288 +605,5 @@
     }
 
   </script>
-
-  <!-- ══ REAL DATA LOADER ══ -->
-  <script>
-    // ── AUTH GUARD ──
-    (function() {
-      const token = localStorage.getItem('as_token');
-      const role  = localStorage.getItem('as_role');
-      if (!token || role !== 'admin') {
-        window.location.href = 'auth.html';
-        return;
-      }
-    })();
-
-    const API = 'https://arewa-square-api-production.up.railway.app/api';
-
-    function getHeaders() {
-      return { 'Authorization': 'Bearer ' + localStorage.getItem('as_token'), 'Content-Type': 'application/json' };
-    }
-
-    // ── LOAD REAL STATS ──
-    async function loadRealStats() {
-      try {
-        const res  = await fetch(API + '/admin/stats', { headers: getHeaders() });
-        const data = await res.json();
-        if (!res.ok) return;
-        const s = data.stats;
-        const el = (id) => document.getElementById(id);
-        if (el('stat-buyers'))       el('stat-buyers').textContent       = s.totalBuyers       || 0;
-        if (el('stat-sellers'))      el('stat-sellers').textContent      = s.totalSellers      || 0;
-        if (el('stat-pending'))      el('stat-pending').textContent      = s.pendingApplications || 0;
-        if (el('stat-products'))     el('stat-products').textContent     = s.totalProducts     || 0;
-        if (el('stat-orders'))       el('stat-orders').textContent       = s.totalOrders       || 0;
-        if (el('stat-new-orders'))   el('stat-new-orders').textContent   = s.newOrders         || 0;
-      } catch(e) { console.warn('Stats error:', e); }
-    }
-
-    // ── LOAD REAL APPLICATIONS ──
-    async function loadRealApplications() {
-      try {
-        const res  = await fetch(API + '/admin/applications?status=pending', { headers: getHeaders() });
-        const data = await res.json();
-        if (!res.ok || !data.applications) return;
-
-        const tbody = document.getElementById('applications-tbody') || document.querySelector('.applications-table tbody');
-        if (!tbody) return;
-
-        if (data.applications.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">No pending applications</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = data.applications.map(app => `
-          <tr>
-            <td style="color:var(--white);font-weight:600;">${app.user?.fullName || ''}</td>
-            <td>${app.businessName || ''}</td>
-            <td>${app.category || ''}</td>
-            <td>${app.state || ''}</td>
-            <td>${app.user?.phone || ''}</td>
-            <td>${app.user?.email || ''}</td>
-            <td><span class="badge pending">Pending</span></td>
-            <td>
-              <div class="action-cell">
-                <button class="act-btn approve" onclick="approveApplication('${app._id}', this)">Approve</button>
-                <button class="act-btn reject"  onclick="rejectApplication('${app._id}', this)">Reject</button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
-      } catch(e) { console.warn('Applications error:', e); }
-    }
-
-    // ── LOAD REAL SELLERS ──
-    async function loadRealSellers() {
-      try {
-        const res  = await fetch(API + '/admin/sellers', { headers: getHeaders() });
-        const data = await res.json();
-        if (!res.ok || !data.sellers) return;
-
-        const tbody = document.getElementById('sellers-tbody') || document.querySelector('.sellers-table tbody');
-        if (!tbody) return;
-
-        if (data.sellers.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">No sellers yet</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = data.sellers.map(s => `
-          <tr>
-            <td><span class="shop-num-pill">${s.shopNumber || 'Pending'}</span></td>
-            <td style="color:var(--white);font-weight:600;">${s.businessName || ''}</td>
-            <td>${s.user?.fullName || ''}</td>
-            <td>${s.category || ''}</td>
-            <td>${s.state || ''}</td>
-            <td>${s.user?.phone || ''}</td>
-            <td><span class="badge ${s.status}">${s.status}</span></td>
-            <td>
-              <div class="action-cell">
-                ${s.status === 'suspended'
-                  ? `<button class="act-btn approve" onclick="reactivateSeller('${s._id}', this)">Reactivate</button>`
-                  : `<button class="act-btn reject"  onclick="suspendSeller('${s._id}', this)">Suspend</button>`
-                }
-                <button class="act-btn remove" onclick="removeSeller('${s._id}', this)">Remove</button>
-              </div>
-            </td>
-          </tr>
-        `).join('');
-      } catch(e) { console.warn('Sellers error:', e); }
-    }
-
-    // ── LOAD REAL BUYERS ──
-    async function loadRealBuyers() {
-      try {
-        const res  = await fetch(API + '/admin/buyers', { headers: getHeaders() });
-        const data = await res.json();
-        if (!res.ok || !data.buyers) return;
-
-        const tbody = document.getElementById('buyers-tbody') || document.querySelector('.buyers-table tbody');
-        if (!tbody) return;
-
-        if (data.buyers.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--white-dim);">No buyers yet</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = data.buyers.map(b => `
-          <tr>
-            <td style="color:var(--white);font-weight:600;">${b.fullName || ''}</td>
-            <td>${b.email || ''}</td>
-            <td>${b.phone || ''}</td>
-            <td>${b.state || ''}</td>
-            <td>${new Date(b.createdAt).toLocaleDateString('en-GB')}</td>
-            <td><span class="badge ${b.isActive ? 'active' : 'suspended'}">${b.isActive ? 'Active' : 'Suspended'}</span></td>
-            <td>
-              <div class="action-cell">
-                ${b.isActive
-                  ? `<button class="act-btn reject" onclick="suspendBuyer('${b._id}', this)">Suspend</button>`
-                  : `<button class="act-btn approve" onclick="reactivateBuyer('${b._id}', this)">Reactivate</button>`
-                }
-              </div>
-            </td>
-          </tr>
-        `).join('');
-      } catch(e) { console.warn('Buyers error:', e); }
-    }
-
-    // ── APPROVE APPLICATION ──
-    async function approveApplication(id, btn) {
-      showConfirm('Approve this seller application and assign a shop number?', async function() {
-        try {
-          const res  = await fetch(API + '/admin/applications/' + id + '/approve', { method: 'PUT', headers: getHeaders() });
-          const data = await res.json();
-          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-          showToast('✅ ' + data.message, 'success');
-          loadRealApplications();
-          loadRealSellers();
-          loadRealStats();
-        } catch(e) { showToast('Connection error', 'error'); }
-      });
-    }
-
-    // ── REJECT APPLICATION ──
-    function rejectApplication(id, btn) {
-      showPrompt('Rejection Reason', 'Explain why this application was not approved...', async function(reason) {
-        try {
-          const res  = await fetch(API + '/admin/applications/' + id + '/reject', {
-            method: 'PUT', headers: getHeaders(), body: JSON.stringify({ reason })
-          });
-          const data = await res.json();
-          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-          showToast('Application rejected. Seller notified.', 'warning');
-          loadRealApplications();
-        } catch(e) { showToast('Connection error', 'error'); }
-      });
-    }
-
-    // ── SUSPEND SELLER ──
-    async function suspendSeller(id, btn) {
-      showConfirm('Suspend this seller? Their shop will be hidden from buyers.', async function() {
-        try {
-          const res = await fetch(API + '/admin/sellers/' + id + '/suspend', { method: 'PUT', headers: getHeaders() });
-          const data = await res.json();
-          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-          showToast('Seller suspended.', 'warning');
-          loadRealSellers();
-        } catch(e) { showToast('Connection error', 'error'); }
-      });
-    }
-
-    // ── REACTIVATE SELLER ──
-    async function reactivateSeller(id, btn) {
-      try {
-        const res = await fetch(API + '/admin/sellers/' + id + '/reactivate', { method: 'PUT', headers: getHeaders() });
-        const data = await res.json();
-        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-        showToast('Seller reactivated! ✅', 'success');
-        loadRealSellers();
-      } catch(e) { showToast('Connection error', 'error'); }
-    }
-
-    // ── REMOVE SELLER ──
-    async function removeSeller(id, btn) {
-      showConfirm('Permanently remove this seller? Their shop number will be revoked forever.', async function() {
-        try {
-          const res = await fetch(API + '/admin/sellers/' + id, { method: 'DELETE', headers: getHeaders() });
-          const data = await res.json();
-          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-          showToast('Seller permanently removed.', 'error');
-          loadRealSellers();
-          loadRealStats();
-        } catch(e) { showToast('Connection error', 'error'); }
-      });
-    }
-
-    // ── SUSPEND BUYER ──
-    async function suspendBuyer(id, btn) {
-      showConfirm('Suspend this buyer account?', async function() {
-        try {
-          const res = await fetch(API + '/admin/buyers/' + id + '/suspend', { method: 'PUT', headers: getHeaders() });
-          const data = await res.json();
-          if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-          showToast('Buyer suspended.', 'warning');
-          loadRealBuyers();
-        } catch(e) { showToast('Connection error', 'error'); }
-      });
-    }
-
-    // ── REACTIVATE BUYER ──
-    async function reactivateBuyer(id, btn) {
-      try {
-        const res = await fetch(API + '/admin/buyers/' + id + '/reactivate', { method: 'PUT', headers: getHeaders() });
-        const data = await res.json();
-        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
-        showToast('Buyer reactivated! ✅', 'success');
-        loadRealBuyers();
-      } catch(e) { showToast('Connection error', 'error'); }
-    }
-
-    // ── LOGOUT ──
-    function logoutUser() {
-      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
-      window.location.href = 'auth.html';
-    }
-
-    // ── THEME ──
-    function toggleTheme() {
-      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', t);
-      applyTheme(t);
-    }
-    function applyTheme(t) {
-      document.querySelectorAll('.as-theme-btn').forEach(b => {
-        b.textContent = t === 'light' ? '🌙' : '☀️';
-      });
-      document.body.setAttribute('data-theme', t);
-      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
-      let s = document.getElementById('_as_light');
-      if (t === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
-        s.textContent = `
-          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"] .sidebar{background:rgba(245,240,232,0.99)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .nav-item{color:#3a3520!important}
-          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
-          body[data-theme="light"] .stat-card,body[data-theme="light"] .table-wrap{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .topbar-btn{background:rgba(0,0,0,0.05)!important;border-color:rgba(138,94,16,0.15)!important;color:#3a3520!important}
-          body[data-theme="light"] tbody td{color:#3a3520!important}
-          body[data-theme="light"] thead th{color:#8a5e10!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .shop-num-pill{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.3)!important}
-        `;
-      } else { if(s) s.textContent=''; document.body.style.backgroundColor=''; }
-    }
-    applyTheme(localStorage.getItem('as_theme') || 'dark');
-
-    // ── RUN ON LOAD ──
-    document.addEventListener('DOMContentLoaded', function() {
-      loadRealStats();
-      loadRealApplications();
-      loadRealSellers();
-      loadRealBuyers();
-    });
-  </script>
-
 </body>
 </html>

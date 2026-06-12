@@ -9,20 +9,17 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --green-deep:  #0d2b1f;
-      --green-mid:   #1a4a30;
-      --green-light: #2a6645;
-      --gold:        #c9a84c;
-      --gold-light:  #e8c97a;
-      --gold-dim:    #8a6e2f;
-      --emerald:     #2ecc71;
-      --emerald-dim: #1a7a45;
-      --white:       #f5f0e8;
-      --white-dim:   #c8bfa8;
-      --dark:        #080f0b;
-      --error:       #e74c3c;
-      --input-bg:    rgba(255,255,255,0.05);
-      --input-border:rgba(201,168,76,0.2);
+      --green-deep:   #0a1628;
+      --green-mid:    #0f2040;
+      --green-light:  #1a3a6e;
+      --gold:         #FFD700;
+      --gold-light:   #FFE55C;
+      --gold-dim:     #B8860B;
+      --emerald:      #4FC3F7;
+      --emerald-dim:  #0288D1;
+      --white:        #f0f4ff;
+      --white-dim:    #a8b8d8;
+      --dark:         #060d1a;
     }
 
     html { scroll-behavior: smooth; }
@@ -39,8 +36,8 @@
       content: '';
       position: fixed; inset: 0;
       background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.025) 40px, rgba(201,168,76,0.025) 41px),
-        repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(201,168,76,0.025) 40px, rgba(201,168,76,0.025) 41px);
+        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,215,0,0.025) 40px, rgba(255,215,0,0.025) 41px),
+        repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,215,0,0.025) 40px, rgba(255,215,0,0.025) 41px);
       pointer-events: none; z-index: 0;
     }
 
@@ -49,9 +46,9 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 5%; height: 68px;
-      background: rgba(8,15,11,0.95);
+      background: rgba(5,12,24,0.95);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(201,168,76,0.18);
+      border-bottom: 1px solid rgba(255,215,0,0.18);
     }
 
     .nav-logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
@@ -87,7 +84,7 @@
       position: sticky; top: 68px;
       height: calc(100vh - 68px);
       background: linear-gradient(160deg, var(--green-mid) 0%, var(--green-deep) 100%);
-      border-right: 1px solid rgba(201,168,76,0.15);
+      border-right: 1px solid rgba(255,215,0,0.15);
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
       padding: 60px 48px; text-align: center; overflow: hidden;
@@ -101,14 +98,14 @@
     .left-glow {
       position: absolute; top: 30%; left: 50%; transform: translateX(-50%);
       width: 360px; height: 360px;
-      background: radial-gradient(circle, rgba(46,204,113,0.1) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(79,195,247,0.1) 0%, transparent 70%);
       pointer-events: none;
     }
 
     .left-logo {
       width: 100px; height: 100px; object-fit: contain;
       margin-bottom: 28px;
-      filter: drop-shadow(0 0 24px rgba(201,168,76,0.3));
+      filter: drop-shadow(0 0 24px rgba(255,215,0,0.3));
       animation: floatLogo 4s ease-in-out infinite;
     }
 
@@ -134,7 +131,7 @@
     .trust-pill {
       display: flex; align-items: center; gap: 12px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.15);
+      border: 1px solid rgba(255,215,0,0.15);
       border-radius: 8px; padding: 12px 16px; text-align: left;
     }
 
@@ -165,7 +162,7 @@
     .page-switcher {
       display: flex; gap: 4px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.15);
+      border: 1px solid rgba(255,215,0,0.15);
       border-radius: 8px; padding: 4px; margin-bottom: 36px;
     }
 
@@ -192,12 +189,12 @@
     .type-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
 
     .type-card {
-      border: 1.5px solid rgba(201,168,76,0.2);
+      border: 1.5px solid rgba(255,215,0,0.2);
       border-radius: 8px; padding: 18px 14px; text-align: center;
       cursor: pointer; transition: all 0.3s; background: var(--input-bg);
     }
-    .type-card:hover { border-color: var(--gold-dim); background: rgba(201,168,76,0.06); }
-    .type-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+    .type-card:hover { border-color: var(--gold-dim); background: rgba(255,215,0,0.06); }
+    .type-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.1); }
     .type-card .type-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
     .type-card .type-label {
       font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 600;
@@ -214,14 +211,14 @@
 
     .step-dot {
       width: 28px; height: 28px; border-radius: 50%;
-      border: 1.5px solid rgba(201,168,76,0.3);
+      border: 1.5px solid rgba(255,215,0,0.3);
       display: flex; align-items: center; justify-content: center;
       font-size: 0.72rem; font-weight: 700; color: var(--white-dim); transition: all 0.3s;
     }
     .step-dot.done { background: var(--emerald-dim); border-color: var(--emerald); color: var(--white); }
     .step-dot.active { background: var(--gold); border-color: var(--gold); color: var(--dark); }
 
-    .step-line { flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+    .step-line { flex: 1; height: 1px; background: rgba(255,215,0,0.2); }
     .step-line.done { background: var(--emerald-dim); }
 
     /* Form fields */
@@ -248,12 +245,12 @@
     input::placeholder, textarea::placeholder { color: rgba(200,191,168,0.4); }
     input:focus, select:focus, textarea:focus {
       border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+      box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
     }
 
     select {
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FFD700' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 14px center;
       padding-right: 36px;
@@ -279,11 +276,11 @@
     .strength-label { font-size: 0.7rem; color: var(--white-dim); margin-top: 4px; text-align: right; }
 
     .file-upload {
-      border: 1.5px dashed rgba(201,168,76,0.25);
+      border: 1.5px dashed rgba(255,215,0,0.25);
       border-radius: 8px; padding: 24px; text-align: center;
       cursor: pointer; transition: all 0.3s; background: var(--input-bg);
     }
-    .file-upload:hover { border-color: var(--gold-dim); background: rgba(201,168,76,0.04); }
+    .file-upload:hover { border-color: var(--gold-dim); background: rgba(255,215,0,0.04); }
     .file-upload input { display: none; }
     .file-upload .upload-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
     .file-upload .upload-text { font-size: 0.82rem; color: var(--white-dim); line-height: 1.6; }
@@ -302,8 +299,8 @@
     .checkbox-group label a:hover { text-decoration: underline; }
 
     .notice-box {
-      background: rgba(201,168,76,0.07);
-      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(255,215,0,0.07);
+      border: 1px solid rgba(255,215,0,0.2);
       border-radius: 8px; padding: 14px 16px;
       display: flex; gap: 12px; align-items: flex-start; margin-bottom: 20px;
     }
@@ -319,7 +316,7 @@
       font-size: 0.95rem; font-weight: 800; cursor: pointer;
       transition: all 0.3s; letter-spacing: 0.5px; margin-bottom: 12px;
     }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(201,168,76,0.25); }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,215,0,0.25); }
     .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .btn-secondary {
@@ -361,7 +358,7 @@
     }
     .success-icon {
       width: 80px; height: 80px;
-      background: rgba(46,204,113,0.12);
+      background: rgba(79,195,247,0.12);
       border: 2px solid var(--emerald); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 2.2rem; margin: 0 auto 24px;
@@ -374,7 +371,7 @@
 
     .shop-number-preview {
       display: inline-block;
-      background: rgba(201,168,76,0.1);
+      background: rgba(255,215,0,0.1);
       border: 1px solid var(--gold-dim);
       border-radius: 8px; padding: 16px 32px;
       font-family: 'Cinzel', serif; font-size: 1.2rem;
@@ -404,10 +401,7 @@
         <span>Northern Nigeria's Marketplace</span>
       </div>
     </a>
-    <div style="display:flex;align-items:center;gap:10px;">
-      <button id="as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="width:36px;height:36px;border-radius:6px;background:transparent;border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.3s;">☀️</button>
-      <a href="index.html" class="nav-back">← Back to Home</a>
-    </div>
+    <a href="index.html" class="nav-back">← Back to Home</a>
   </nav>
 
   <!-- MAIN LAYOUT -->
@@ -419,7 +413,7 @@
       <svg class="left-star" viewBox="0 0 200 200" fill="white" xmlns="http://www.w3.org/2000/svg">
         <path d="M100 0 L112 44 L154 18 L130 58 L176 62 L144 90 L164 132 L122 118 L100 158 L78 118 L36 132 L56 90 L24 62 L70 58 L46 18 L88 44 Z"/>
       </svg>
-      <img src="./logo.png" class="left-logo" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="arewa.png" class="left-logo" alt="Logo" onerror="this.style.display='none'"/>
       <h2>Join <span>AREWA</span><br/>SQUARE Today</h2>
       <p>The trusted digital marketplace of Northern Nigeria. Every seller is verified. Every shop has a permanent number.</p>
       <div class="trust-pills">
@@ -501,38 +495,36 @@
             <div class="form-row">
               <div class="form-group">
                 <label>First Name <span class="required">*</span></label>
-                <input type="text" id="buyer-firstname" name="buyer-firstname" placeholder="Abubakar"/>
+                <input type="text" placeholder="Abubakar"/>
               </div>
               <div class="form-group">
                 <label>Last Name <span class="required">*</span></label>
-                <input type="text" id="buyer-lastname" name="buyer-lastname" placeholder="Musa"/>
+                <input type="text" placeholder="Musa"/>
               </div>
             </div>
             <div class="form-group">
               <label>Email Address <span class="required">*</span></label>
-              <input type="email" id="buyer-email" name="buyer-email" placeholder="abubakar@email.com"/>
+              <input type="email" placeholder="abubakar@email.com"/>
             </div>
             <div class="form-group">
               <label>Phone Number <span class="required">*</span></label>
-              <input type="tel" id="buyer-phone" name="buyer-phone" placeholder="080XXXXXXXX"/>
+              <input type="tel" placeholder="080XXXXXXXX"/>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label>State <span class="required">*</span></label>
-                <select id="buyer-state" name="buyer-state">
+                <select>
                   <option value="">Select State</option>
-                  <option>Abuja</option><option>Adamawa</option><option>Bauchi</option>
-                  <option>Benue</option><option>Borno</option><option>Gombe</option>
-                  <option>Jigawa</option><option>Kaduna</option><option>Kano</option>
-                  <option>Katsina</option><option>Kebbi</option><option>Kogi</option>
-                  <option>Kwara</option><option>Nasarawa</option><option>Niger</option>
-                  <option>Plateau</option><option>Sokoto</option><option>Taraba</option>
-                  <option>Yobe</option><option>Zamfara</option>
+                  <option>Kano</option><option>Kaduna</option><option>Katsina</option>
+                  <option>Sokoto</option><option>Zamfara</option><option>Kebbi</option>
+                  <option>Jigawa</option><option>Bauchi</option><option>Gombe</option>
+                  <option>Yobe</option><option>Borno</option><option>Adamawa</option>
+                  <option>Niger</option><option>Other</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="buyer-city">LGA / Area</label>
-                <input type="text" id="buyer-city" name="buyer-city" placeholder="e.g. Nassarawa"/>
+                <label>LGA / Area</label>
+                <input type="text" placeholder="e.g. Nassarawa"/>
               </div>
             </div>
             <div class="form-group">
@@ -556,7 +548,7 @@
             </div>
             <div class="checkbox-group">
               <input type="checkbox" id="buyer-terms"/>
-              <label for="buyer-terms">I agree to the <a href="./terms.html" target="_blank" style="color:var(--gold);">Terms of Use</a> and <a href="./privacy.html" target="_blank" style="color:var(--gold);">Privacy Policy</a> of AREWA SQUARE</label>
+              <label for="buyer-terms">I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> of AREWA SQUARE</label>
             </div>
             <button class="btn-primary" onclick="completeBuyerReg()">Create Buyer Account</button>
             <button class="btn-secondary" onclick="goToStep('type')">← Back</button>
@@ -576,64 +568,57 @@
             <div class="form-row">
               <div class="form-group">
                 <label>Full Name <span class="required">*</span></label>
-                <input type="text" id="seller-name" name="seller-name" placeholder="Your full name"/>
+                <input type="text" placeholder="Your full name"/>
               </div>
               <div class="form-group">
                 <label>Business Name <span class="required">*</span></label>
-                <input type="text" id="seller-bizname" name="seller-bizname" placeholder="e.g. Zainab Footwear"/>
+                <input type="text" placeholder="e.g. Zainab Footwear"/>
               </div>
             </div>
             <div class="form-group">
               <label>Business Category <span class="required">*</span></label>
-              <select id="seller-category" name="seller-category">
+              <select>
                 <option value="">Select a category</option>
-                <option value="Shoes">👟 Shoes</option>
-                <option value="Fashion & Clothing">👕 Fashion & Clothing</option>
-                <option value="Phones & Accessories">📱 Phones & Accessories</option>
-                <option value="Electronics">💻 Electronics</option>
-                <option value="Food & Groceries">🥘 Food & Groceries</option>
-                <option value="Home & Furniture">🏠 Home & Furniture</option>
-                <option value="Health & Beauty">💊 Health & Beauty</option>
-                <option value="Services">🔧 Services</option>
-                <option value="Other">📦 Other</option>
+                <option>👟 Shoes</option><option>👕 Fashion & Clothing</option>
+                <option>📱 Phones & Accessories</option><option>💻 Electronics</option>
+                <option>🥘 Food & Groceries</option><option>🏠 Home & Furniture</option>
+                <option>💊 Health & Beauty</option><option>🔧 Services</option><option>Other</option>
               </select>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label>Phone Number <span class="required">*</span></label>
-                <input type="tel" id="seller-phone" name="seller-phone" placeholder="080XXXXXXXX"/>
+                <input type="tel" placeholder="080XXXXXXXX"/>
               </div>
               <div class="form-group">
                 <label>WhatsApp Number <span class="required">*</span></label>
-                <input type="tel" id="seller-whatsapp" name="seller-whatsapp" placeholder="080XXXXXXXX"/>
+                <input type="tel" placeholder="080XXXXXXXX"/>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label>State <span class="required">*</span></label>
-                <select id="seller-state" name="seller-state">
+                <select>
                   <option value="">Select State</option>
-                  <option>Abuja</option><option>Adamawa</option><option>Bauchi</option>
-                  <option>Benue</option><option>Borno</option><option>Gombe</option>
-                  <option>Jigawa</option><option>Kaduna</option><option>Kano</option>
-                  <option>Katsina</option><option>Kebbi</option><option>Kogi</option>
-                  <option>Kwara</option><option>Nasarawa</option><option>Niger</option>
-                  <option>Plateau</option><option>Sokoto</option><option>Taraba</option>
-                  <option>Yobe</option><option>Zamfara</option>
+                  <option>Kano</option><option>Kaduna</option><option>Katsina</option>
+                  <option>Sokoto</option><option>Zamfara</option><option>Kebbi</option>
+                  <option>Jigawa</option><option>Bauchi</option><option>Gombe</option>
+                  <option>Yobe</option><option>Borno</option><option>Adamawa</option>
+                  <option>Niger</option><option>Other</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="seller-lga">LGA <span class="required">*</span></label>
-                <input type="text" id="seller-lga" name="seller-lga" placeholder="e.g. Kano Central"/>
+                <label>LGA <span class="required">*</span></label>
+                <input type="text" placeholder="e.g. Kano Central"/>
               </div>
             </div>
             <div class="form-group">
               <label>Full Shop Address <span class="required">*</span></label>
-              <input type="text" id="seller-address" name="seller-address" placeholder="Street, area, landmark"/>
+              <input type="text" placeholder="Street, area, landmark"/>
             </div>
             <div class="form-group">
               <label>What do you sell? <span class="required">*</span></label>
-              <textarea id="seller-desc" name="seller-desc" placeholder="Briefly describe your products. e.g. We sell original Samsung and Tecno phones at the best prices in Kano."></textarea>
+              <textarea placeholder="Briefly describe your products. e.g. We sell original Samsung and Tecno phones at the best prices in Kano."></textarea>
             </div>
             <button class="btn-primary" onclick="goToStep('seller-verify')">Continue → Verification</button>
             <button class="btn-secondary" onclick="goToStep('type')">← Back</button>
@@ -674,7 +659,7 @@
             </div>
             <div class="form-group">
               <label>Email Address <span class="required">*</span></label>
-              <input type="email" id="seller-email" name="seller-email" placeholder="Your email for application status updates"/>
+              <input type="email" placeholder="Your email for application status updates"/>
             </div>
             <div class="form-group">
               <label>Create Password <span class="required">*</span></label>
@@ -690,7 +675,7 @@
             </div>
             <div class="checkbox-group">
               <input type="checkbox" id="seller-terms"/>
-              <label for="seller-terms">I agree to the <a href="./seller-rules.html" target="_blank" style="color:var(--gold);">Seller Rules</a>, <a href="./terms.html" target="_blank" style="color:var(--gold);">Terms of Use</a>, and <a href="./privacy.html" target="_blank" style="color:var(--gold);">Privacy Policy</a> of AREWA SQUARE</label>
+              <label for="seller-terms">I agree to the <a href="#">Seller Rules</a>, <a href="#">Terms of Use</a>, and <a href="#">Privacy Policy</a> of AREWA SQUARE</label>
             </div>
             <button class="btn-emerald" onclick="completeSellerReg()">📤 Submit Application</button>
             <button class="btn-secondary" onclick="goToStep('seller-details')">← Back</button>
@@ -723,7 +708,7 @@
           <p class="card-subtitle">Login to your AREWA SQUARE account.</p>
           <div class="form-group">
             <label>Email Address <span class="required">*</span></label>
-            <input type="email" id="login-email" name="login-email" placeholder="your@email.com"/>
+            <input type="email" placeholder="your@email.com"/>
           </div>
           <div class="form-group">
             <label>Password <span class="required">*</span></label>
@@ -798,15 +783,15 @@
     function showToast(message, type = 'info') {
       const existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      const colors = { success: '#2ecc71', error: '#e74c3c', info: '#c9a84c', warning: '#f39c12' };
+      const colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       const icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       const toast = document.createElement('div');
       toast.className = 'as-toast';
       toast.innerHTML = `<span>${icons[type]}</span><span>${message}</span>`;
       Object.assign(toast.style, {
         position: 'fixed', bottom: '28px', right: '28px', zIndex: '9999',
-        background: '#0d2b1f', border: `1px solid ${colors[type]}`,
-        color: '#f5f0e8', padding: '14px 20px', borderRadius: '8px',
+        background: '#0a1628', border: `1px solid ${colors[type]}`,
+        color: '#f0f4ff', padding: '14px 20px', borderRadius: '8px',
         fontFamily: 'Nunito, sans-serif', fontSize: '0.9rem', fontWeight: '600',
         display: 'flex', alignItems: 'center', gap: '10px',
         boxShadow: `0 4px 24px rgba(0,0,0,0.5)`,
@@ -827,7 +812,7 @@
       return /^(\+234|0)[789][01]\d{8}$/.test(phone.replace(/\s/g, ''));
     }
 
-    function completeBuyerReg_DISABLED() {
+    function completeBuyerReg() {
       // Collect form data
       const fullname = document.getElementById('buyer-name')?.value.trim();
       const email    = document.getElementById('buyer-email')?.value.trim();
@@ -855,7 +840,7 @@
       }, 800);
     }
 
-    function completeSellerReg_DISABLED() {
+    function completeSellerReg() {
       const bizname  = document.getElementById('seller-biz')?.value.trim();
       const fullname = document.getElementById('seller-name')?.value.trim();
       const email    = document.getElementById('seller-email')?.value.trim();
@@ -912,7 +897,7 @@
       t.textContent = input.files[0] ? '✓ ' + input.files[0].name : '';
     }
 
-    function handleLoginRedirect_DISABLED() {
+    function handleLoginRedirect() {
       const emailInput    = document.querySelector('#page-login input[type="email"]');
       const passwordInput = document.querySelector('#page-login input[type="password"]');
       const email         = emailInput ? emailInput.value.trim() : '';
@@ -944,187 +929,6 @@
     }
 
     showPage('register');
-  </script>
-
-  <!-- ══ AREWA SQUARE REAL FUNCTIONS ══ -->
-  <script>
-    const _API = 'https://arewa-square-api-production.up.railway.app/api';
-
-    // ── BUYER REGISTRATION ──
-    async function completeBuyerReg() {
-      const firstname = document.getElementById('buyer-firstname')?.value.trim() || '';
-      const lastname  = document.getElementById('buyer-lastname')?.value.trim()  || '';
-      const fullname  = (firstname + ' ' + lastname).trim();
-      const email     = document.getElementById('buyer-email')?.value.trim()     || '';
-      const phone     = document.getElementById('buyer-phone')?.value.trim()     || '';
-      const state     = document.getElementById('buyer-state')?.value.trim()     || '';
-      const city      = document.getElementById('buyer-city')?.value.trim()      || '';
-      const pass      = document.getElementById('buyer-pass')?.value             || '';
-      const pass2     = document.getElementById('buyer-pass2')?.value            || '';
-      const terms     = document.getElementById('buyer-terms')?.checked;
-
-      if (!firstname)  { showToast('Please enter your first name', 'error');          return; }
-      if (!lastname)   { showToast('Please enter your last name', 'error');           return; }
-      if (!email)      { showToast('Please enter your email address', 'error');       return; }
-      if (!phone)      { showToast('Please enter your phone number', 'error');        return; }
-      if (!state)      { showToast('Please select your state', 'error');              return; }
-      if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
-      if (pass !== pass2) { showToast('Passwords do not match', 'error');             return; }
-      if (!terms)      { showToast('Please accept the Terms of Use', 'error');        return; }
-
-      showToast('Creating your account…', 'info');
-      try {
-        const res  = await fetch(_API + '/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fullName: fullname, email, phone, password: pass, state, city, role: 'buyer' })
-        });
-        const data = await res.json();
-        if (!res.ok) { showToast(data.message || 'Registration failed. Try again.', 'error'); return; }
-        localStorage.setItem('as_token', data.token);
-        localStorage.setItem('as_role',  data.role);
-        localStorage.setItem('as_user',  JSON.stringify(data.user));
-        showToast('🎉 Registration successful! Redirecting to dashboard…', 'success');
-        setTimeout(() => { window.location.href = 'buyer-dashboard.html'; }, 2000);
-      } catch(e) { showToast('Connection error. Check your internet.', 'error'); }
-    }
-
-    // ── SELLER REGISTRATION ──
-    async function completeSellerReg() {
-      const fullname  = document.getElementById('seller-name')?.value.trim()     || '';
-      const bizname   = document.getElementById('seller-bizname')?.value.trim()  || '';
-      const category  = document.getElementById('seller-category')?.value.trim() || '';
-      const phone     = document.getElementById('seller-phone')?.value.trim()    || '';
-      const whatsapp  = document.getElementById('seller-whatsapp')?.value.trim() || '';
-      const state     = document.getElementById('seller-state')?.value.trim()    || '';
-      const lga       = document.getElementById('seller-lga')?.value.trim()      || '';
-      const address   = document.getElementById('seller-address')?.value.trim()  || '';
-      const desc      = document.getElementById('seller-desc')?.value.trim()     || '';
-      const email     = document.getElementById('seller-email')?.value.trim()    || '';
-      const pass      = document.getElementById('seller-pass')?.value            || '';
-      const terms     = document.getElementById('seller-terms')?.checked;
-      const govId     = document.getElementById('id-upload')?.files[0];
-      const shopPhoto = document.getElementById('shop-upload')?.files[0];
-
-      if (!fullname)   { showToast('Please enter your full name', 'error');           return; }
-      if (!bizname)    { showToast('Please enter your business name', 'error');       return; }
-      if (!category)   { showToast('Please select your business category', 'error'); return; }
-      if (!phone)      { showToast('Please enter your phone number', 'error');        return; }
-      if (!state)      { showToast('Please select your state', 'error');              return; }
-      if (!address)    { showToast('Please enter your shop address', 'error');        return; }
-      if (!email)      { showToast('Please enter your email address', 'error');       return; }
-      if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
-      if (!terms)      { showToast('Please accept the Seller Rules', 'error');        return; }
-
-      showToast('Submitting your application…', 'info');
-      try {
-        const fd = new FormData();
-        fd.append('fullName',       fullname);
-        fd.append('businessName',   bizname);
-        fd.append('category',       category);
-        fd.append('phone',          phone);
-        fd.append('whatsappNumber', whatsapp || phone);
-        fd.append('state',          state);
-        fd.append('city',           lga);
-        fd.append('address',        address);
-        fd.append('description',    desc);
-        fd.append('email',          email);
-        fd.append('password',       pass);
-        fd.append('role',           'seller');
-        if (govId)     fd.append('govId',     govId);
-        if (shopPhoto) fd.append('shopPhoto', shopPhoto);
-
-        const res  = await fetch(_API + '/auth/register', { method: 'POST', body: fd });
-        const data = await res.json();
-        if (!res.ok) { showToast(data.message || 'Submission failed. Try again.', 'error'); return; }
-
-        showToast('✅ Application submitted successfully!', 'success');
-        setTimeout(() => {
-          document.querySelectorAll('#page-register .form-step').forEach(el => el.classList.remove('active'));
-          const s = document.getElementById('success-seller');
-          if (s) {
-            s.style.display = 'block';
-            const h3 = s.querySelector('h3');
-            const p  = s.querySelector('p');
-            if (h3) h3.textContent = '🎉 Application Submitted Successfully!';
-            if (p)  p.innerHTML   = 'Your application has been received. You will receive a <strong style="color:var(--gold);">verification email within 24–48 hours.</strong> Once approved, your permanent shop number will be sent to your email. JazakAllah khayran!';
-          }
-        }, 800);
-      } catch(e) { showToast('Connection error. Check your internet.', 'error'); }
-    }
-
-    // ── LOGIN ──
-    async function handleLoginRedirect() {
-      const email    = document.getElementById('login-email')?.value.trim() || '';
-      const password = document.getElementById('login-pass')?.value         || '';
-
-      if (!email)    { showToast('Please enter your email address', 'error'); return; }
-      if (!password) { showToast('Please enter your password', 'error');      return; }
-
-      showToast('Logging in…', 'info');
-      try {
-        const res  = await fetch(_API + '/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
-        if (!res.ok) { showToast(data.message || 'Invalid email or password.', 'error'); return; }
-
-        localStorage.setItem('as_token',  data.token);
-        localStorage.setItem('as_role',   data.role);
-        localStorage.setItem('as_user',   JSON.stringify(data.user));
-        if (data.seller) localStorage.setItem('as_seller', JSON.stringify(data.seller));
-
-        showToast('Welcome back! Redirecting…', 'success');
-        setTimeout(() => {
-          const map = { admin: 'admin.html', seller: 'seller-dashboard.html', buyer: 'buyer-dashboard.html' };
-          window.location.href = map[data.role] || 'buyer-dashboard.html';
-        }, 800);
-      } catch(e) { showToast('Connection error. Check your internet.', 'error'); }
-    }
-
-    // ── THEME ──
-    function toggleTheme() {
-      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', t);
-      applyTheme(t);
-    }
-    function applyTheme(t) {
-      const btn = document.getElementById('as-theme-btn');
-      if (btn) { btn.textContent = t === 'light' ? '🌙' : '☀️'; btn.title = t === 'light' ? 'Dark Mode' : 'Light Mode'; }
-      document.body.setAttribute('data-theme', t);
-      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
-      let s = document.getElementById('_as_light');
-      if (t === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
-        s.textContent = `
-          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"]::before{background-image:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px),repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px)!important}
-          body[data-theme="light"] nav{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .auth-wrapper{background:transparent!important}
-          body[data-theme="light"] .auth-left{background:linear-gradient(135deg,#e8e2d0,#f0ece0)!important}
-          body[data-theme="light"] .auth-right{background:#f5f0e8!important}
-          body[data-theme="light"] .form-step{background:transparent!important}
-          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
-          body[data-theme="light"] input::placeholder,body[data-theme="light"] textarea::placeholder{color:rgba(26,26,15,0.4)!important}
-          body[data-theme="light"] select option{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"] label{color:#3a3520!important}
-          body[data-theme="light"] .tab-btn{background:rgba(0,0,0,0.05)!important;color:#3a3520!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .tab-btn.active{background:rgba(138,94,16,0.12)!important;color:#8a5e10!important;border-color:#8a5e10!important}
-          body[data-theme="light"] .pass-strength{background:rgba(0,0,0,0.08)!important}
-          body[data-theme="light"] .file-upload-area{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .highlight-box{background:rgba(138,94,16,0.06)!important;border-color:rgba(138,94,16,0.18)!important}
-          body[data-theme="light"] .nav-back{color:#8a5e10!important;border-color:rgba(138,94,16,0.3)!important}
-          body[data-theme="light"] .step-dot{background:rgba(0,0,0,0.12)!important}
-          body[data-theme="light"] .step-dot.active{background:#8a5e10!important}
-          body[data-theme="light"] .as-toast{background:#f0ece0!important;color:#1a1a0f!important;box-shadow:0 4px 24px rgba(0,0,0,0.15)!important}
-        `;
-      } else { if(s) s.textContent=''; document.body.style.backgroundColor=''; }
-    }
-
-    // Apply on load
-    applyTheme(localStorage.getItem('as_theme') || 'dark');
   </script>
 </body>
 </html>

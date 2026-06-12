@@ -8,20 +8,17 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --green-deep:  #0d2b1f;
-      --green-mid:   #1a4a30;
-      --green-light: #2a6645;
-      --gold:        #c9a84c;
-      --gold-light:  #e8c97a;
-      --gold-dim:    #8a6e2f;
-      --emerald:     #2ecc71;
-      --emerald-dim: #1a7a45;
-      --white:       #f5f0e8;
-      --white-dim:   #c8bfa8;
-      --dark:        #080f0b;
-      --sidebar-w:   240px;
-      --card-bg:     rgba(255,255,255,0.04);
-      --border:      rgba(201,168,76,0.15);
+      --green-deep:   #0a1628;
+      --green-mid:    #0f2040;
+      --green-light:  #1a3a6e;
+      --gold:         #FFD700;
+      --gold-light:   #FFE55C;
+      --gold-dim:     #B8860B;
+      --emerald:      #4FC3F7;
+      --emerald-dim:  #0288D1;
+      --white:        #f0f4ff;
+      --white-dim:    #a8b8d8;
+      --dark:         #060d1a;
     }
     body {
       font-family: 'Nunito', sans-serif;
@@ -34,8 +31,8 @@
       content: '';
       position: fixed; inset: 0;
       background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(201,168,76,0.02) 50px, rgba(201,168,76,0.02) 51px),
-        repeating-linear-gradient(-45deg, transparent, transparent 50px, rgba(201,168,76,0.02) 50px, rgba(201,168,76,0.02) 51px);
+        repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(255,215,0,0.02) 50px, rgba(255,215,0,0.02) 51px),
+        repeating-linear-gradient(-45deg, transparent, transparent 50px, rgba(255,215,0,0.02) 50px, rgba(255,215,0,0.02) 51px);
       pointer-events: none; z-index: 0;
     }
 
@@ -44,7 +41,7 @@
       position: fixed; top: 0; left: 0;
       width: var(--sidebar-w);
       height: 100vh;
-      background: rgba(8,15,11,0.97);
+      background: rgba(5,12,24,0.97);
       border-right: 1px solid var(--border);
       display: flex; flex-direction: column;
       z-index: 100; transition: transform 0.3s;
@@ -94,8 +91,8 @@
       color: var(--white-dim); font-size: 0.85rem; font-weight: 600;
       text-decoration: none;
     }
-    .nav-item:hover { background: rgba(201,168,76,0.07); color: var(--white); border-left-color: var(--gold-dim); }
-    .nav-item.active { background: rgba(201,168,76,0.1); color: var(--gold); border-left-color: var(--gold); }
+    .nav-item:hover { background: rgba(255,215,0,0.07); color: var(--white); border-left-color: var(--gold-dim); }
+    .nav-item.active { background: rgba(255,215,0,0.1); color: var(--gold); border-left-color: var(--gold); }
     .nav-item .nav-icon { font-size: 1rem; min-width: 20px; text-align: center; }
 
     .sidebar-footer {
@@ -120,7 +117,7 @@
     /* Top bar */
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(13,43,31,0.95);
+      background: rgba(6,13,26,0.97);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 32px;
@@ -167,7 +164,7 @@
     .search-hero::before {
       content: ''; position: absolute; top: -50%; right: -10%;
       width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, transparent 70%);
       pointer-events: none;
     }
     .search-hero h2 {
@@ -181,7 +178,7 @@
     .search-bar input {
       flex: 1; padding: 13px 18px;
       background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(201,168,76,0.25);
+      border: 1px solid rgba(255,215,0,0.25);
       border-radius: 6px; color: var(--white);
       font-family: 'Nunito', sans-serif; font-size: 0.9rem;
       outline: none; transition: border-color 0.3s;
@@ -211,8 +208,8 @@
     .stat-icon {
       width: 44px; height: 44px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.2);
+      font-size: 1.2rem; background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.2);
     }
     .stat-info .num {
       font-family: 'Cinzel', serif; font-size: 1.4rem;
@@ -259,7 +256,7 @@
     }
     .verified-pill {
       position: absolute; top: 10px; right: 10px;
-      background: rgba(46,204,113,0.15); border: 1px solid var(--emerald);
+      background: rgba(79,195,247,0.15); border: 1px solid var(--emerald);
       color: var(--emerald); font-size: 0.62rem; font-weight: 700;
       padding: 3px 8px; border-radius: 3px;
     }
@@ -288,7 +285,7 @@
       font-size: 0.8rem; font-weight: 700; color: var(--white-dim);
       cursor: pointer; transition: all 0.3s;
     }
-    .cat-pill:hover, .cat-pill.active { background: rgba(201,168,76,0.12); border-color: var(--gold); color: var(--gold); }
+    .cat-pill:hover, .cat-pill.active { background: rgba(255,215,0,0.12); border-color: var(--gold); color: var(--gold); }
 
     /* Saved shops list */
     .saved-list { display: flex; flex-direction: column; gap: 12px; }
@@ -330,12 +327,12 @@
     input[type="text"], input[type="email"], input[type="tel"], select {
       width: 100%; padding: 11px 14px;
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(201,168,76,0.2);
+      border: 1px solid rgba(255,215,0,0.2);
       border-radius: 6px; color: var(--white);
       font-family: 'Nunito', sans-serif; font-size: 0.875rem;
       outline: none; transition: border-color 0.3s; appearance: none;
     }
-    input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.08); }
+    input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(255,215,0,0.08); }
     input::placeholder { color: rgba(200,191,168,0.35); }
     select option { background: var(--green-deep); }
 
@@ -384,7 +381,7 @@
     }
     .modal-verified {
       position: absolute; top: 12px; right: 12px;
-      background: rgba(46,204,113,0.15); border: 1px solid var(--emerald);
+      background: rgba(79,195,247,0.15); border: 1px solid var(--emerald);
       color: var(--emerald); font-size: 0.72rem; font-weight: 700;
       padding: 4px 12px; border-radius: 4px;
     }
@@ -397,7 +394,7 @@
     }
     .modal-contact-row { display: flex; gap: 10px; margin-bottom: 20px; }
     .btn-call {
-      flex: 1; padding: 11px; background: rgba(46,204,113,0.1);
+      flex: 1; padding: 11px; background: rgba(79,195,247,0.1);
       border: 1px solid var(--emerald); border-radius: 6px;
       color: var(--emerald); font-family: 'Nunito', sans-serif;
       font-size: 0.875rem; font-weight: 700; cursor: pointer; transition: all 0.3s;
@@ -456,16 +453,16 @@
     .cart-drawer {
       position: fixed; top: 0; right: -420px;
       width: 100%; max-width: 420px; height: 100vh;
-      background: #0b2218; border-left: 1px solid rgba(201,168,76,0.25);
+      background: #0a1628; border-left: 1px solid rgba(255,215,0,0.25);
       z-index: 1200; display: flex; flex-direction: column;
       transition: right 0.35s cubic-bezier(.4,0,.2,1);
       box-shadow: -8px 0 40px rgba(0,0,0,0.5);
     }
     .cart-drawer.open { right: 0; }
     .cart-header {
-      padding: 20px 24px; border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 20px 24px; border-bottom: 1px solid rgba(255,215,0,0.15);
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(8,15,11,0.8);
+      background: rgba(5,12,24,0.8);
     }
     .cart-header h3 {
       font-family: 'Cinzel', serif; font-size: 1rem;
@@ -478,8 +475,8 @@
     .cart-close:hover { color: var(--gold); }
     .cart-shop-info {
       padding: 14px 24px;
-      background: rgba(201,168,76,0.05);
-      border-bottom: 1px solid rgba(201,168,76,0.1);
+      background: rgba(255,215,0,0.05);
+      border-bottom: 1px solid rgba(255,215,0,0.1);
     }
     .cart-shop-info p { font-size: 0.78rem; color: var(--white-dim); }
     .cart-shop-info strong { color: var(--gold); font-size: 0.85rem; }
@@ -495,7 +492,7 @@
     .cart-empty span { font-size: 3rem; margin-bottom: 12px; display: block; }
     .cart-empty p { font-size: 0.85rem; }
     .cart-item {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.12);
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,215,0,0.12);
       border-radius: 8px; padding: 12px 14px;
       display: flex; align-items: center; gap: 12px;
     }
@@ -513,7 +510,7 @@
     }
     .ci-qty button {
       width: 24px; height: 24px; border-radius: 4px;
-      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+      background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.25);
       color: var(--gold); font-size: 0.9rem; font-weight: 700;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: all 0.2s; line-height: 1;
@@ -527,11 +524,11 @@
     .ci-remove:hover { color: #e74c3c; }
 
     .cart-footer {
-      padding: 16px 24px; border-top: 1px solid rgba(201,168,76,0.15);
-      background: rgba(8,15,11,0.8);
+      padding: 16px 24px; border-top: 1px solid rgba(255,215,0,0.15);
+      background: rgba(5,12,24,0.8);
     }
     .cart-totals {
-      background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.15);
+      background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15);
       border-radius: 8px; padding: 14px 16px; margin-bottom: 14px;
     }
     .cart-total-row {
@@ -540,7 +537,7 @@
     }
     .cart-total-row:last-child {
       margin-bottom: 0; padding-top: 10px;
-      border-top: 1px solid rgba(201,168,76,0.15);
+      border-top: 1px solid rgba(255,215,0,0.15);
       font-size: 1rem; font-weight: 800;
       color: var(--white);
     }
@@ -552,7 +549,7 @@
       font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800;
       cursor: pointer; transition: all 0.3s; letter-spacing: 0.3px;
     }
-    .btn-send-order:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,0.3); }
+    .btn-send-order:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,215,0,0.3); }
     .btn-clear-cart {
       width: 100%; padding: 10px; margin-top: 8px;
       background: transparent; border: 1px solid rgba(255,255,255,0.08);
@@ -564,7 +561,7 @@
     /* ── ADD TO CART btn inside product card ── */
     .btn-add-cart {
       width: 100%; padding: 7px 10px; margin-top: 6px;
-      background: rgba(201,168,76,0.1); border: 1px solid var(--gold-dim);
+      background: rgba(255,215,0,0.1); border: 1px solid var(--gold-dim);
       border-radius: 4px; color: var(--gold); font-family: 'Nunito', sans-serif;
       font-size: 0.7rem; font-weight: 800; cursor: pointer; transition: all 0.25s;
     }
@@ -579,7 +576,7 @@
     }
     .order-confirm-modal.open { display: flex; }
     .order-confirm-box {
-      background: var(--green-deep); border: 1px solid rgba(46,204,113,0.3);
+      background: var(--green-deep); border: 1px solid rgba(79,195,247,0.3);
       border-radius: 16px; padding: 40px 32px; max-width: 460px; width: 100%;
       text-align: center; animation: fadeUp 0.35s ease both;
     }
@@ -587,7 +584,7 @@
     .order-confirm-box h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--emerald); margin-bottom: 10px; }
     .order-confirm-box p { font-size: 0.85rem; color: var(--white-dim); line-height: 1.7; margin-bottom: 20px; }
     .order-summary-box {
-      background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(255,215,0,0.07); border: 1px solid rgba(255,215,0,0.2);
       border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; text-align: left;
     }
     .order-summary-box .osr { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; }
@@ -623,7 +620,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-      <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
       <div class="sidebar-logo-text">
         <span>AREWA SQUARE</span>
         <span>Buyer Portal</span>
@@ -665,8 +662,8 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
-      <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,0.1);">
+      <button class="logout-btn" onclick="window.location.href='auth.html'">🚪 Logout</button>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,215,0,0.1);">
         <p style="font-size:0.65rem;color:var(--white-dim);margin-bottom:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Need Help?</p>
         <a href="mailto:Support@arewsquare.com" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Email Support">✉️ Support@arewsquare.com</a>
         <a href="tel:+2347082783618" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Call Us">📞 07082783618</a>
@@ -688,7 +685,6 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn" title="Notifications">🔔</button>
         <button class="cart-btn" onclick="openCart()" title="My Cart" id="cart-btn">
           🛒
@@ -772,7 +768,7 @@
 
     <!-- ══ NEARBY ══ -->
     <section class="page-section" id="sec-nearby">
-      <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:10px;padding:16px 20px;margin-bottom:24px;display:flex;gap:12px;align-items:center;">
+      <div style="background:rgba(79,195,247,0.06);border:1px solid rgba(79,195,247,0.2);border-radius:10px;padding:16px 20px;margin-bottom:24px;display:flex;gap:12px;align-items:center;">
         <span style="font-size:1.3rem;">📍</span>
         <div>
           <p style="font-size:0.85rem;font-weight:700;color:var(--emerald);">Location Active — Kano, Nassarawa LGA</p>
@@ -943,7 +939,7 @@
         </div>
         <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
           <button style="background:none;border:none;color:#e74c3c;font-size:0.78rem;cursor:pointer;font-family:'Nunito',sans-serif;" onclick="showToast('Report submitted.','info')">🚩 Report this Shop</button>
-          <button style="padding:8px 18px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-dim);border-radius:6px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:800;cursor:pointer;" onclick="closeModal();openCart();">🛒 View Cart (<span id="modal-cart-count">0</span>)</button>
+          <button style="padding:8px 18px;background:rgba(255,215,0,0.1);border:1px solid var(--gold-dim);border-radius:6px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:800;cursor:pointer;" onclick="closeModal();openCart();">🛒 View Cart (<span id="modal-cart-count">0</span>)</button>
         </div>
       </div>
     </div>
@@ -1162,7 +1158,7 @@
       const summaryEl = document.getElementById('order-summary-content');
       summaryEl.innerHTML = cart.items.map(i => `
         <div class="osr"><span>${i.icon} ${i.name} × ${i.qty}</span><span>${formatPrice(i.price * i.qty)}</span></div>
-      `).join('') + `<div class="osr total" style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,0.15);">
+      `).join('') + `<div class="osr total" style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,215,0,0.15);">
         <span><strong>Total</strong></span><span>${formatPrice(total)}</span></div>`;
 
       closeCart();
@@ -1299,15 +1295,15 @@
       type = type || 'info';
       var existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#c9a84c', warning: '#f39c12' };
+      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       var toast = document.createElement('div');
       toast.className = 'as-toast';
       toast.innerHTML = '<span>' + icons[type] + '</span><span>' + message + '</span>';
       Object.assign(toast.style, {
         position:'fixed', bottom:'28px', right:'28px', zIndex:'9999',
-        background:'#0d2b1f', border:'1px solid ' + colors[type],
-        color:'#f5f0e8', padding:'14px 20px', borderRadius:'8px',
+        background:'#0a1628', border:'1px solid ' + colors[type],
+        color:'#f0f4ff', padding:'14px 20px', borderRadius:'8px',
         fontFamily:'Nunito, sans-serif', fontSize:'0.9rem', fontWeight:'600',
         display:'flex', alignItems:'center', gap:'10px',
         boxShadow:'0 4px 24px rgba(0,0,0,0.5)', maxWidth:'340px'
@@ -1317,159 +1313,5 @@
     }
 
   </script>
-
-  <!-- ══ REAL DATA LOADER ══ -->
-  <script>
-    // ── AUTH GUARD ──
-    (function() {
-      const token = localStorage.getItem('as_token');
-      const role  = localStorage.getItem('as_role');
-      if (!token || role !== 'buyer') {
-        window.location.href = 'auth.html';
-        return;
-      }
-    })();
-
-    // ── LOAD USER DATA FROM localStorage ──
-    (function loadUserData() {
-      try {
-        const user = JSON.parse(localStorage.getItem('as_user') || '{}');
-        if (!user.fullName) return;
-
-        const firstName = user.fullName.split(' ')[0];
-
-        // Update topbar greeting
-        const pageSub = document.getElementById('page-sub');
-        if (pageSub) pageSub.textContent = 'Welcome back, ' + firstName + ' 👋';
-
-        // Update sidebar user info
-        const sidebarName = document.querySelector('.sidebar-user .user-info span:first-child');
-        if (sidebarName) sidebarName.textContent = user.fullName;
-
-        // Update avatar initials
-        const avatar = document.querySelector('.user-avatar');
-        if (avatar) {
-          const parts = user.fullName.split(' ');
-          avatar.textContent = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
-          avatar.textContent = avatar.textContent.toUpperCase();
-        }
-
-        // Update profile section if it exists
-        const profileName = document.getElementById('profile-fullname');
-        if (profileName) profileName.textContent = user.fullName;
-        const profileEmail = document.getElementById('profile-email');
-        if (profileEmail) profileEmail.textContent = user.email || '';
-        const profilePhone = document.getElementById('profile-phone');
-        if (profilePhone) profilePhone.textContent = user.phone || '';
-        const profileState = document.getElementById('profile-state');
-        if (profileState) profileState.textContent = user.state || '';
-
-      } catch(e) { console.warn('Could not load user data:', e); }
-    })();
-
-    // ── LOAD REAL SHOPS FROM API ──
-    async function loadRealShops() {
-      try {
-        const token = localStorage.getItem('as_token');
-        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/sellers?limit=50', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        const data = await res.json();
-        if (!res.ok || !data.sellers || data.sellers.length === 0) return;
-
-        // Build real shops array from API
-        const realShops = data.sellers.map(s => ({
-          num:   s.shopNumber || '#???',
-          icon:  getCategoryIcon(s.category),
-          name:  s.businessName,
-          cat:   s.category,
-          loc:   s.city || s.state,
-          dist:  s.state,
-          phone: s.user?.phone || '',
-          id:    s._id,
-          whatsapp: s.whatsappNumber || s.user?.phone || '',
-        }));
-
-        // Replace demo shops with real ones
-        if (typeof shops !== 'undefined') {
-          shops.length = 0;
-          realShops.forEach(s => shops.push(s));
-        }
-
-        // Re-render shops
-        if (typeof renderShops === 'function') renderShops();
-
-      } catch(e) { console.warn('Could not load shops:', e); }
-    }
-
-    function getCategoryIcon(cat) {
-      const icons = {
-        'Shoes': '👟', 'Fashion & Clothing': '👕', 'Phones & Accessories': '📱',
-        'Electronics': '💻', 'Food & Groceries': '🥘', 'Home & Furniture': '🏠',
-        'Health & Beauty': '💊', 'Services': '🔧', 'Other': '📦'
-      };
-      return icons[cat] || '🏪';
-    }
-
-    // ── LOAD REAL ORDERS FROM API ──
-    async function loadRealOrders() {
-      try {
-        const token = localStorage.getItem('as_token');
-        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/orders/mine', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        const data = await res.json();
-        if (!res.ok || !data.orders) return;
-
-        // Update order count stat
-        const orderCount = document.getElementById('stat-orders');
-        if (orderCount) orderCount.textContent = data.orders.length;
-
-      } catch(e) { console.warn('Could not load orders:', e); }
-    }
-
-    // ── LOGOUT ──
-    function logoutUser() {
-      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
-      window.location.href = 'auth.html';
-    }
-
-    // ── THEME ──
-    function toggleTheme() {
-      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', t);
-      applyTheme(t);
-    }
-    function applyTheme(t) {
-      document.querySelectorAll('.as-theme-btn').forEach(b => {
-        b.textContent = t === 'light' ? '🌙' : '☀️';
-      });
-      document.body.setAttribute('data-theme', t);
-      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
-      let s = document.getElementById('_as_light');
-      if (t === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
-        s.textContent = `
-          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"] .sidebar{background:rgba(245,240,232,0.99)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .nav-item{color:#3a3520!important}
-          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
-          body[data-theme="light"] .shop-card,body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .topbar-btn{background:rgba(0,0,0,0.05)!important;border-color:rgba(138,94,16,0.15)!important;color:#3a3520!important}
-          body[data-theme="light"] input,body[data-theme="light"] select{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
-          body[data-theme="light"] .sidebar-footer{border-color:rgba(138,94,16,0.15)!important}
-        `;
-      } else { if(s) s.textContent=''; document.body.style.backgroundColor=''; }
-    }
-    applyTheme(localStorage.getItem('as_theme') || 'dark');
-
-    // Run on load
-    document.addEventListener('DOMContentLoaded', function() {
-      loadRealShops();
-      loadRealOrders();
-    });
-  </script>
-
 </body>
 </html>

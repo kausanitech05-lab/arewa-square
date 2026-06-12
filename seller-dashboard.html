@@ -8,30 +8,27 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --green-deep:  #0d2b1f;
-      --green-mid:   #1a4a30;
-      --green-light: #2a6645;
-      --gold:        #c9a84c;
-      --gold-light:  #e8c97a;
-      --gold-dim:    #8a6e2f;
-      --emerald:     #2ecc71;
-      --emerald-dim: #1a7a45;
-      --white:       #f5f0e8;
-      --white-dim:   #c8bfa8;
-      --dark:        #080f0b;
-      --sidebar-w:   240px;
-      --card-bg:     rgba(255,255,255,0.04);
-      --border:      rgba(201,168,76,0.15);
+      --green-deep:   #0a1628;
+      --green-mid:    #0f2040;
+      --green-light:  #1a3a6e;
+      --gold:         #FFD700;
+      --gold-light:   #FFE55C;
+      --gold-dim:     #B8860B;
+      --emerald:      #4FC3F7;
+      --emerald-dim:  #0288D1;
+      --white:        #f0f4ff;
+      --white-dim:    #a8b8d8;
+      --dark:         #060d1a;
     }
     body { font-family:'Nunito',sans-serif; background:var(--green-deep); color:var(--white); min-height:100vh; display:flex; }
     body::before {
       content:''; position:fixed; inset:0;
-      background-image: repeating-linear-gradient(45deg,transparent,transparent 50px,rgba(201,168,76,0.02) 50px,rgba(201,168,76,0.02) 51px),repeating-linear-gradient(-45deg,transparent,transparent 50px,rgba(201,168,76,0.02) 50px,rgba(201,168,76,0.02) 51px);
+      background-image: repeating-linear-gradient(45deg,transparent,transparent 50px,rgba(255,215,0,0.02) 50px,rgba(255,215,0,0.02) 51px),repeating-linear-gradient(-45deg,transparent,transparent 50px,rgba(255,215,0,0.02) 50px,rgba(255,215,0,0.02) 51px);
       pointer-events:none; z-index:0;
     }
 
     /* SIDEBAR */
-    .sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; background:rgba(8,15,11,0.97); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:100; transition:transform 0.3s; }
+    .sidebar { position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; background:rgba(5,12,24,0.97); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:100; transition:transform 0.3s; }
     .sidebar-logo { padding:22px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; text-decoration:none; }
     .sidebar-logo img { width:36px; height:36px; object-fit:contain; }
     .sidebar-logo-text span:first-child { display:block; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:700; color:var(--gold); letter-spacing:1.5px; }
@@ -39,7 +36,7 @@
 
     .shop-badge {
       margin:16px; padding:14px;
-      background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.2); border-radius:8px;
+      background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.2); border-radius:8px;
     }
     .shop-num-display {
       font-family:'Cinzel',serif; font-size:1.3rem; font-weight:700;
@@ -51,8 +48,8 @@
     .sidebar-nav { flex:1; padding:8px 0; overflow-y:auto; }
     .nav-section-label { padding:10px 20px 4px; font-size:0.62rem; font-weight:700; color:var(--gold-dim); letter-spacing:2px; text-transform:uppercase; }
     .nav-item { display:flex; align-items:center; gap:12px; padding:11px 20px; cursor:pointer; transition:all 0.25s; border-left:2px solid transparent; color:var(--white-dim); font-size:0.85rem; font-weight:600; text-decoration:none; }
-    .nav-item:hover { background:rgba(201,168,76,0.07); color:var(--white); border-left-color:var(--gold-dim); }
-    .nav-item.active { background:rgba(201,168,76,0.1); color:var(--gold); border-left-color:var(--gold); }
+    .nav-item:hover { background:rgba(255,215,0,0.07); color:var(--white); border-left-color:var(--gold-dim); }
+    .nav-item.active { background:rgba(255,215,0,0.1); color:var(--gold); border-left-color:var(--gold); }
     .nav-item .nav-icon { font-size:1rem; min-width:20px; text-align:center; }
 
     .sidebar-footer { padding:16px 20px; border-top:1px solid var(--border); }
@@ -62,7 +59,7 @@
     /* MAIN */
     .main { margin-left:var(--sidebar-w); flex:1; min-height:100vh; position:relative; z-index:1; }
 
-    .topbar { position:sticky; top:0; z-index:50; background:rgba(13,43,31,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 32px; height:64px; display:flex; align-items:center; justify-content:space-between; }
+    .topbar { position:sticky; top:0; z-index:50; background:rgba(6,13,26,0.97); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 32px; height:64px; display:flex; align-items:center; justify-content:space-between; }
     .topbar-left h1 { font-family:'Cinzel',serif; font-size:1.1rem; font-weight:700; color:var(--white); }
     .topbar-left p { font-size:0.75rem; color:var(--white-dim); margin-top:2px; }
     .topbar-right { display:flex; align-items:center; gap:12px; }
@@ -83,7 +80,7 @@
     .stat-card { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:20px; transition:all 0.3s; }
     .stat-card:hover { border-color:var(--gold-dim); transform:translateY(-2px); }
     .stat-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-    .stat-icon-box { width:40px; height:40px; border-radius:7px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+    .stat-icon-box { width:40px; height:40px; border-radius:7px; background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.2); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
     .stat-trend { font-size:0.72rem; font-weight:700; color:var(--emerald); }
     .stat-num { font-family:'Cinzel',serif; font-size:1.6rem; font-weight:700; color:var(--white); display:block; }
     .stat-lbl { font-size:0.73rem; color:var(--white-dim); margin-top:2px; }
@@ -96,7 +93,7 @@
     /* Activity feed */
     .activity-feed { display:flex; flex-direction:column; gap:10px; }
     .activity-item { background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:14px 16px; display:flex; align-items:center; gap:14px; }
-    .act-icon { width:36px; height:36px; border-radius:7px; background:rgba(201,168,76,0.1); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .act-icon { width:36px; height:36px; border-radius:7px; background:rgba(255,215,0,0.1); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
     .act-text p { font-size:0.83rem; color:var(--white); font-weight:600; }
     .act-text span { font-size:0.72rem; color:var(--white-dim); }
 
@@ -107,18 +104,18 @@
     .form-group.full { grid-column:1/-1; }
     label { font-size:0.75rem; font-weight:700; color:var(--white-dim); letter-spacing:0.5px; text-transform:uppercase; }
     input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
-      padding:11px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(201,168,76,0.2);
+      padding:11px 14px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,215,0,0.2);
       border-radius:6px; color:var(--white); font-family:'Nunito',sans-serif; font-size:0.875rem;
       outline:none; transition:border-color 0.3s; appearance:none; width:100%;
     }
-    input:focus, select:focus, textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,0.08); }
+    input:focus, select:focus, textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,215,0,0.08); }
     input::placeholder, textarea::placeholder { color:rgba(200,191,168,0.35); }
     select option { background:var(--green-deep); }
     textarea { resize:vertical; min-height:90px; }
 
     .readonly-field {
-      padding:11px 14px; background:rgba(201,168,76,0.05);
-      border:1px solid rgba(201,168,76,0.15); border-radius:6px;
+      padding:11px 14px; background:rgba(255,215,0,0.05);
+      border:1px solid rgba(255,215,0,0.15); border-radius:6px;
       font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold);
       font-weight:700; letter-spacing:1px;
     }
@@ -134,16 +131,16 @@
     .products-table { width:100%; border-collapse:collapse; }
     .products-table th { text-align:left; padding:12px 16px; font-size:0.72rem; font-weight:700; color:var(--gold-dim); text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--border); }
     .products-table td { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.83rem; color:var(--white-dim); vertical-align:middle; }
-    .products-table tr:hover td { background:rgba(201,168,76,0.03); }
+    .products-table tr:hover td { background:rgba(255,215,0,0.03); }
     .product-thumb { width:40px; height:40px; border-radius:6px; background:linear-gradient(135deg,var(--green-mid),var(--green-light)); display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
     .action-btns { display:flex; gap:8px; }
     .btn-edit { padding:5px 14px; background:transparent; border:1px solid var(--gold-dim); border-radius:4px; color:var(--gold); font-family:'Nunito',sans-serif; font-size:0.72rem; font-weight:700; cursor:pointer; transition:all 0.3s; }
-    .btn-edit:hover { background:rgba(201,168,76,0.1); }
+    .btn-edit:hover { background:rgba(255,215,0,0.1); }
     .btn-del { padding:5px 14px; background:transparent; border:1px solid rgba(231,76,60,0.3); border-radius:4px; color:#e74c3c; font-family:'Nunito',sans-serif; font-size:0.72rem; font-weight:700; cursor:pointer; transition:all 0.3s; }
     .btn-del:hover { background:rgba(231,76,60,0.1); }
 
     /* File upload */
-    .file-upload { border:1.5px dashed rgba(201,168,76,0.25); border-radius:8px; padding:20px; text-align:center; cursor:pointer; transition:all 0.3s; background:rgba(255,255,255,0.03); }
+    .file-upload { border:1.5px dashed rgba(255,215,0,0.25); border-radius:8px; padding:20px; text-align:center; cursor:pointer; transition:all 0.3s; background:rgba(255,255,255,0.03); }
     .file-upload:hover { border-color:var(--gold-dim); }
     .file-upload input { display:none; }
 
@@ -161,9 +158,9 @@
     .contact-table th { text-align:left; padding:10px 14px; font-size:0.7rem; font-weight:700; color:var(--gold-dim); text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--border); }
     .contact-table td { padding:12px 14px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8rem; color:var(--white-dim); }
     .type-badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.68rem; font-weight:700; }
-    .type-badge.call { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
+    .type-badge.call { background:rgba(79,195,247,0.1); color:var(--emerald); border:1px solid rgba(79,195,247,0.2); }
     .type-badge.whatsapp { background:rgba(37,211,102,0.1); color:#25D366; border:1px solid rgba(37,211,102,0.2); }
-    .type-badge.saved { background:rgba(201,168,76,0.1); color:var(--gold); border:1px solid rgba(201,168,76,0.2); }
+    .type-badge.saved { background:rgba(255,215,0,0.1); color:var(--gold); border:1px solid rgba(255,215,0,0.2); }
 
     /* Add product modal */
     .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; align-items:center; justify-content:center; padding:20px; }
@@ -198,7 +195,7 @@
       transition: all 0.3s;
     }
     .order-card:hover { border-color: var(--gold-dim); }
-    .order-card.new-order { border-color: rgba(46,204,113,0.4); background: rgba(46,204,113,0.04); }
+    .order-card.new-order { border-color: rgba(79,195,247,0.4); background: rgba(79,195,247,0.04); }
     .order-header-row {
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
@@ -209,8 +206,8 @@
       display: inline-flex; align-items: center; gap: 5px;
       padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 700;
     }
-    .order-status.new { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3); color: var(--emerald); }
-    .order-status.confirmed { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); }
+    .order-status.new { background: rgba(79,195,247,0.12); border: 1px solid rgba(79,195,247,0.3); color: var(--emerald); }
+    .order-status.confirmed { background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.3); color: var(--gold); }
     .order-status.completed { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--white-dim); }
     .order-items-list { margin-bottom: 12px; }
     .order-item-row {
@@ -222,14 +219,14 @@
     .order-item-row span:last-child { color: var(--white); font-weight: 600; }
     .order-total-row {
       display: flex; justify-content: space-between; align-items: center;
-      padding-top: 10px; border-top: 1px solid rgba(201,168,76,0.15);
+      padding-top: 10px; border-top: 1px solid rgba(255,215,0,0.15);
       font-size: 0.9rem; font-weight: 800;
     }
     .order-total-row span:first-child { color: var(--white); }
     .order-total-row span:last-child { color: var(--gold); font-family: 'Cinzel', serif; font-size: 1rem; }
     .order-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
     .btn-confirm-order {
-      flex: 1; padding: 9px 14px; background: rgba(46,204,113,0.1);
+      flex: 1; padding: 9px 14px; background: rgba(79,195,247,0.1);
       border: 1px solid var(--emerald); border-radius: 6px;
       color: var(--emerald); font-family: 'Nunito', sans-serif;
       font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.3s;
@@ -256,7 +253,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-      <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
       <div class="sidebar-logo-text">
         <span>AREWA SQUARE</span>
         <span>Seller Portal</span>
@@ -283,7 +280,7 @@
 
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="window.location.href='auth.html'">🚪 Logout</button>
-      <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(201,168,76,0.1);">
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,215,0,0.1);">
         <p style="font-size:0.65rem;color:var(--white-dim);margin-bottom:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Need Help?</p>
         <a href="mailto:Support@arewsquare.com" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Email Support">✉️ Support@arewsquare.com</a>
         <a href="tel:+2347082783618" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Call Us">📞 07082783618</a>
@@ -305,7 +302,6 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn">🔔</button>
         <button class="btn-add-product" onclick="openProductModal(null)">+ Add Product</button>
       </div>
@@ -334,10 +330,10 @@
 
       <!-- Quick actions -->
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;">
-        <button onclick="openProductModal(null)" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:16px;cursor:pointer;color:var(--white);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;transition:all 0.3s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(201,168,76,0.08)'">
+        <button onclick="openProductModal(null)" style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:16px;cursor:pointer;color:var(--white);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;transition:all 0.3s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='rgba(255,215,0,0.15)'" onmouseout="this.style.background='rgba(255,215,0,0.08)'">
           <span style="font-size:1.2rem;">➕</span> Add New Product
         </button>
-        <button onclick="showSection('my-shop')" style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:16px;cursor:pointer;color:var(--white);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;transition:all 0.3s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='rgba(46,204,113,0.12)'" onmouseout="this.style.background='rgba(46,204,113,0.06)'">
+        <button onclick="showSection('my-shop')" style="background:rgba(79,195,247,0.06);border:1px solid rgba(79,195,247,0.15);border-radius:8px;padding:16px;cursor:pointer;color:var(--white);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;transition:all 0.3s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.background='rgba(79,195,247,0.12)'" onmouseout="this.style.background='rgba(79,195,247,0.06)'">
           <span style="font-size:1.2rem;">✏️</span> Edit Shop Info
         </button>
         <button onclick="showToast('Opening your shop page as buyers see it...','info')" style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;color:var(--white);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;transition:all 0.3s;display:flex;align-items:center;gap:10px;" onmouseover="this.style.borderColor='var(--gold-dim)'" onmouseout="this.style.borderColor='var(--border)'">
@@ -495,7 +491,7 @@
         </div>
       </div>
 
-      <div style="background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:16px 20px;margin-top:20px;">
+      <div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:16px 20px;margin-top:20px;">
         <p style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--gold);margin-bottom:8px;">💡 Platform Insights</p>
         <p style="font-size:0.82rem;color:var(--white-dim);margin-bottom:6px;">• Your shop gets the most views on Saturdays — consider adding new products before the weekend.</p>
         <p style="font-size:0.82rem;color:var(--white-dim);margin-bottom:6px;">• Shops with 4+ product images receive 60% more contact requests. Add more photos.</p>
@@ -505,7 +501,7 @@
 
     <!-- ══ CONTACTS ══ -->
     <section class="page-section" id="sec-contacts">
-      <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.15);border-radius:8px;padding:14px 18px;margin-bottom:20px;display:flex;gap:12px;align-items:center;">
+      <div style="background:rgba(79,195,247,0.06);border:1px solid rgba(79,195,247,0.15);border-radius:8px;padding:14px 18px;margin-bottom:20px;display:flex;gap:12px;align-items:center;">
         <span style="font-size:1.2rem;">ℹ️</span>
         <p style="font-size:0.82rem;color:var(--white-dim);">This log shows buyer activity on your shop. All actual contact happens directly via your phone or WhatsApp — no messages are stored here.</p>
       </div>
@@ -537,7 +533,7 @@
         </table>
       </div>
       <div style="margin-top:20px;display:flex;gap:12px;">
-        <button onclick="showToast('Calling from 08077777777','info')" style="flex:1;padding:12px;background:rgba(46,204,113,0.1);border:1px solid var(--emerald);border-radius:6px;color:var(--emerald);font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">📞 My Number: 08077777777</button>
+        <button onclick="showToast('Calling from 08077777777','info')" style="flex:1;padding:12px;background:rgba(79,195,247,0.1);border:1px solid var(--emerald);border-radius:6px;color:var(--emerald);font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">📞 My Number: 08077777777</button>
         <button onclick="showToast('Opening WhatsApp...','info')" style="flex:1;padding:12px;background:rgba(37,211,102,0.1);border:1px solid #25D366;border-radius:6px;color:#25D366;font-family:'Nunito',sans-serif;font-size:0.875rem;font-weight:700;cursor:pointer;">💬 Open WhatsApp Business</button>
       </div>
     </section>
@@ -577,7 +573,7 @@
 
     <!-- ══ ORDERS ══ -->
     <section class="page-section" id="sec-orders">
-      <div style="background:rgba(46,204,113,0.06);border:1px solid rgba(46,204,113,0.2);border-radius:10px;padding:16px 20px;margin-bottom:24px;display:flex;gap:14px;align-items:center;">
+      <div style="background:rgba(79,195,247,0.06);border:1px solid rgba(79,195,247,0.2);border-radius:10px;padding:16px 20px;margin-bottom:24px;display:flex;gap:14px;align-items:center;">
         <span style="font-size:1.4rem;">🛒</span>
         <div>
           <p style="font-size:0.88rem;font-weight:700;color:var(--emerald);">Order Management</p>
@@ -845,15 +841,15 @@
       type = type || 'info';
       var existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#c9a84c', warning: '#f39c12' };
+      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       var toast = document.createElement('div');
       toast.className = 'as-toast';
       toast.innerHTML = '<span>' + icons[type] + '</span><span>' + message + '</span>';
       Object.assign(toast.style, {
         position:'fixed', bottom:'28px', right:'28px', zIndex:'9999',
-        background:'#0d2b1f', border:'1px solid ' + colors[type],
-        color:'#f5f0e8', padding:'14px 20px', borderRadius:'8px',
+        background:'#0a1628', border:'1px solid ' + colors[type],
+        color:'#f0f4ff', padding:'14px 20px', borderRadius:'8px',
         fontFamily:'Nunito, sans-serif', fontSize:'0.9rem', fontWeight:'600',
         display:'flex', alignItems:'center', gap:'10px',
         boxShadow:'0 4px 24px rgba(0,0,0,0.5)', maxWidth:'340px'
@@ -863,276 +859,5 @@
     }
 
   </script>
-
-  <!-- ══ REAL DATA LOADER ══ -->
-  <script>
-    // ── AUTH GUARD ──
-    (function() {
-      const token = localStorage.getItem('as_token');
-      const role  = localStorage.getItem('as_role');
-      if (!token || role !== 'seller') {
-        window.location.href = 'auth.html';
-        return;
-      }
-    })();
-
-    // ── LOAD REAL SELLER DATA ──
-    (function loadSellerData() {
-      try {
-        const user   = JSON.parse(localStorage.getItem('as_user')   || '{}');
-        const seller = JSON.parse(localStorage.getItem('as_seller') || '{}');
-
-        // Topbar
-        const pageSub = document.getElementById('page-sub');
-        if (pageSub) {
-          if (seller.shopNumber) {
-            pageSub.textContent = seller.shopNumber + ' — ' + (seller.businessName || '');
-          } else {
-            pageSub.textContent = 'Pending Verification';
-          }
-        }
-
-        // Topbar title
-        const pageTitle = document.getElementById('page-title');
-        if (pageTitle) pageTitle.textContent = user.fullName || 'My Dashboard';
-
-        // Sidebar shop badge
-        const shopNumDisplay = document.querySelector('.shop-num-display');
-        if (shopNumDisplay) shopNumDisplay.textContent = seller.shopNumber || 'Pending';
-
-        const shopNameDisplay = document.querySelector('.shop-name-display');
-        if (shopNameDisplay) shopNameDisplay.textContent = seller.businessName || '';
-
-        const verifiedTag = document.querySelector('.verified-tag');
-        if (verifiedTag) {
-          if (seller.status === 'approved') {
-            verifiedTag.textContent = '✅ Verified Seller';
-            verifiedTag.style.color = 'var(--emerald)';
-          } else {
-            verifiedTag.textContent = '⏳ Pending Verification';
-            verifiedTag.style.color = 'var(--warn)';
-          }
-        }
-
-        // Profile section
-        const profileName = document.getElementById('profile-name');
-        if (profileName) profileName.textContent = user.fullName || '';
-        const profileBiz = document.getElementById('profile-biz');
-        if (profileBiz) profileBiz.textContent = seller.businessName || '';
-        const profileCat = document.getElementById('profile-cat');
-        if (profileCat) profileCat.textContent = seller.category || '';
-        const profileState = document.getElementById('profile-state');
-        if (profileState) profileState.textContent = seller.state || '';
-        const profilePhone = document.getElementById('profile-phone');
-        if (profilePhone) profilePhone.textContent = user.phone || '';
-        const profileEmail = document.getElementById('profile-email');
-        if (profileEmail) profileEmail.textContent = user.email || '';
-        const profileAddr = document.getElementById('profile-address');
-        if (profileAddr) profileAddr.textContent = seller.address || '';
-
-        // My shop section
-        const myShopNum = document.getElementById('my-shop-number');
-        if (myShopNum) myShopNum.textContent = seller.shopNumber || 'Pending';
-        const myShopName = document.getElementById('my-shop-name');
-        if (myShopName) myShopName.textContent = seller.businessName || '';
-        const myShopCat = document.getElementById('my-shop-category');
-        if (myShopCat) myShopCat.textContent = seller.category || '';
-
-        // Large shop number in dashboard
-        document.querySelectorAll('.stat-shop-num').forEach(el => {
-          el.textContent = seller.shopNumber || 'Pending';
-        });
-
-      } catch(e) { console.warn('Could not load seller data:', e); }
-    })();
-
-    // ── LOAD REAL PRODUCTS FROM API ──
-    async function loadRealProducts() {
-      try {
-        const token = localStorage.getItem('as_token');
-        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/products/mine', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        const data = await res.json();
-        if (!res.ok) return;
-
-        const apiProducts = (data.products || []).map(p => ({
-          id:    p._id,
-          name:  p.name,
-          price: '₦' + Number(p.price).toLocaleString(),
-          cat:   p.category,
-          stock: p.inStock ? 'In Stock' : 'Out of Stock',
-          img:   p.images?.[0] || '📦',
-          icon:  '📦',
-        }));
-
-        // Replace demo products with real ones
-        if (apiProducts.length > 0) {
-          products.length = 0;
-          apiProducts.forEach(p => products.push(p));
-          if (typeof renderProducts === 'function') renderProducts();
-        }
-
-        // Update product count stat
-        const statProducts = document.getElementById('stat-products');
-        if (statProducts) statProducts.textContent = apiProducts.length;
-
-      } catch(e) { console.warn('Could not load products:', e); }
-    }
-
-    // ── SAVE PRODUCT TO API ──
-    async function saveProduct() {
-      const name  = document.getElementById('prod-name')?.value.trim();
-      const price = document.getElementById('prod-price')?.value.trim();
-      const desc  = document.getElementById('prod-desc')?.value.trim() || '';
-      const cat   = document.getElementById('prod-cat')?.value.trim()  || '';
-
-      if (!name)  { showToast('Please enter a product name', 'error');  return; }
-      if (!price) { showToast('Please enter a product price', 'error'); return; }
-
-      try {
-        const token = localStorage.getItem('as_token');
-        const fd = new FormData();
-        fd.append('name',        name);
-        fd.append('price',       price);
-        fd.append('description', desc);
-        fd.append('category',    cat || 'Other');
-
-        const imgs = document.getElementById('prod-imgs')?.files;
-        if (imgs) Array.from(imgs).forEach(f => fd.append('images', f));
-
-        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/products', {
-          method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + token },
-          body: fd
-        });
-        const data = await res.json();
-        if (!res.ok) { showToast(data.message || 'Failed to save product', 'error'); return; }
-
-        showToast('Product saved successfully! ✅', 'success');
-        document.getElementById('product-modal').classList.remove('open');
-        loadRealProducts();
-
-      } catch(e) {
-        showToast('Connection error. Try again.', 'error');
-      }
-    }
-
-    // ── LOAD REAL ORDERS FROM API ──
-    async function loadRealOrders() {
-      try {
-        const token = localStorage.getItem('as_token');
-        const res = await fetch('https://arewa-square-api-production.up.railway.app/api/orders/seller', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        const data = await res.json();
-        if (!res.ok) return;
-
-        const apiOrders = (data.orders || []).map(o => ({
-          id:      o.orderId,
-          buyer:   o.buyer?.fullName || 'Unknown Buyer',
-          phone:   o.buyer?.phone   || '',
-          items:   o.items?.map(i => i.name).join(', ') || '',
-          total:   '₦' + Number(o.total).toLocaleString(),
-          status:  o.status.charAt(0).toUpperCase() + o.status.slice(1),
-          date:    new Date(o.createdAt).toLocaleDateString('en-GB'),
-          rawId:   o._id,
-        }));
-
-        // Update stats
-        const newCount  = apiOrders.filter(o => o.status === 'New').length;
-        const totalVal  = data.orders.reduce((s, o) => s + o.total, 0);
-
-        const statNew   = document.getElementById('stat-new-orders');
-        const statTotal = document.getElementById('stat-total-orders');
-        const statVal   = document.getElementById('stat-order-value');
-
-        if (statNew)   statNew.textContent   = newCount;
-        if (statTotal) statTotal.textContent  = data.orders.length;
-        if (statVal)   statVal.textContent    = '₦' + totalVal.toLocaleString();
-
-        // Update order badge in nav
-        const badge = document.getElementById('orders-badge');
-        if (badge && newCount > 0) {
-          badge.textContent = newCount;
-          badge.style.display = 'inline';
-        }
-
-        // Replace demo orders
-        if (apiOrders.length > 0 && typeof liveOrders !== 'undefined') {
-          liveOrders.length = 0;
-          apiOrders.forEach(o => liveOrders.push(o));
-          if (typeof refreshOrders === 'function') refreshOrders();
-        }
-
-      } catch(e) { console.warn('Could not load orders:', e); }
-    }
-
-    // ── CONFIRM ORDER VIA API ──
-    async function confirmOrder(idx) {
-      const order = liveOrders[idx];
-      if (!order) return;
-      try {
-        const token = localStorage.getItem('as_token');
-        await fetch('https://arewa-square-api-production.up.railway.app/api/orders/' + order.rawId + '/confirm', {
-          method: 'PUT',
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        liveOrders[idx].status = 'Confirmed';
-        showToast('Order confirmed! ✅', 'success');
-        refreshOrders();
-      } catch(e) {
-        showToast('Connection error. Try again.', 'error');
-      }
-    }
-
-    // ── LOGOUT ──
-    function logoutUser() {
-      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
-      window.location.href = 'auth.html';
-    }
-
-    // ── THEME ──
-    function toggleTheme() {
-      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', t);
-      applyTheme(t);
-    }
-    function applyTheme(t) {
-      document.querySelectorAll('.as-theme-btn').forEach(b => {
-        b.textContent = t === 'light' ? '🌙' : '☀️';
-      });
-      document.body.setAttribute('data-theme', t);
-      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
-      let s = document.getElementById('_as_light');
-      if (t === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
-        s.textContent = `
-          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"] .sidebar{background:rgba(245,240,232,0.99)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .topbar{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .nav-item{color:#3a3520!important}
-          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#8a5e10!important;background:rgba(138,94,16,0.08)!important;border-left-color:#8a5e10!important}
-          body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card,body[data-theme="light"] .table-wrap{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .topbar-btn{background:rgba(0,0,0,0.05)!important;border-color:rgba(138,94,16,0.15)!important;color:#3a3520!important}
-          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
-          body[data-theme="light"] tbody td{color:#3a3520!important}
-          body[data-theme="light"] thead th{color:#8a5e10!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .modal{background:#f0ece0!important}
-          body[data-theme="light"] .sidebar-footer{border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .logout-btn{color:#3a3520!important}
-          body[data-theme="light"] .shop-num-display{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.3)!important}
-        `;
-      } else { if(s) s.textContent=''; document.body.style.backgroundColor=''; }
-    }
-    applyTheme(localStorage.getItem('as_theme') || 'dark');
-
-    // ── RUN ON LOAD ──
-    document.addEventListener('DOMContentLoaded', function() {
-      loadRealProducts();
-      loadRealOrders();
-    });
-  </script>
-
 </body>
 </html>

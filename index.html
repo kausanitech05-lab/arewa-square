@@ -9,17 +9,17 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --green-deep:   #0d2b1f;
-      --green-mid:    #1a4a30;
-      --green-light:  #2a6645;
-      --gold:         #c9a84c;
-      --gold-light:   #e8c97a;
-      --gold-dim:     #8a6e2f;
-      --emerald:      #2ecc71;
-      --emerald-dim:  #1a7a45;
-      --white:        #f5f0e8;
-      --white-dim:    #c8bfa8;
-      --dark:         #080f0b;
+      --green-deep:   #0a1628;
+      --green-mid:    #0f2040;
+      --green-light:  #1a3a6e;
+      --gold:         #FFD700;
+      --gold-light:   #FFE55C;
+      --gold-dim:     #B8860B;
+      --emerald:      #4FC3F7;
+      --emerald-dim:  #0288D1;
+      --white:        #f0f4ff;
+      --white-dim:    #a8b8d8;
+      --dark:         #060d1a;
     }
 
     html { scroll-behavior: smooth; }
@@ -37,8 +37,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px),
-        repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px);
+        repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,215,0,0.03) 40px, rgba(255,215,0,0.03) 41px),
+        repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,215,0,0.03) 40px, rgba(255,215,0,0.03) 41px);
       pointer-events: none;
       z-index: 0;
     }
@@ -55,9 +55,9 @@
       justify-content: space-between;
       padding: 0 5%;
       height: 72px;
-      background: rgba(8,15,11,0.92);
+      background: rgba(6,13,26,0.92);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(201,168,76,0.2);
+      border-bottom: 1px solid rgba(255,215,0,0.2);
     }
 
     .nav-logo {
@@ -204,7 +204,7 @@
       transform: translateX(-50%);
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(46,204,113,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(79,195,247,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -225,8 +225,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.3);
       border-radius: 20px;
       padding: 6px 16px;
       font-size: 0.78rem;
@@ -300,7 +300,7 @@
     .btn-hero-primary:hover {
       background: var(--gold-light);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+      box-shadow: 0 8px 24px rgba(255,215,0,0.3);
     }
 
     .btn-hero-secondary {
@@ -332,7 +332,7 @@
       justify-content: center;
       margin-top: 56px;
       padding-top: 40px;
-      border-top: 1px solid rgba(201,168,76,0.15);
+      border-top: 1px solid rgba(255,215,0,0.15);
       animation: fadeUp 1s ease 0.6s both;
       flex-wrap: wrap;
     }
@@ -361,9 +361,9 @@
     .trust-bar {
       position: relative;
       z-index: 2;
-      background: rgba(201,168,76,0.08);
-      border-top: 1px solid rgba(201,168,76,0.2);
-      border-bottom: 1px solid rgba(201,168,76,0.2);
+      background: rgba(255,215,0,0.08);
+      border-top: 1px solid rgba(255,215,0,0.2);
+      border-bottom: 1px solid rgba(255,215,0,0.2);
       padding: 20px 5%;
       display: flex;
       align-items: center;
@@ -433,7 +433,7 @@
       justify-content: center;
       margin-bottom: 48px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.15);
+      border: 1px solid rgba(255,215,0,0.15);
       border-radius: 6px;
       padding: 4px;
       width: fit-content;
@@ -472,7 +472,7 @@
 
     .step-card {
       background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(201,168,76,0.12);
+      border: 1px solid rgba(255,215,0,0.12);
       border-radius: 8px;
       padding: 32px 24px;
       text-align: center;
@@ -481,8 +481,8 @@
     }
 
     .step-card:hover {
-      border-color: rgba(201,168,76,0.4);
-      background: rgba(201,168,76,0.05);
+      border-color: rgba(255,215,0,0.4);
+      background: rgba(255,215,0,0.05);
       transform: translateY(-4px);
     }
 
@@ -527,8 +527,8 @@
     ════════════════════════════════ */
     .shops-section {
       background: rgba(0,0,0,0.15);
-      border-top: 1px solid rgba(201,168,76,0.1);
-      border-bottom: 1px solid rgba(201,168,76,0.1);
+      border-top: 1px solid rgba(255,215,0,0.1);
+      border-bottom: 1px solid rgba(255,215,0,0.1);
     }
 
     .shops-grid {
@@ -541,7 +541,7 @@
 
     .shop-card {
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,168,76,0.12);
+      border: 1px solid rgba(255,215,0,0.12);
       border-radius: 10px;
       overflow: hidden;
       transition: all 0.35s;
@@ -583,7 +583,7 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      background: rgba(46,204,113,0.15);
+      background: rgba(79,195,247,0.15);
       border: 1px solid var(--emerald);
       color: var(--emerald);
       font-size: 0.68rem;
@@ -664,7 +664,7 @@
 
     .cat-card {
       background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(201,168,76,0.1);
+      border: 1px solid rgba(255,215,0,0.1);
       border-radius: 8px;
       padding: 24px 16px;
       text-align: center;
@@ -673,7 +673,7 @@
     }
 
     .cat-card:hover {
-      background: rgba(201,168,76,0.08);
+      background: rgba(255,215,0,0.08);
       border-color: var(--gold-dim);
       transform: translateY(-3px);
     }
@@ -693,8 +693,8 @@
        WHY AREWA SQUARE
     ════════════════════════════════ */
     .why-section {
-      background: rgba(201,168,76,0.04);
-      border-top: 1px solid rgba(201,168,76,0.1);
+      background: rgba(255,215,0,0.04);
+      border-top: 1px solid rgba(255,215,0,0.1);
     }
 
     .why-grid {
@@ -715,8 +715,8 @@
       width: 48px;
       height: 48px;
       min-width: 48px;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.25);
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.25);
       border-radius: 6px;
       display: flex;
       align-items: center;
@@ -751,7 +751,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+      background: radial-gradient(ellipse at center, rgba(255,215,0,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -801,7 +801,7 @@
     .btn-cta-green:hover {
       background: var(--emerald);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(46,204,113,0.25);
+      box-shadow: 0 8px 24px rgba(79,195,247,0.25);
     }
 
     /* ════════════════════════════════
@@ -811,7 +811,7 @@
       position: relative;
       z-index: 2;
       background: var(--dark);
-      border-top: 1px solid rgba(201,168,76,0.2);
+      border-top: 1px solid rgba(255,215,0,0.2);
       padding: 60px 5% 30px;
     }
 
@@ -840,7 +840,7 @@
     .social-link {
       width: 36px;
       height: 36px;
-      border: 1px solid rgba(201,168,76,0.25);
+      border: 1px solid rgba(255,215,0,0.25);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -854,7 +854,7 @@
     .social-link:hover {
       border-color: var(--gold);
       color: var(--gold);
-      background: rgba(201,168,76,0.08);
+      background: rgba(255,215,0,0.08);
     }
 
     .footer-col h4 {
@@ -872,6 +872,7 @@
     }
 
     .footer-col ul li a {
+      color: var(--white-dim);
       color: var(--white-dim);
       text-decoration: none;
       font-size: 0.83rem;
@@ -929,9 +930,9 @@
       display: none;
       position: fixed;
       top: 72px; left: 0; right: 0;
-      background: rgba(8,15,11,0.98);
+      background: rgba(6,13,26,0.98);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(201,168,76,0.2);
+      border-bottom: 1px solid rgba(255,215,0,0.2);
       z-index: 999;
       flex-direction: column;
       padding: 20px 5% 28px;
@@ -988,8 +989,8 @@
     }
     .info-modal-overlay.open { display: flex; }
     .info-modal-box {
-      background: #0b2218;
-      border: 1px solid rgba(201,168,76,0.25);
+      background: #080f2a;
+      border: 1px solid rgba(255,215,0,0.25);
       border-radius: 16px;
       padding: 36px 32px;
       max-width: 560px;
@@ -1011,7 +1012,7 @@
       color: var(--white-dim);
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(255,215,0,0.15);
     }
     .info-modal-close {
       position: absolute;
@@ -1052,7 +1053,7 @@
       margin-bottom: 16px;
       padding: 14px 16px;
       background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(201,168,76,0.1);
+      border: 1px solid rgba(255,215,0,0.1);
       border-radius: 8px;
     }
     .rule-icon { font-size: 1.2rem; flex-shrink: 0; }
@@ -1084,7 +1085,7 @@
   <!-- ══ NAVBAR ══ -->
   <nav>
     <a href="./index.html" class="nav-logo">
-      <img src="./logo.png" alt="AREWA SQUARE Logo" onerror="this.style.display='none'"/>
+      <img src="arewa.png" alt="AREWA SQUARE Logo" onerror="this.style.display='none'"/>
       <div class="nav-logo-text">
         <span>AREWA SQUARE</span>
         <span>Northern Nigeria's Marketplace</span>
@@ -1100,7 +1101,6 @@
     </ul>
 
     <div class="nav-buttons">
-      <button id="as-theme-btn" onclick="toggleTheme()" title="Light Mode" style="width:36px;height:36px;border-radius:6px;background:transparent;border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;transition:all 0.3s;margin-right:4px;">☀️</button>
       <button class="btn-outline" onclick="window.location.href='auth.html'">Login</button>
       <button class="btn-gold" onclick="window.location.href='auth.html'">Register</button>
     </div>
@@ -1117,9 +1117,6 @@
     <a href="#categories" onclick="closeMobileMenu()">🏷️ Categories</a>
     <a href="#about" onclick="closeMobileMenu()">ℹ️ About Us</a>
     <a href="#contact-section" onclick="closeMobileMenu()">📞 Contact</a>
-    <div style="text-align:center;padding:10px 0 4px;">
-      <button id="as-theme-btn-mob" onclick="toggleTheme()" style="width:44px;height:44px;border-radius:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);cursor:pointer;font-size:1.2rem;display:inline-flex;align-items:center;justify-content:center;">☀️</button>
-    </div>
     <div class="mob-buttons">
       <button class="btn-outline" onclick="window.location.href='auth.html'">Login</button>
       <button class="btn-gold" onclick="window.location.href='auth.html'">Register</button>
@@ -1167,7 +1164,7 @@
           <p>Once approved, you are assigned a unique permanent shop number (e.g. Shop #021). This number belongs to your business forever and cannot be transferred.</p>
         </div>
       </div>
-      <div style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 16px;margin-top:8px;">
+      <div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:14px 16px;margin-top:8px;">
         <p style="font-size:0.8rem;color:var(--white-dim);line-height:1.7;">⏱️ <strong style="color:var(--gold);">Timeline:</strong> 24–48 hours after submission. &nbsp;|&nbsp; 💰 <strong style="color:var(--gold);">Cost:</strong> Free to apply. &nbsp;|&nbsp; 📞 Questions? <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" style="color:#25D366;">WhatsApp us</a></p>
       </div>
     </div>
@@ -1228,7 +1225,7 @@
           <p>Minor violations result in a warning. Serious violations result in immediate shop suspension. Fraud results in permanent removal and blacklisting.</p>
         </div>
       </div>
-      <div style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 16px;margin-top:8px;">
+      <div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:14px 16px;margin-top:8px;">
         <p style="font-size:0.8rem;color:var(--white-dim);line-height:1.7;">By selling on AREWA SQUARE you agree to these rules. Questions? <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" style="color:#25D366;">WhatsApp our team</a></p>
       </div>
     </div>
@@ -1275,8 +1272,8 @@
           <span class="label">Permanent Shop Numbers</span>
         </div>
         <div class="stat-item">
-          <span class="num">Kano</span>
-          <span class="label">Based in the North</span>
+          <span class="num">🇳🇬</span>
+          <span class="label">Made in Nigeria</span>
         </div>
         <div class="stat-item">
           <span class="num">Free</span>
@@ -1563,16 +1560,16 @@
       <p>We are here for buyers, sellers, and anyone who wants to know more about AREWA SQUARE.</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:800px;margin:0 auto;">
-      <a href="mailto:Support@arewsquare.com" style="text-decoration:none;">
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;cursor:pointer;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'">
+      <a href="mailto:support@arewasquare.com" style="color:var(--gold)!important;" style="text-decoration:none;color:var(--gold);">
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;cursor:pointer;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,0.2)'">
           <div style="font-size:2rem;margin-bottom:12px;">✉️</div>
           <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);margin-bottom:6px;">Email Support</h4>
           <p style="font-size:0.78rem;color:var(--white-dim);">Support@arewsquare.com</p>
           <p style="font-size:0.7rem;color:var(--white-dim);margin-top:6px;">Response within 24 hours</p>
         </div>
       </a>
-      <a href="tel:+2347082783618" style="text-decoration:none;">
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)'">
+      <a href="tel:+2347082783618" style="color:var(--gold)!important;" style="text-decoration:none;">
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,0.2)'">
           <div style="font-size:2rem;margin-bottom:12px;">📞</div>
           <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);margin-bottom:6px;">Call Us</h4>
           <p style="font-size:0.78rem;color:var(--white-dim);">07082783618</p>
@@ -1604,9 +1601,9 @@
         </a>
         <p>The trusted digital marketplace built for Northern Nigeria. Verified sellers, permanent shop numbers, and a community rooted in Arewa market culture.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/profile.php?id=61590530846832" target="_blank" class="social-link" title="Facebook" style="color:#1877F2;">f</a>
-          <a href="https://www.instagram.com/arewa_square_01?igsh=Y2VtNnZ4NHRpMWxn" target="_blank" class="social-link" title="Instagram" style="color:#2ecc71;">ig</a>
-          <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" class="social-link" title="WhatsApp" style="color:#25D366;">wa</a>
+          <a href="https://www.facebook.com/profile.php?id=61590530846832" target="_blank" class="social-link" title="Facebook" style="color:#1877F2;border-color:rgba(24,119,242,0.3);">f</a>
+          <a href="https://www.instagram.com/arewa_square_01?igsh=Y2VtNnZ4NHRpMWxn" target="_blank" class="social-link" title="Instagram" style="color:#E1306C;border-color:rgba(225,48,108,0.3);">ig</a>
+          <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" class="social-link" title="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.3);">wa</a>
         </div>
       </div>
 
@@ -1634,7 +1631,7 @@
         <h4>Company</h4>
         <ul>
           <li><a href="#about">About Us</a></li>
-          <li><a href="#contact-section">Contact</a></li>
+          <li><a href="#contact-section" style="color:var(--gold);">Contact</a></li>
           <li><a href="./privacy.html">Privacy Policy</a></li>
           <li><a href="./terms.html">Terms of Use</a></li>
         </ul>
@@ -1644,12 +1641,12 @@
         <h4>Support & Contact</h4>
         <ul>
           <li>
-            <a href="mailto:Support@arewsquare.com" style="display:flex;align-items:center;gap:8px;">
+            <a href="mailto:support@arewasquare.com" style="color:var(--gold)!important;" style="display:flex;align-items:center;gap:8px;color:var(--gold);">
               <span style="color:var(--gold);">✉️</span> Support@arewsquare.com
             </a>
           </li>
           <li>
-            <a href="tel:+2347082783618" style="display:flex;align-items:center;gap:8px;">
+            <a href="tel:+2347082783618" style="color:var(--gold)!important;" style="display:flex;align-items:center;gap:8px;">
               <span style="color:var(--emerald);">📞</span> 07082783618
             </a>
           </li>
@@ -1751,54 +1748,5 @@
     });
   </script>
 
-
-  <!-- ══ THEME ENGINE ══ -->
-  <script>
-    function toggleTheme() {
-      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('as_theme', t);
-      applyTheme(t);
-    }
-    function applyTheme(t) {
-      const btn    = document.getElementById('as-theme-btn');
-      const btnMob = document.getElementById('as-theme-btn-mob');
-      if (btn)    { btn.textContent    = t === 'light' ? '🌙' : '☀️'; btn.title    = t === 'light' ? 'Dark Mode' : 'Light Mode'; }
-      if (btnMob) { btnMob.textContent = t === 'light' ? '🌙' : '☀️'; btnMob.title = t === 'light' ? 'Dark Mode' : 'Light Mode'; }
-      document.body.setAttribute('data-theme', t);
-      document.body.style.backgroundColor = t === 'light' ? '#f5f0e8' : '';
-      let s = document.getElementById('_as_light');
-      if (t === 'light') {
-        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
-        s.textContent = `
-          body[data-theme="light"]{background:#f5f0e8!important;color:#1a1a0f!important}
-          body[data-theme="light"]::before{background-image:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px),repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(138,94,16,0.05) 40px,rgba(138,94,16,0.05) 41px)!important}
-          body[data-theme="light"] nav{background:rgba(245,240,232,0.97)!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .hero{background:linear-gradient(135deg,#e8e2d0,#f5f0e8,#e0d8c4)!important}
-          body[data-theme="light"] .step-card,body[data-theme="light"] .feature-card,body[data-theme="light"] .trust-card,body[data-theme="light"] .shop-card,body[data-theme="light"] .category-card,body[data-theme="light"] .stat-mini{background:rgba(0,0,0,0.04)!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .section-alt{background:rgba(0,0,0,0.03)!important}
-          body[data-theme="light"] .section-tag{background:rgba(138,94,16,0.1)!important;color:#8a5e10!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .how-tabs{background:rgba(0,0,0,0.05)!important}
-          body[data-theme="light"] .tab-btn{color:#3a3520!important}
-          body[data-theme="light"] .tab-btn.active{background:#f5f0e8!important;color:#8a5e10!important;box-shadow:none!important}
-          body[data-theme="light"] .step-number{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.25)!important;color:#8a5e10!important}
-          body[data-theme="light"] footer{background:#e8e2d0!important;border-color:rgba(138,94,16,0.15)!important}
-          body[data-theme="light"] .footer-bottom{border-color:rgba(138,94,16,0.12)!important}
-          body[data-theme="light"] .mobile-menu{background:#f5f0e8!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .mobile-menu a{color:#1a1a0f!important;border-color:rgba(138,94,16,0.1)!important}
-          body[data-theme="light"] .hamburger span{background:#8a5e10!important}
-          body[data-theme="light"] .info-modal-box{background:#f0ece0!important;border-color:rgba(138,94,16,0.2)!important}
-          body[data-theme="light"] .verif-step-body p{color:#3a3520!important}
-          body[data-theme="light"] .verif-step-num{background:rgba(138,94,16,0.1)!important;border-color:rgba(138,94,16,0.25)!important;color:#8a5e10!important}
-          body[data-theme="light"] input,body[data-theme="light"] select{background:rgba(0,0,0,0.05)!important;color:#1a1a0f!important;border-color:rgba(138,94,16,0.25)!important}
-          body[data-theme="light"] #as-theme-btn{border-color:rgba(138,94,16,0.35)!important}
-        `;
-      } else {
-        if (s) s.textContent = '';
-        document.body.style.backgroundColor = '';
-      }
-    }
-    // Apply on load
-    applyTheme(localStorage.getItem('as_theme') || 'dark');
-  </script>
 </body>
 </html>
