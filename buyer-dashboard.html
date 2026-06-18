@@ -8,17 +8,20 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --green-deep:   #0a1628;
-      --green-mid:    #0f2040;
-      --green-light:  #1a3a6e;
-      --gold:         #FFD700;
-      --gold-light:   #FFE55C;
-      --gold-dim:     #B8860B;
-      --emerald:      #4FC3F7;
-      --emerald-dim:  #0288D1;
-      --white:        #f0f4ff;
-      --white-dim:    #a8b8d8;
-      --dark:         #060d1a;
+      --green-deep:  #0a1628;
+      --green-mid:   #0f2040;
+      --green-light: #1a3a6e;
+      --gold:        #FFD700;
+      --gold-light:  #FFE55C;
+      --gold-dim:    #B8860B;
+      --emerald:     #4FC3F7;
+      --emerald-dim: #0288D1;
+      --white:       #f0f4ff;
+      --white-dim:   #a8b8d8;
+      --dark:        #060d1a;
+      --sidebar-w:   240px;
+      --card-bg:     rgba(255,255,255,0.04);
+      --border:      rgba(255,215,0,0.15);
     }
     body {
       font-family: 'Nunito', sans-serif;
@@ -41,7 +44,7 @@
       position: fixed; top: 0; left: 0;
       width: var(--sidebar-w);
       height: 100vh;
-      background: rgba(5,12,24,0.97);
+      background: rgba(6,13,26,0.97);
       border-right: 1px solid var(--border);
       display: flex; flex-direction: column;
       z-index: 100; transition: transform 0.3s;
@@ -117,7 +120,7 @@
     /* Top bar */
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(6,13,26,0.97);
+      background: rgba(10,22,40,0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 32px;
@@ -453,7 +456,7 @@
     .cart-drawer {
       position: fixed; top: 0; right: -420px;
       width: 100%; max-width: 420px; height: 100vh;
-      background: #0a1628; border-left: 1px solid rgba(255,215,0,0.25);
+      background: #080f2a; border-left: 1px solid rgba(255,215,0,0.25);
       z-index: 1200; display: flex; flex-direction: column;
       transition: right 0.35s cubic-bezier(.4,0,.2,1);
       box-shadow: -8px 0 40px rgba(0,0,0,0.5);
@@ -462,7 +465,7 @@
     .cart-header {
       padding: 20px 24px; border-bottom: 1px solid rgba(255,215,0,0.15);
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(5,12,24,0.8);
+      background: rgba(6,13,26,0.8);
     }
     .cart-header h3 {
       font-family: 'Cinzel', serif; font-size: 1rem;
@@ -525,7 +528,7 @@
 
     .cart-footer {
       padding: 16px 24px; border-top: 1px solid rgba(255,215,0,0.15);
-      background: rgba(5,12,24,0.8);
+      background: rgba(6,13,26,0.8);
     }
     .cart-totals {
       background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.15);
@@ -620,7 +623,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-      <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
       <div class="sidebar-logo-text">
         <span>AREWA SQUARE</span>
         <span>Buyer Portal</span>
@@ -662,7 +665,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn" onclick="window.location.href='auth.html'">🚪 Logout</button>
+      <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,215,0,0.1);">
         <p style="font-size:0.65rem;color:var(--white-dim);margin-bottom:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Need Help?</p>
         <a href="mailto:Support@arewsquare.com" style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--white-dim);text-decoration:none;margin-bottom:5px;" title="Email Support">✉️ Support@arewsquare.com</a>
@@ -1295,7 +1298,7 @@
       type = type || 'info';
       var existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
+      var colors = { success: '#4FC3F7', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       var toast = document.createElement('div');
       toast.className = 'as-toast';
@@ -1313,5 +1316,70 @@
     }
 
   </script>
+
+  <!-- ══ REAL DATA LOADER ══ -->
+  <script>
+    // ── AUTH GUARD: kick out anyone without a real token ──
+    (function() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'buyer') {
+        window.location.href = 'auth.html';
+      }
+    })();
+
+    // ── LOAD REAL BUYER INFO INTO PAGE ──
+    (function loadRealBuyer() {
+      try {
+        const user = JSON.parse(localStorage.getItem('as_user') || '{}');
+        if (!user || !user.fullName) return;
+
+        const fullName  = user.fullName;
+        const firstName = fullName.split(' ')[0] || '';
+        const lastName  = fullName.split(' ').slice(1).join(' ') || '';
+        const initials  = (fullName.split(' ')[0]?.[0] || '') + (fullName.split(' ')[1]?.[0] || '');
+
+        // Greeting in topbar
+        const pageSub = document.getElementById('page-sub');
+        if (pageSub) pageSub.textContent = 'Welcome back, ' + firstName + ' 👋';
+
+        // Sidebar avatar + name
+        document.querySelectorAll('.user-avatar').forEach(el => el.textContent = initials.toUpperCase());
+        const sidebarNameEl = document.querySelector('.sidebar-user .user-info span:first-child');
+        if (sidebarNameEl) sidebarNameEl.textContent = fullName;
+
+        // Profile section big card
+        const profileHeading = document.querySelector('div[style*="font-family:\'Cinzel\',serif;font-size:1rem;color:var(--white);"]');
+        if (profileHeading) profileHeading.textContent = fullName;
+
+        // Profile form fields (First Name / Last Name / Email / Phone / State)
+        const allInputs = document.querySelectorAll('.profile-grid input, .profile-grid select');
+        allInputs.forEach(el => {
+          const label = el.closest('.form-group')?.querySelector('label')?.textContent?.trim();
+          if (!label) return;
+          if (label === 'First Name') el.value = firstName;
+          if (label === 'Last Name')  el.value = lastName;
+          if (label === 'Email')      el.value = user.email || '';
+          if (label === 'Phone')      el.value = user.phone || '';
+          if (label === 'LGA')        el.value = user.city  || '';
+          if (label === 'State' && el.tagName === 'SELECT') {
+            for (const opt of el.options) {
+              if (opt.value === user.state || opt.textContent.trim() === user.state) {
+                el.value = opt.value || opt.textContent;
+              }
+            }
+          }
+        });
+
+      } catch(e) { console.warn('Could not load buyer info:', e); }
+    })();
+
+    // ── REAL LOGOUT ──
+    function logoutUser() {
+      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
+      window.location.href = 'auth.html';
+    }
+  </script>
+
 </body>
 </html>
