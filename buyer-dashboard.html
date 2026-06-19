@@ -688,6 +688,7 @@
         </div>
       </div>
       <div class="topbar-right">
+        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn" title="Notifications">🔔</button>
         <button class="cart-btn" onclick="openCart()" title="My Cart" id="cart-btn">
           🛒
@@ -1379,6 +1380,49 @@
       ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
       window.location.href = 'auth.html';
     }
+  </script>
+
+
+  <!-- ══ THEME ENGINE — Midnight Blue & Gold ══ -->
+  <script>
+    function toggleTheme() {
+      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('as_theme', t);
+      applyTheme(t);
+    }
+    function applyTheme(t) {
+      document.querySelectorAll('.as-theme-btn').forEach(b => {
+        b.textContent = t === 'light' ? '🌙' : '☀️';
+        b.title = t === 'light' ? 'Dark Mode' : 'Light Mode';
+      });
+      document.body.setAttribute('data-theme', t);
+      let s = document.getElementById('_as_light');
+      if (t === 'light') {
+        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
+        s.textContent = `
+          body[data-theme="light"]{background:#f0f4ff!important;color:#0a1628!important}
+          body[data-theme="light"] .sidebar{background:rgba(240,244,255,0.99)!important;border-color:rgba(10,22,40,0.12)!important}
+          body[data-theme="light"] .topbar{background:rgba(240,244,255,0.97)!important;border-color:rgba(10,22,40,0.1)!important}
+          body[data-theme="light"] .nav-item{color:#0f2040!important}
+          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#B8860B!important;background:rgba(255,215,0,0.08)!important;border-left-color:#FFD700!important}
+          body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card,body[data-theme="light"] .table-wrap{background:#ffffff!important;border-color:rgba(10,22,40,0.1)!important;box-shadow:0 2px 8px rgba(10,22,40,0.06)!important}
+          body[data-theme="light"] .topbar-btn{background:#ffffff!important;border-color:rgba(10,22,40,0.12)!important;color:#0a1628!important}
+          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:#ffffff!important;color:#0a1628!important;border-color:rgba(10,22,40,0.2)!important}
+          body[data-theme="light"] select option{background:#f0f4ff!important;color:#0a1628!important}
+          body[data-theme="light"] tbody td{color:#0f2040!important}
+          body[data-theme="light"] thead th{color:#B8860B!important;border-color:rgba(10,22,40,0.1)!important}
+          body[data-theme="light"] .modal{background:#f0f4ff!important}
+          body[data-theme="light"] .shop-num-pill,body[data-theme="light"] .shop-num-display{background:rgba(255,215,0,0.12)!important;border-color:rgba(255,215,0,0.3)!important;color:#B8860B!important}
+          body[data-theme="light"] .sidebar-footer{border-color:rgba(10,22,40,0.1)!important}
+          body[data-theme="light"] .logout-btn{color:#0f2040!important}
+          body[data-theme="light"] .user-avatar{background:rgba(255,215,0,0.15)!important;color:#B8860B!important}
+          body[data-theme="light"] .stat-lbl,body[data-theme="light"] .stat-trend-up,body[data-theme="light"] .stat-trend-warn{color:#3a5a8a!important}
+          body[data-theme="light"] .section-heading h3{color:#0a1628!important}
+          body[data-theme="light"] .as-toast{background:#f0f4ff!important;color:#0a1628!important;box-shadow:0 4px 24px rgba(10,22,40,0.15)!important}
+        `;
+      } else { if (s) s.textContent = ''; }
+    }
+    applyTheme(localStorage.getItem('as_theme') || 'dark');
   </script>
 
 </body>
