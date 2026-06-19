@@ -8,17 +8,21 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --green-deep:   #0a1628;
-      --green-mid:    #0f2040;
-      --green-light:  #1a3a6e;
-      --gold:         #FFD700;
-      --gold-light:   #FFE55C;
-      --gold-dim:     #B8860B;
-      --emerald:      #4FC3F7;
-      --emerald-dim:  #0288D1;
-      --white:        #f0f4ff;
-      --white-dim:    #a8b8d8;
-      --dark:         #060d1a;
+      --bg:         #060d1a;
+      --bg2:        #0a1628;
+      --green-mid:  #0f2040;
+      --gold:       #FFD700;
+      --gold-light: #FFE55C;
+      --gold-dim:   #B8860B;
+      --emerald:    #4FC3F7;
+      --em-dim:     #0288D1;
+      --white:      #f0f4ff;
+      --white-dim:  #a8b8d8;
+      --danger:     #e74c3c;
+      --warn:       #f39c12;
+      --sidebar-w:  256px;
+      --card:       rgba(255,255,255,0.04);
+      --border:     rgba(255,215,0,0.15);
     }
     body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--white); min-height:100vh; display:flex; }
     body::before {
@@ -179,7 +183,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <a href="index.html">
-        <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
+        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
         <div class="sidebar-logo-text">
           <span>AREWA SQUARE</span>
           <span>Admin Control Panel</span>
@@ -215,7 +219,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn" onclick="window.location.href='auth.html'">🚪 Logout</button>
+      <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
     </div>
   </aside>
 
@@ -229,6 +233,7 @@
         <h1 id="page-title">Admin Dashboard</h1>
       </div>
       <div class="topbar-right">
+        <button class="topbar-btn as-theme-btn" onclick="toggleTheme()" title="Light Mode">☀️</button>
         <button class="topbar-btn">🔔</button>
         <button class="topbar-btn" onclick="showToast('Admin profile settings...','info')">⚙️</button>
         <a href="index.html" style="padding:7px 14px;background:rgba(255,215,0,0.1);border:1px solid var(--gold-dim);border-radius:5px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:0.75rem;font-weight:700;text-decoration:none;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,215,0,0.2)'" onmouseout="this.style.background='rgba(255,215,0,0.1)'">← View Site</a>
@@ -238,9 +243,9 @@
     <!-- ══ DASHBOARD ══ -->
     <section class="page-section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🏪</div><span class="stat-trend-up">+2 this week</span></div><span class="stat-num">20</span><span class="stat-lbl">Verified Sellers</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👥</div><span class="stat-trend-up">+14 this week</span></div><span class="stat-num">183</span><span class="stat-lbl">Registered Buyers</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📋</div><span class="stat-trend-warn">Needs review</span></div><span class="stat-num">3</span><span class="stat-lbl">Pending Applications</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🏪</div><span class="stat-trend-up">+2 this week</span></div><span class="stat-num" id="stat-sellers">0</span><span class="stat-lbl">Verified Sellers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👥</div><span class="stat-trend-up">+14 this week</span></div><span class="stat-num" id="stat-buyers">0</span><span class="stat-lbl">Registered Buyers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📋</div><span class="stat-trend-warn">Needs review</span></div><span class="stat-num" id="stat-pending">0</span><span class="stat-lbl">Pending Applications</span></div>
         <div class="stat-card"><div class="stat-top"><div class="stat-icon">🚩</div><span class="stat-trend-warn">Open</span></div><span class="stat-num">2</span><span class="stat-lbl">Open Disputes</span></div>
         <div class="stat-card"><div class="stat-top"><div class="stat-icon">👁️</div><span class="stat-trend-up">Today</span></div><span class="stat-num">1,247</span><span class="stat-lbl">Platform Views Today</span></div>
         <div class="stat-card"><div class="stat-top"><div class="stat-icon">🔢</div><span class="stat-trend-up">Next: #021</span></div><span class="stat-num">20</span><span class="stat-lbl">Assigned Shop Numbers</span></div>
@@ -252,11 +257,7 @@
           <div class="table-wrap">
             <table>
               <thead><tr><th>Name</th><th>Business</th><th>Category</th><th>Applied</th><th>Actions</th></tr></thead>
-              <tbody>
-                <tr><td style="color:var(--white);font-weight:600;">Ibrahim Sale</td><td>Sale Electronics</td><td>📱 Phones</td><td>Today</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Ibrahim Sale')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
-                <tr><td style="color:var(--white);font-weight:600;">Maryam Umar</td><td>Maryam Fabrics</td><td>👕 Fashion</td><td>Yesterday</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Maryam Umar')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
-                <tr><td style="color:var(--white);font-weight:600;">Bello Garba</td><td>Garba Shoes Hub</td><td>👟 Shoes</td><td>2 days ago</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Bello Garba')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
-              </tbody>
+              <tbody id="dashboard-applications-tbody"></tbody><!--OLD_DASH_APP_ROW_REMOVED-->
             </table>
           </div>
         </div>
@@ -287,36 +288,7 @@
       <div class="table-wrap">
         <table>
           <thead><tr><th>Applicant</th><th>Business Name</th><th>Category</th><th>Location</th><th>Applied</th><th>Documents</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Ibrahim Sale</td>
-              <td>Sale Electronics</td><td>📱 Phones</td><td>Sabon Gari, Kano</td><td>Today</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge pending">Pending</span></td>
-              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Ibrahim Sale')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Maryam Umar</td>
-              <td>Maryam Fabrics</td><td>👕 Fashion</td><td>Gwale, Kano</td><td>Yesterday</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge pending">Pending</span></td>
-              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Maryam Umar')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Bello Garba</td>
-              <td>Garba Shoes Hub</td><td>👟 Shoes</td><td>Kano Central</td><td>2 days ago</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge pending">Pending</span></td>
-              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Bello Garba')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Aisha Nuhu</td>
-              <td>Aisha Cosmetics</td><td>💊 Health</td><td>Nassarawa, Kano</td><td>3 days ago</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge approved">Approved</span></td>
-              <td><div class="action-cell"><button class="act-btn view" onclick="showToast('Viewing seller profile...','info')">View</button></div></td>
-            </tr>
-          </tbody>
+          <tbody id="applications-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -362,12 +334,7 @@
       <div class="table-wrap">
         <table>
           <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Location</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr><td style="color:var(--white);font-weight:600;">Abubakar Musa</td><td>abubakar@email.com</td><td>08012345678</td><td>Nassarawa, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Halima Usman</td><td>halima@email.com</td><td>08098765432</td><td>Gwale, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Yusuf Danjuma</td><td>yusuf@email.com</td><td>08033344455</td><td>Kaduna</td><td>Feb 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Fatima Bello</td><td>fatima@email.com</td><td>08055566677</td><td>Katsina</td><td>Feb 2025</td><td><span class="badge suspended">Suspended</span></td><td><div class="action-cell"><button class="act-btn approve" onclick="showToast('Account reactivated.','info')">Reactivate</button><button class="act-btn remove" onclick="confirm('Delete account?')&&alert('Deleted.')">Delete</button></div></td></tr>
-          </tbody>
+          <tbody id="buyers-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -503,7 +470,7 @@
   </main>
 
   <script>
-    const sellers = [
+    const sellers_OLD_UNUSED = [
       { num:'#001', icon:'👟', name:'Zainab Footwear',    cat:'Shoes',       loc:'Kano Central', joined:'Jan 2025', status:'active'    },
       { num:'#002', icon:'📱', name:'Musa Gadgets Hub',   cat:'Phones',      loc:'Sabon Gari',   joined:'Jan 2025', status:'active'    },
       { num:'#003', icon:'👕', name:'Fatima Fashion',     cat:'Fashion',     loc:'Gwale',        joined:'Jan 2025', status:'active'    },
@@ -513,7 +480,7 @@
       { num:'#007', icon:'💊', name:'Rahama Beauty',      cat:'Health',      loc:'Kano Central', joined:'Feb 2025', status:'active'    },
     ];
 
-    const shopNums = [
+    const shopNums_OLD_UNUSED = [
       { num:'#001', seller:'Zainab Abdullahi',  biz:'Zainab Footwear',    cat:'Shoes',       assigned:'Jan 2025', status:'active'    },
       { num:'#002', seller:'Musa Ibrahim',      biz:'Musa Gadgets Hub',   cat:'Phones',      assigned:'Jan 2025', status:'active'    },
       { num:'#003', seller:'Fatima Sani',       biz:'Fatima Fashion',     cat:'Fashion',     assigned:'Jan 2025', status:'active'    },
@@ -526,7 +493,7 @@
       { num:'#010', seller:'—',                 biz:'—',                  cat:'—',           assigned:'—',        status:'vacant'    },
     ];
 
-    function renderSellers() {
+    function renderSellers_OLD_UNUSED() {
       document.getElementById('sellers-tbody').innerHTML = sellers.map(s => `
         <tr>
           <td><span class="shop-num-pill">${s.num}</span></td>
@@ -541,7 +508,7 @@
         </tr>`).join('');
     }
 
-    function renderShopNums() {
+    function renderShopNums_OLD_UNUSED() {
       document.getElementById('shop-nums-tbody').innerHTML = shopNums.map(s => `
         <tr>
           <td><span class="shop-num-pill">${s.num}</span></td>
@@ -551,7 +518,7 @@
         </tr>`).join('');
     }
 
-    function approveApp(btn, name) {
+    function approveApp_OLD_UNUSED(btn, name) {
       const row = btn.closest('tr');
       const badge = row.querySelector('.badge');
       if(badge) { badge.textContent='Approved'; badge.className='badge approved'; }
@@ -559,7 +526,7 @@
       showToast('✅ ' + name + ' approved! Shop number assigned and notification sent.', 'success');
     }
 
-    function rejectApp(btn) {
+    function rejectApp_OLD_UNUSED(btn) {
       const reason = prompt('Enter rejection reason (will be sent to applicant):');
       if(reason) {
         const row = btn.closest('tr');
@@ -579,15 +546,13 @@
       if(window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
     }
 
-    renderSellers();
-    renderShopNums();
   
     /* ── TOAST NOTIFICATION SYSTEM ── */
     function showToast(message, type) {
       type = type || 'info';
       var existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
+      var colors = { success: '#4FC3F7', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       var toast = document.createElement('div');
       toast.className = 'as-toast';
@@ -605,5 +570,264 @@
     }
 
   </script>
+
+  <!-- ══ THEME ENGINE — Midnight Blue & Gold ══ -->
+  <script>
+    function toggleTheme() {
+      const t = (localStorage.getItem('as_theme') || 'dark') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('as_theme', t);
+      applyTheme(t);
+    }
+    function applyTheme(t) {
+      document.querySelectorAll('.as-theme-btn').forEach(b => {
+        b.textContent = t === 'light' ? '🌙' : '☀️';
+        b.title = t === 'light' ? 'Dark Mode' : 'Light Mode';
+      });
+      document.body.setAttribute('data-theme', t);
+      let s = document.getElementById('_as_light');
+      if (t === 'light') {
+        if (!s) { s = document.createElement('style'); s.id = '_as_light'; document.head.appendChild(s); }
+        s.textContent = `
+          body[data-theme="light"]{background:#f0f4ff!important;color:#0a1628!important}
+          body[data-theme="light"] .sidebar{background:rgba(240,244,255,0.99)!important;border-color:rgba(10,22,40,0.12)!important}
+          body[data-theme="light"] .topbar{background:rgba(240,244,255,0.97)!important;border-color:rgba(10,22,40,0.1)!important}
+          body[data-theme="light"] .nav-item{color:#0f2040!important}
+          body[data-theme="light"] .nav-item.active,body[data-theme="light"] .nav-item:hover{color:#B8860B!important;background:rgba(255,215,0,0.08)!important;border-left-color:#FFD700!important}
+          body[data-theme="light"] .stat-card,body[data-theme="light"] .as-card,body[data-theme="light"] .table-wrap{background:#ffffff!important;border-color:rgba(10,22,40,0.1)!important;box-shadow:0 2px 8px rgba(10,22,40,0.06)!important}
+          body[data-theme="light"] .topbar-btn{background:#ffffff!important;border-color:rgba(10,22,40,0.12)!important;color:#0a1628!important}
+          body[data-theme="light"] input,body[data-theme="light"] select,body[data-theme="light"] textarea{background:#ffffff!important;color:#0a1628!important;border-color:rgba(10,22,40,0.2)!important}
+          body[data-theme="light"] select option{background:#f0f4ff!important;color:#0a1628!important}
+          body[data-theme="light"] tbody td{color:#0f2040!important}
+          body[data-theme="light"] thead th{color:#B8860B!important;border-color:rgba(10,22,40,0.1)!important}
+          body[data-theme="light"] .modal{background:#f0f4ff!important}
+          body[data-theme="light"] .shop-num-pill,body[data-theme="light"] .shop-num-display{background:rgba(255,215,0,0.12)!important;border-color:rgba(255,215,0,0.3)!important;color:#B8860B!important}
+          body[data-theme="light"] .sidebar-footer{border-color:rgba(10,22,40,0.1)!important}
+          body[data-theme="light"] .logout-btn{color:#0f2040!important}
+          body[data-theme="light"] .user-avatar{background:rgba(255,215,0,0.15)!important;color:#B8860B!important}
+          body[data-theme="light"] .stat-lbl,body[data-theme="light"] .stat-trend-up,body[data-theme="light"] .stat-trend-warn{color:#3a5a8a!important}
+          body[data-theme="light"] .section-heading h3{color:#0a1628!important}
+          body[data-theme="light"] .as-toast{background:#f0f4ff!important;color:#0a1628!important;box-shadow:0 4px 24px rgba(10,22,40,0.15)!important}
+        `;
+      } else { if (s) s.textContent = ''; }
+    }
+    applyTheme(localStorage.getItem('as_theme') || 'dark');
+  </script>
+
+
+  <!-- ══ REAL DATA LOADER ══ -->
+  <script>
+    const _API = 'https://arewa-square-api-production.up.railway.app/api';
+
+    // ── AUTH GUARD ──
+    (function() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'admin') { window.location.href = 'auth.html'; }
+    })();
+
+    function _headers() {
+      return { 'Authorization': 'Bearer ' + localStorage.getItem('as_token'), 'Content-Type': 'application/json' };
+    }
+
+    // ── LOAD DASHBOARD STATS ──
+    async function loadRealStats() {
+      try {
+        const res  = await fetch(_API + '/admin/stats', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const s = data.stats || {};
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val ?? 0; };
+        set('stat-sellers', s.totalSellers);
+        set('stat-buyers',  s.totalBuyers);
+        set('stat-pending', s.pendingApplications);
+      } catch(e) { console.warn('Stats error:', e); }
+    }
+
+    // ── LOAD PENDING APPLICATIONS (full page + dashboard preview) ──
+    async function loadRealApplications() {
+      try {
+        const res  = await fetch(_API + '/admin/applications?status=pending', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const apps = data.applications || [];
+
+        const rowHtml = (a, full) => `
+          <tr>
+            <td style="color:var(--white);font-weight:600;">${a.user?.fullName || ''}</td>
+            <td>${a.businessName || ''}</td>
+            <td>${a.category || ''}</td>
+            ${full ? `<td>${a.city ? a.city + ', ' : ''}${a.state || ''}</td>` : ''}
+            <td>${new Date(a.createdAt).toLocaleDateString('en-GB')}</td>
+            ${full ? `<td>${a.govIdUrl ? `<a href="${a.govIdUrl}" target="_blank" class="act-btn view">View Docs</a>` : '—'}</td>` : ''}
+            ${full ? `<td><span class="badge pending">Pending</span></td>` : ''}
+            <td><div class="action-cell">
+              <button class="act-btn approve" onclick="approveApplication('${a._id}')">Approve</button>
+              <button class="act-btn reject" onclick="rejectApplication('${a._id}')">Reject</button>
+            </div></td>
+          </tr>`;
+
+        const dashTbody = document.getElementById('dashboard-applications-tbody');
+        if (dashTbody) {
+          dashTbody.innerHTML = apps.length
+            ? apps.slice(0, 5).map(a => rowHtml(a, false)).join('')
+            : '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--white-dim);">No pending applications</td></tr>';
+        }
+
+        const fullTbody = document.getElementById('applications-tbody');
+        if (fullTbody) {
+          fullTbody.innerHTML = apps.length
+            ? apps.map(a => rowHtml(a, true)).join('')
+            : '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">No pending applications</td></tr>';
+        }
+      } catch(e) { console.warn('Applications error:', e); }
+    }
+
+    // ── LOAD SELLERS ──
+    async function loadRealSellers() {
+      try {
+        const res  = await fetch(_API + '/admin/sellers', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const sellers = data.sellers || [];
+        const tbody = document.getElementById('sellers-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = sellers.length ? sellers.map(s => `
+          <tr>
+            <td><span class="shop-num-pill">${s.shopNumber || 'Pending'}</span></td>
+            <td style="color:var(--white);font-weight:600;">${s.businessName || ''}</td>
+            <td>${s.category || ''}</td>
+            <td>${s.city ? s.city + ', ' : ''}${s.state || ''}</td>
+            <td>${new Date(s.createdAt).toLocaleDateString('en-GB')}</td>
+            <td><span class="badge ${s.status === 'suspended' ? 'suspended' : 'active'}">${s.status === 'suspended' ? 'Suspended' : 'Active'}</span></td>
+            <td><div class="action-cell">
+              ${s.status === 'suspended'
+                ? `<button class="act-btn approve" onclick="reactivateSeller('${s._id}')">Reactivate</button>`
+                : `<button class="act-btn suspend" onclick="suspendSeller('${s._id}')">Suspend</button>`}
+              <button class="act-btn remove" onclick="removeSeller('${s._id}')">Remove</button>
+            </div></td>
+          </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--white-dim);">No sellers yet</td></tr>';
+      } catch(e) { console.warn('Sellers error:', e); }
+    }
+
+    // ── LOAD BUYERS ──
+    async function loadRealBuyers() {
+      try {
+        const res  = await fetch(_API + '/admin/buyers', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const buyers = data.buyers || [];
+        const tbody = document.getElementById('buyers-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = buyers.length ? buyers.map(b => `
+          <tr>
+            <td style="color:var(--white);font-weight:600;">${b.fullName || ''}</td>
+            <td>${b.email || ''}</td>
+            <td>${b.phone || ''}</td>
+            <td>${b.city ? b.city + ', ' : ''}${b.state || ''}</td>
+            <td>${new Date(b.createdAt).toLocaleDateString('en-GB')}</td>
+            <td><span class="badge ${b.isActive ? 'active' : 'suspended'}">${b.isActive ? 'Active' : 'Suspended'}</span></td>
+            <td><div class="action-cell">
+              ${b.isActive
+                ? `<button class="act-btn suspend" onclick="suspendBuyer('${b._id}')">Suspend</button>`
+                : `<button class="act-btn approve" onclick="reactivateBuyer('${b._id}')">Reactivate</button>`}
+            </div></td>
+          </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--white-dim);">No buyers yet</td></tr>';
+      } catch(e) { console.warn('Buyers error:', e); }
+    }
+
+    // ── ACTIONS ──
+    async function approveApplication(id) {
+      if (!confirm('Approve this seller application and assign a permanent shop number?')) return;
+      try {
+        const res  = await fetch(_API + '/admin/applications/' + id + '/approve', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to approve', 'error'); return; }
+        showToast('✅ ' + (data.message || 'Seller approved and shop number assigned!'), 'success');
+        loadRealApplications(); loadRealSellers(); loadRealStats();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    async function rejectApplication(id) {
+      const reason = prompt('Enter rejection reason (sent to applicant by email):');
+      if (!reason) return;
+      try {
+        const res  = await fetch(_API + '/admin/applications/' + id + '/reject', {
+          method: 'PUT', headers: _headers(), body: JSON.stringify({ reason })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to reject', 'error'); return; }
+        showToast('Application rejected. Applicant notified.', 'warning');
+        loadRealApplications(); loadRealStats();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    async function suspendSeller(id) {
+      if (!confirm('Suspend this seller? Their shop will be hidden from buyers.')) return;
+      try {
+        const res  = await fetch(_API + '/admin/sellers/' + id + '/suspend', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller suspended.', 'warning');
+        loadRealSellers();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    async function reactivateSeller(id) {
+      try {
+        const res  = await fetch(_API + '/admin/sellers/' + id + '/reactivate', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller reactivated! ✅', 'success');
+        loadRealSellers();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    async function removeSeller(id) {
+      if (!confirm('Permanently remove this seller? Their shop number will be revoked.')) return;
+      try {
+        const res  = await fetch(_API + '/admin/sellers/' + id, { method: 'DELETE', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller removed.', 'error');
+        loadRealSellers(); loadRealStats();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    async function suspendBuyer(id) {
+      if (!confirm('Suspend this buyer account?')) return;
+      try {
+        const res  = await fetch(_API + '/admin/buyers/' + id + '/suspend', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Buyer suspended.', 'warning');
+        loadRealBuyers();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    async function reactivateBuyer(id) {
+      try {
+        const res  = await fetch(_API + '/admin/buyers/' + id + '/reactivate', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Buyer reactivated! ✅', 'success');
+        loadRealBuyers();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    // ── REAL LOGOUT ──
+    function logoutUser() {
+      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
+      window.location.href = 'auth.html';
+    }
+
+    // ── RUN ON LOAD ──
+    document.addEventListener('DOMContentLoaded', function() {
+      loadRealStats();
+      loadRealApplications();
+      loadRealSellers();
+      loadRealBuyers();
+    });
+  </script>
+
 </body>
 </html>
