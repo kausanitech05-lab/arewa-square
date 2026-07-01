@@ -8,18 +8,20 @@
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --green-deep:   #0a1628;
-      --green-mid:    #0f2040;
-      --green-light:  #1a3a6e;
-      --gold:         #FFD700;
-      --gold-light:   #FFE55C;
-      --gold-dim:     #B8860B;
-      --emerald:      #4FC3F7;
-      --emerald-dim:  #0288D1;
-      --white:        #f0f4ff;
-      --white-dim:    #a8b8d8;
-      --dark:         #060d1a;
-    }
+      --bg:         #060d1a;
+      --bg2:        #0a1628;
+      --green-mid:  #0f2040;
+      --gold:       #FFD700;
+      --gold-light: #FFE55C;
+      --gold-dim:   #B8860B;
+      --emerald:    #4FC3F7;
+      --em-dim:     #0288D1;
+      --white:      #f0f4ff;
+      --white-dim:  #a8b8d8;
+      --danger:     #e74c3c;
+      --warn:       #f39c12;
+      --sidebar-w:  256px;
+      --card:       rgba(255,255,255,0.04);
 
     body {
       font-family:'Nunito',sans-serif;
@@ -32,7 +34,7 @@
     body::before {
       content:''; position:fixed; inset:0;
       background:
-        radial-gradient(ellipse at 15% 60%, rgba(15,32,64,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 60%, rgba(26,74,48,0.18) 0%, transparent 55%),
         radial-gradient(ellipse at 85% 20%, rgba(255,215,0,0.06) 0%, transparent 50%);
       pointer-events:none; z-index:0;
     }
@@ -144,7 +146,7 @@
        REVENUE SUMMARY BAR
     ════════════════════════════ */
     .revenue-bar {
-      background:linear-gradient(135deg, rgba(15,32,64,0.6), rgba(10,22,40,0.8));
+      background:linear-gradient(135deg, rgba(26,74,48,0.6), rgba(13,43,31,0.8));
       border:1px solid rgba(255,215,0,0.25);
       border-radius:12px; padding:24px 28px;
       margin-bottom:24px;
@@ -243,7 +245,7 @@
     .seller-cell { display:flex; align-items:center; gap:10px; }
     .seller-icon {
       width:32px; height:32px; border-radius:6px;
-      background:linear-gradient(135deg,var(--green-mid),rgba(26,58,110,0.8));
+      background:linear-gradient(135deg,var(--green-mid),rgba(42,102,69,0.8));
       display:flex; align-items:center; justify-content:center;
       font-size:0.9rem; flex-shrink:0;
     }
@@ -257,7 +259,7 @@
       font-size:0.65rem; font-weight:700; white-space:nowrap;
     }
     .badge::before { content:''; width:6px; height:6px; border-radius:50%; }
-    .badge.paid     { background:rgba(79,195,247,0.1); color:var(--emerald); border:1px solid rgba(79,195,247,0.25); }
+    .badge.paid     { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.25); }
     .badge.paid::before { background:var(--emerald); }
     .badge.pending  { background:rgba(243,156,18,0.1); color:var(--warn); border:1px solid rgba(243,156,18,0.25); }
     .badge.pending::before { background:var(--warn); }
@@ -272,7 +274,7 @@
       font-size:0.65rem; font-weight:800; letter-spacing:0.5px;
     }
     .plan-monthly  { background:rgba(255,215,0,0.1); color:var(--gold); border:1px solid rgba(255,215,0,0.2); }
-    .plan-yearly   { background:rgba(79,195,247,0.1); color:var(--emerald); border:1px solid rgba(79,195,247,0.2); }
+    .plan-yearly   { background:rgba(46,204,113,0.1); color:var(--emerald); border:1px solid rgba(46,204,113,0.2); }
     .plan-free     { background:rgba(255,255,255,0.05); color:var(--white-dim); border:1px solid rgba(255,255,255,0.1); }
 
     /* Amount */
@@ -294,7 +296,7 @@
       font-family:'Nunito',sans-serif; font-size:0.7rem; font-weight:700;
       cursor:pointer; transition:all 0.3s; border:1px solid;
     }
-    .act-btn.confirm { background:rgba(79,195,247,0.1); border-color:rgba(79,195,247,0.3); color:var(--emerald); }
+    .act-btn.confirm { background:rgba(46,204,113,0.1); border-color:rgba(46,204,113,0.3); color:var(--emerald); }
     .act-btn.confirm:hover { background:var(--emerald); color:var(--bg); }
     .act-btn.remind  { background:rgba(243,156,18,0.08); border-color:rgba(243,156,18,0.25); color:var(--warn); }
     .act-btn.remind:hover  { background:rgba(243,156,18,0.2); }
@@ -341,7 +343,7 @@
     }
     .confirm-shop-icon {
       width:48px; height:48px; border-radius:8px;
-      background:linear-gradient(135deg,var(--green-mid),rgba(26,58,110,0.8));
+      background:linear-gradient(135deg,var(--green-mid),rgba(42,102,69,0.8));
       display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;
     }
     .confirm-shop-name { font-family:'Cinzel',serif; font-size:1rem; color:var(--white); margin-bottom:4px; }
@@ -428,7 +430,7 @@
     .history-dot {
       width:10px; height:10px; border-radius:50%; flex-shrink:0;
     }
-    .history-dot.paid    { background:var(--emerald); box-shadow:0 0 6px rgba(79,195,247,0.4); }
+    .history-dot.paid    { background:var(--emerald); box-shadow:0 0 6px rgba(46,204,113,0.4); }
     .history-dot.pending { background:var(--warn); }
     .history-dot.overdue { background:var(--danger); }
     .history-text { flex:1; }
@@ -491,7 +493,7 @@
 
     /* My bank info */
     .bank-card {
-      background:linear-gradient(135deg, rgba(15,32,64,0.5), rgba(10,22,40,0.8));
+      background:linear-gradient(135deg, rgba(26,74,48,0.5), rgba(13,43,31,0.8));
       border:1px solid rgba(255,215,0,0.25); border-radius:12px; padding:24px;
       position:relative; overflow:hidden;
     }
@@ -533,7 +535,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <a href="index.html">
-        <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
+        <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
         <div class="sidebar-logo-text">
           <span>AREWA SQUARE</span>
           <span>Payment Management</span>
@@ -559,7 +561,7 @@
 
       <div class="nav-label" style="margin-top:12px;">Quick Stats</div>
       <div style="padding:10px 18px;">
-        <div style="background:rgba(79,195,247,0.08);border:1px solid rgba(79,195,247,0.15);border-radius:6px;padding:10px 12px;margin-bottom:8px;">
+        <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.15);border-radius:6px;padding:10px 12px;margin-bottom:8px;">
           <span style="font-size:0.65rem;color:var(--white-dim);display:block;text-transform:uppercase;letter-spacing:1px;">Collected This Month</span>
           <span style="font-family:'Cinzel',serif;font-size:1rem;color:var(--emerald);font-weight:700;">₦36,000</span>
         </div>
@@ -574,7 +576,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn">🚪 Logout</button>
+      <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
     </div>
   </aside>
 
@@ -593,7 +595,7 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="btn-topbar btn-ghost" onclick="openInvoiceModal(null)">🧾 New Invoice</button>
+        <button class="btn-topbar btn-ghost" onclick="showToast('Automated invoicing is not built yet.','info')">🧾 New Invoice</button>
         <button class="btn-topbar btn-gold" onclick="openConfirmModal(null)">✅ Confirm Payment</button>
       </div>
     </div>
@@ -705,7 +707,7 @@
 
       <div class="toolbar">
         <input class="toolbar-search" type="text" placeholder="Search invoices..."/>
-        <button class="btn-topbar btn-gold" onclick="openInvoiceModal(null)" style="padding:9px 18px;">+ New Invoice</button>
+        <button class="btn-topbar btn-gold" onclick="showToast('Automated invoicing is not built yet.','info')" style="padding:9px 18px;">+ New Invoice</button>
       </div>
 
       <div class="table-wrap">
@@ -882,9 +884,8 @@
         <div class="form-group">
           <label>Period Covered</label>
           <select id="period-covered">
-            <option>April 2025</option><option>May 2025</option>
-            <option>June 2025</option><option>Q2 2025 (Apr–Jun)</option>
-            <option>Full Year 2025</option>
+            <option value="monthly">Monthly Plan</option>
+            <option value="yearly">Yearly Plan</option>
           </select>
         </div>
         <div class="form-group">
@@ -977,37 +978,66 @@
 
   <script>
     // ── DATA ──
-    const payments = [
-      { num:'#001', icon:'👟', name:'Zainab Abdullahi',  biz:'Zainab Footwear',    plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 30, 2025', status:'paid'    },
-      { num:'#002', icon:'📱', name:'Musa Ibrahim',      biz:'Musa Gadgets Hub',   plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 28, 2025', status:'paid'    },
-      { num:'#003', icon:'👕', name:'Fatima Sani',       biz:'Fatima Fashion',     plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 31, 2025', status:'pending' },
-      { num:'#004', icon:'🥘', name:'Amina Garba',       biz:'Hajiya Amina Foods', plan:'yearly',  amount:30000,due:'Dec 31, 2025', lastPaid:'Jan 1, 2025',  status:'paid'    },
-      { num:'#005', icon:'💻', name:'Umar Tech',         biz:'Tech Zone Kano',     plan:'monthly', amount:3000, due:'Apr 15, 2025', lastPaid:'Mar 1, 2025',  status:'overdue' },
-      { num:'#006', icon:'🏠', name:'Alhaji Bello',      biz:'Alhaji Home Store',  plan:'monthly', amount:3000, due:'Apr 25, 2025', lastPaid:'Mar 25, 2025', status:'pending' },
-      { num:'#007', icon:'💊', name:'Rahama Abdullahi',  biz:'Rahama Beauty',      plan:'monthly', amount:3000, due:'Apr 30, 2025', lastPaid:'Mar 30, 2025', status:'paid'    },
-      { num:'#008', icon:'🔧', name:'Usman Repairs',     biz:'Usman Fix-It',       plan:'monthly', amount:3000, due:'Apr 20, 2025', lastPaid:'Mar 5, 2025',  status:'overdue' },
-      { num:'#009', icon:'👗', name:'Hauwa Fashions',    biz:'Hauwa Collections',  plan:'free',    amount:0,    due:'Trial',        lastPaid:'—',            status:'free'    },
-      { num:'#010', icon:'🍎', name:'Ibrahim Fruits',    biz:'Ibrahim Groceries',  plan:'free',    amount:0,    due:'Trial',        lastPaid:'—',            status:'free'    },
-    ];
+    const _API = 'https://arewa-square-api-production.up.railway.app/api';
+    function _headers() {
+      return { 'Authorization': 'Bearer ' + localStorage.getItem('as_token'), 'Content-Type': 'application/json' };
+    }
 
-    const history = [
-      { num:'#001', biz:'Zainab Footwear',    amount:3000, date:'Mar 30, 2025', method:'Bank Transfer',  ref:'FBN2025033000123', status:'paid'    },
-      { num:'#002', biz:'Musa Gadgets Hub',   amount:3000, date:'Mar 28, 2025', method:'Moniepoint',     ref:'MNP2025032800456', status:'paid'    },
-      { num:'#004', biz:'Hajiya Amina Foods', amount:30000,date:'Jan 1, 2025',  method:'Bank Transfer',  ref:'FBN2025010100789', status:'paid'    },
-      { num:'#007', biz:'Rahama Beauty',      amount:3000, date:'Mar 30, 2025', method:'Opay',           ref:'OPY2025033000321', status:'paid'    },
-      { num:'#003', biz:'Fatima Fashion',     amount:3000, date:'—',            method:'—',              ref:'—',               status:'pending' },
-      { num:'#006', biz:'Alhaji Home Store',  amount:3000, date:'—',            method:'—',              ref:'—',               status:'pending' },
-    ];
+    // ── AUTH GUARD ──
+    (function() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'admin') { window.location.href = 'auth.html'; }
+    })();
 
-    const invoices = [
-      { num:'INV-2025-001', shop:'#001', biz:'Zainab Footwear',    amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'paid'    },
-      { num:'INV-2025-002', shop:'#002', biz:'Musa Gadgets Hub',   amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'paid'    },
-      { num:'INV-2025-003', shop:'#003', biz:'Fatima Fashion',     amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'pending' },
-      { num:'INV-2025-004', shop:'#004', biz:'Hajiya Amina Foods', amount:30000,issued:'Jan 1, 2025', due:'Dec 31, 2025', status:'paid'    },
-      { num:'INV-2025-005', shop:'#005', biz:'Tech Zone Kano',     amount:3000, issued:'Mar 15, 2025',due:'Apr 15, 2025', status:'overdue' },
-      { num:'INV-2025-006', shop:'#006', biz:'Alhaji Home Store',  amount:3000, issued:'Apr 1, 2025', due:'Apr 25, 2025', status:'pending' },
-      { num:'INV-2025-007', shop:'#007', biz:'Rahama Beauty',      amount:3000, issued:'Apr 1, 2025', due:'Apr 30, 2025', status:'paid'    },
-    ];
+    function logoutUser() {
+      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
+      window.location.href = 'auth.html';
+    }
+
+    function _catIcon(cat) {
+      const icons = {
+        'Fashion, Clothing & Shoes':'👟','Phones & Accessories':'📱','Computers & Technology':'💻',
+        'Electronics & Appliances':'📺','Vehicles & Motorcycles':'🚗','Property & Real Estate':'🏘️',
+        'Agriculture & Livestock':'🌾','Food & Groceries':'🥘','Home & Furniture':'🏠',
+        'Health & Beauty':'💊','Education & Training':'📚','Services':'🔧','Other':'📦',
+      };
+      return icons[cat] || '🏪';
+    }
+
+    let payments = [];  // populated live from /api/admin/payments — real seller subscription data
+
+    async function loadRealPayments() {
+      try {
+        const res  = await fetch(_API + '/admin/payments', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        payments = (data.sellers || []).map(s => {
+          const today = new Date();
+          const due   = s.subscriptionDue ? new Date(s.subscriptionDue) : null;
+          let status  = 'free';
+          if (s.subscriptionPlan && s.subscriptionPlan !== 'free') {
+            status = (due && due < today) ? 'overdue' : (s.subscriptionStatus === 'active' ? 'paid' : 'pending');
+          }
+          return {
+            _id: s._id,
+            num: s.shopNumber || '#---',
+            icon: _catIcon(s.category),
+            name: s.user?.fullName || '',
+            biz: s.businessName || '',
+            plan: s.subscriptionPlan || 'free',
+            amount: s.subscriptionPlan === 'yearly' ? 30000 : (s.subscriptionPlan === 'monthly' ? 3000 : 0),
+            due: due ? due.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : 'Trial',
+            lastPaid: s.lastPaymentDate ? new Date(s.lastPaymentDate).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—',
+            lastPaidRaw: s.lastPaymentDate || null,
+            status,
+            phone: s.user?.phone || '',
+          };
+        });
+        renderPayments(payments);
+        renderHistory();
+      } catch(e) { console.warn('Payments error:', e); }
+    }
 
     let currentSeller = null;
 
@@ -1025,12 +1055,10 @@
         let actions = '';
         if (p.status === 'pending' || p.status === 'overdue') {
           actions = `<button class="act-btn confirm" onclick="openConfirmModal(${payments.indexOf(p)})">✅ Confirm</button>
-                     <button class="act-btn remind" onclick="sendReminder('${p.biz}')">📩 Remind</button>
-                     <button class="act-btn invoice" onclick="openInvoiceModal(${payments.indexOf(p)})">🧾 Invoice</button>`;
-          if (p.status === 'overdue') actions += `<button class="act-btn suspend" onclick="suspendShop('${p.biz}')">⏸ Suspend</button>`;
+                     <button class="act-btn remind" onclick="sendReminder('${p.phone || ''}','${(p.biz||'').replace(/'/g,"")}')">📩 Remind</button>`;
+          if (p.status === 'overdue') actions += `<button class="act-btn suspend" onclick="suspendShop('${p._id}','${(p.biz||'').replace(/'/g,"")}')">⏸ Suspend</button>`;
         } else if (p.status === 'paid') {
-          actions = `<button class="act-btn view" onclick="viewHistory('${p.num}')">📜 History</button>
-                     <button class="act-btn invoice" onclick="openInvoiceModal(${payments.indexOf(p)})">🧾 Invoice</button>`;
+          actions = `<button class="act-btn view" onclick="viewHistory('${p.num}')">📜 History</button>`;
         } else {
           actions = `<button class="act-btn view" onclick="showToast('Trial period active — no payment due yet.','info')">ℹ️ Trial Active</button>`;
         }
@@ -1055,88 +1083,88 @@
 
     // ── RENDER HISTORY ──
     function renderHistory() {
-      document.getElementById('history-log').innerHTML = history.map(h => `
+      const paidSellers = payments.filter(p => p.lastPaidRaw);
+      const el = document.getElementById('history-log');
+      if (!paidSellers.length) {
+        el.innerHTML = '<p style="text-align:center;color:var(--white-dim);padding:30px;">No payments confirmed yet.</p>';
+        return;
+      }
+      el.innerHTML = paidSellers
+        .sort((a,b) => new Date(b.lastPaidRaw) - new Date(a.lastPaidRaw))
+        .map(p => `
         <div class="history-item">
-          <div class="history-dot ${h.status}"></div>
+          <div class="history-dot paid"></div>
           <div class="history-text">
-            <p>${h.shop} — ${h.biz}</p>
-            <span>${h.date !== '—' ? 'Paid on ' + h.date + ' via ' + h.method : 'Awaiting payment'} ${h.ref !== '—' ? '| Ref: ' + h.ref : ''}</span>
+            <p>${p.num} — ${p.biz}</p>
+            <span>Confirmed paid on ${p.lastPaid}</span>
           </div>
-          <span class="history-amount ${h.status}">₦${h.amount.toLocaleString()}</span>
+          <span class="history-amount paid">₦${Number(p.amount).toLocaleString()}</span>
         </div>`).join('');
     }
 
-    // ── RENDER INVOICES ──
+    // ── INVOICING: not yet built on the backend — shown honestly rather than faked ──
     function renderInvoices() {
-      document.getElementById('invoice-tbody').innerHTML = invoices.map(inv => `
-        <tr>
-          <td style="font-family:'Cinzel',serif;font-size:0.78rem;color:var(--gold);">${inv.num}</td>
-          <td><span class="shop-pill">${inv.shop}</span></td>
-          <td style="color:var(--white);font-weight:600;">${inv.biz}</td>
-          <td><span class="amount-cell amount-paid">₦${inv.amount.toLocaleString()}</span></td>
-          <td style="font-size:0.75rem;">${inv.issued}</td>
-          <td style="font-size:0.75rem;">${inv.due}</td>
-          <td><span class="badge ${inv.status}">${inv.status.charAt(0).toUpperCase()+inv.status.slice(1)}</span></td>
-          <td><div class="act-cell">
-            <button class="act-btn view" onclick="openInvoiceModal(null,'${inv.num}')">View</button>
-            <button class="act-btn invoice" onclick="showToast('Sending invoice to seller...','info')">Send</button>
-          </div></td>
-        </tr>`).join('');
+      document.getElementById('invoice-tbody').innerHTML =
+        '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">🧾 Automated invoicing is not built yet. Payment confirmations above are the real source of truth for now.</td></tr>';
     }
 
     // ── MODALS ──
     function openConfirmModal(idx) {
-      const p = idx !== null ? payments[idx] : payments.find(x => x.status === 'pending') || payments[0];
+      const p = idx !== null ? payments[idx] : payments.find(x => x.status === 'pending' || x.status === 'overdue');
+      if (!p) { showToast('No pending payments to confirm.', 'info'); return; }
       currentSeller = p;
       document.getElementById('confirm-icon').textContent  = p.icon;
       document.getElementById('confirm-name').textContent  = p.biz;
       document.getElementById('confirm-meta').textContent  = p.num + ' | ' + (p.plan === 'monthly' ? 'Monthly Plan' : p.plan === 'yearly' ? 'Yearly Plan' : 'Free Trial');
-      document.getElementById('confirm-amount').textContent = '₦' + p.amount.toLocaleString();
-      document.getElementById('received-amount').value     = p.amount || '';
-      // Set today's date
+      document.getElementById('confirm-amount').textContent = '₦' + Number(p.amount || 3000).toLocaleString();
+      document.getElementById('received-amount').value     = p.amount || 3000;
       document.getElementById('received-date').value = new Date().toISOString().split('T')[0];
+      const periodSelect = document.getElementById('period-covered');
+      if (periodSelect) periodSelect.value = p.plan === 'yearly' ? 'yearly' : 'monthly';
       document.getElementById('confirm-modal').classList.add('open');
-    }
-
-    function openInvoiceModal(idx, invNum) {
-      const p = idx !== null ? payments[idx] : payments[6]; // default Rahama Beauty
-      document.getElementById('inv-number').textContent      = invNum || 'INV-2025-0' + (idx !== null ? (idx+1) : '7');
-      document.getElementById('inv-seller-name').textContent = p.biz;
-      document.getElementById('inv-shop-num').textContent    = p.num + ' — Kano';
-      document.getElementById('inv-shopnum').textContent     = p.num;
-      document.getElementById('inv-plan').textContent        = p.plan === 'monthly' ? 'Monthly Subscription' : p.plan === 'yearly' ? 'Yearly Subscription' : 'Free Trial';
-      document.getElementById('inv-total').textContent       = '₦' + p.amount.toLocaleString();
-      document.getElementById('invoice-modal').classList.add('open');
     }
 
     function closeModal(id) {
       document.getElementById(id).classList.remove('open');
     }
 
-    function processConfirmation() {
+    async function processConfirmation() {
       const amount = document.getElementById('received-amount').value;
-      const date   = document.getElementById('received-date').value;
-      if (!amount || !date) { alert('Please fill in the amount received and date.'); return; }
+      const plan   = document.getElementById('period-covered').value; // 'monthly' or 'yearly'
+      if (!amount) { showToast('Please enter the amount received.', 'error'); return; }
       if (!currentSeller) return;
-      // Update status
-      const idx = payments.indexOf(currentSeller);
-      if (idx > -1) {
-        payments[idx].status   = 'paid';
-        payments[idx].lastPaid = new Date(date).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
-      }
-      closeModal('confirm-modal');
-      renderPayments(payments);
-      alert('✅ Payment confirmed!\n\n' + currentSeller.biz + ' (' + currentSeller.num + ') is now Active.\nAmount: ₦' + Number(amount).toLocaleString() + '\nPeriod: ' + document.getElementById('period-covered').value);
+
+      try {
+        const res  = await fetch(_API + '/admin/payments/' + currentSeller._id + '/confirm', {
+          method: 'PUT', headers: _headers(),
+          body: JSON.stringify({ amount: Number(amount), plan })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to confirm payment.', 'error'); return; }
+
+        closeModal('confirm-modal');
+        showToast('✅ Payment confirmed! ' + currentSeller.biz + ' is now active.', 'success');
+        loadRealPayments();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
     }
 
-    function sendReminder(biz) {
-      alert('📩 Payment reminder sent to ' + biz + ' via WhatsApp.\n\nMessage: "As-salamu alaykum! This is a reminder that your AREWA SQUARE subscription of ₦3,000 is due. Please transfer to First Bank: 0123456789 (Abbaty Kausani). JazakAllah khayran."');
+    function sendReminder(phone, biz) {
+      if (!phone) { showToast('No phone number on file for this seller.', 'error'); return; }
+      const number = '234' + phone.replace(/^0/, '');
+      const msg = `As-salamu alaykum! This is a reminder that your AREWA SQUARE subscription is due. Please contact admin to arrange payment. JazakAllah khayran.`;
+      window.open('https://wa.me/' + number + '?text=' + encodeURIComponent(msg), '_blank');
+      showToast('WhatsApp reminder opened for ' + biz, 'info');
     }
 
-    function suspendShop(biz) {
-      if (confirm('Suspend ' + biz + '\'s shop due to overdue payment?')) {
-        alert('Shop suspended. ' + biz + ' has been notified. Their listing is now hidden from buyers until payment is confirmed.');
-      }
+    async function suspendShop(sellerId, biz) {
+      if (!confirm('Suspend ' + biz + ' shop due to overdue payment?')) return;
+      try {
+        const res  = await fetch(_API + '/admin/payments/' + sellerId + '/suspend', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to suspend.', 'error'); return; }
+        showToast('Shop suspended. ' + biz + ' has been notified.', 'warning');
+        loadRealPayments();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
     }
 
     function viewHistory(num) {
@@ -1171,8 +1199,7 @@
     });
 
     // ── INIT ──
-    renderPayments(payments);
-    renderHistory();
+    loadRealPayments();
     renderInvoices();
   
     /* ── TOAST NOTIFICATION SYSTEM ── */
@@ -1180,7 +1207,7 @@
       type = type || 'info';
       var existing = document.querySelector('.as-toast');
       if (existing) existing.remove();
-      var colors = { success: '#2ecc71', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
+      var colors = { success: '#4FC3F7', error: '#e74c3c', info: '#FFD700', warning: '#f39c12' };
       var icons  = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
       var toast = document.createElement('div');
       toast.className = 'as-toast';

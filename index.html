@@ -873,7 +873,6 @@
 
     .footer-col ul li a {
       color: var(--white-dim);
-      color: var(--white-dim);
       text-decoration: none;
       font-size: 0.83rem;
       transition: color 0.3s;
@@ -1085,7 +1084,7 @@
   <!-- ══ NAVBAR ══ -->
   <nav>
     <a href="./index.html" class="nav-logo">
-      <img src="arewa.png" alt="AREWA SQUARE Logo" onerror="this.style.display='none'"/>
+      <img src="./logo.png" alt="AREWA SQUARE Logo" onerror="this.style.display='none'"/>
       <div class="nav-logo-text">
         <span>AREWA SQUARE</span>
         <span>Northern Nigeria's Marketplace</span>
@@ -1272,8 +1271,8 @@
           <span class="label">Permanent Shop Numbers</span>
         </div>
         <div class="stat-item">
-          <span class="num">🇳🇬</span>
-          <span class="label">Made in Nigeria</span>
+          <span class="num">Kano</span>
+          <span class="label">Based in the North</span>
         </div>
         <div class="stat-item">
           <span class="num">Free</span>
@@ -1295,7 +1294,7 @@
 
 
   <!-- ══ HOW IT WORKS ══ -->
-  <section class="section" id="how-it-works">
+  <section class="section">
     <div class="section-header">
       <span class="section-tag">✦ Simple Process</span>
       <h2>How It Works</h2>
@@ -1303,8 +1302,8 @@
     </div>
 
     <div class="how-tabs">
-      <button class="tab-btn active" onclick="switchTab('buyers', this)">👤 For Buyers</button>
-      <button class="tab-btn" onclick="switchTab('sellers', this)">🏪 For Sellers</button>
+      <button class="tab-btn active" onclick="switchTab('buyers')">👤 For Buyers</button>
+      <button class="tab-btn" onclick="switchTab('sellers')">🏪 For Sellers</button>
     </div>
 
     <div id="tab-buyers" class="tab-content active steps-grid">
@@ -1371,84 +1370,8 @@
       <p>These are some of our verified sellers. Every shop is real, confirmed, and accountable.</p>
     </div>
 
-    <div class="shops-grid">
-
-      <div class="shop-card">
-        <div class="shop-img">
-          👟
-          <span class="shop-number-badge">#001</span>
-          <span class="verified-badge">✅ Verified</span>
-        </div>
-        <div class="shop-info">
-          <h3>Zainab Footwear</h3>
-          <div class="shop-meta">
-            <span>👟 Shoes</span>
-            <span>📍 Kano Central</span>
-          </div>
-          <div class="shop-footer">
-            <span class="shop-distance">📍 1.2km away</span>
-            <a href="#" class="btn-view-shop">View Shop</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="shop-card">
-        <div class="shop-img">
-          📱
-          <span class="shop-number-badge">#002</span>
-          <span class="verified-badge">✅ Verified</span>
-        </div>
-        <div class="shop-info">
-          <h3>Musa Gadgets Hub</h3>
-          <div class="shop-meta">
-            <span>📱 Phones</span>
-            <span>📍 Sabon Gari</span>
-          </div>
-          <div class="shop-footer">
-            <span class="shop-distance">📍 2.5km away</span>
-            <a href="#" class="btn-view-shop">View Shop</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="shop-card">
-        <div class="shop-img">
-          👕
-          <span class="shop-number-badge">#003</span>
-          <span class="verified-badge">✅ Verified</span>
-        </div>
-        <div class="shop-info">
-          <h3>Fatima Fashion House</h3>
-          <div class="shop-meta">
-            <span>👕 Fashion</span>
-            <span>📍 Gwale</span>
-          </div>
-          <div class="shop-footer">
-            <span class="shop-distance">📍 3.1km away</span>
-            <a href="#" class="btn-view-shop">View Shop</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="shop-card">
-        <div class="shop-img">
-          🥘
-          <span class="shop-number-badge">#004</span>
-          <span class="verified-badge">✅ Verified</span>
-        </div>
-        <div class="shop-info">
-          <h3>Hajiya Amina Foods</h3>
-          <div class="shop-meta">
-            <span>🥘 Food</span>
-            <span>📍 Nassarawa</span>
-          </div>
-          <div class="shop-footer">
-            <span class="shop-distance">📍 0.8km away</span>
-            <a href="#" class="btn-view-shop">View Shop</a>
-          </div>
-        </div>
-      </div>
-
+    <div class="shops-grid" id="shops-grid">
+      <p style="text-align:center;color:var(--white-dim);padding:40px;grid-column:1/-1;">Loading verified shops…</p>
     </div>
   </section>
 
@@ -1462,13 +1385,14 @@
     </div>
 
     <div class="categories-grid">
-      <div class="cat-card"><span class="cat-icon">👟</span><span>Shoes</span></div>
-      <div class="cat-card"><span class="cat-icon">👕</span><span>Fashion</span></div>
-      <div class="cat-card"><span class="cat-icon">📱</span><span>Phones</span></div>
-      <div class="cat-card"><span class="cat-icon">💻</span><span>Electronics</span></div>
-      <div class="cat-card"><span class="cat-icon">🥘</span><span>Food</span></div>
-      <div class="cat-card"><span class="cat-icon">🏠</span><span>Home & Furniture</span></div>
-      <div class="cat-card"><span class="cat-icon">💊</span><span>Health & Beauty</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Fashion, Clothing & Shoes')"><span class="cat-icon">👟</span><span>Fashion, Clothing & Shoes</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Phones & Accessories')"><span class="cat-icon">📱</span><span>Phones & Accessories</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Computers & Technology')"><span class="cat-icon">💻</span><span>Computers & Tech</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Electronics & Appliances')"><span class="cat-icon">📺</span><span>Electronics</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Food & Groceries')"><span class="cat-icon">🥘</span><span>Food & Groceries</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Home & Furniture')"><span class="cat-icon">🏠</span><span>Home & Furniture</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('Health & Beauty')"><span class="cat-icon">💊</span><span>Health & Beauty</span></div>
+      <div class="cat-card" onclick="filterShopsByCategory('')"><span class="cat-icon">🔄</span><span>All Categories</span></div>
       <div class="cat-card"><span class="cat-icon">🔧</span><span>Services</span></div>
     </div>
   </section>
@@ -1490,7 +1414,7 @@
         We built AREWA SQUARE to change that. Every seller on our platform is <strong style="color:var(--gold);">manually verified</strong> by our team — we confirm real identities, real businesses, and real locations before a shop goes live. No fake profiles. No anonymous traders. Just real people with real businesses, accountable to their community.
       </p>
       <p style="font-size:0.95rem;color:var(--white-dim);line-height:1.9;">
-        Our <strong style="color:var(--gold);">permanent shop number system</strong> — inspired by the fixed stall numbers of Arewa's great markets like Kantin Kwari, Sabon Gari, and Yankaba — gives every seller a lasting identity. Whether you sell shoes, food, phones, or services, your shop number follows your business and builds your reputation over time.
+        Our <strong style="color:var(--gold);">permanent shop number system</strong> — inspired by the fixed stall numbers of Arewa's great markets like Kantin Kwari, Sabon Gari, and Farm Centre — gives every seller a lasting identity. Whether you sell shoes, food, phones, or services, your shop number follows your business and builds your reputation over time.
       </p>
     </div>
 
@@ -1560,15 +1484,15 @@
       <p>We are here for buyers, sellers, and anyone who wants to know more about AREWA SQUARE.</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:800px;margin:0 auto;">
-      <a href="mailto:support@arewasquare.com" style="color:var(--gold)!important;" style="text-decoration:none;color:var(--gold);">
+      <a href="mailto:support@arewasquare.com" style="text-decoration:none;">
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;cursor:pointer;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,0.2)'">
           <div style="font-size:2rem;margin-bottom:12px;">✉️</div>
           <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);margin-bottom:6px;">Email Support</h4>
-          <p style="font-size:0.78rem;color:var(--white-dim);">Support@arewsquare.com</p>
+          <p style="font-size:0.78rem;color:var(--white-dim);">support@arewasquare.com</p>
           <p style="font-size:0.7rem;color:var(--white-dim);margin-top:6px;">Response within 24 hours</p>
         </div>
       </a>
-      <a href="tel:+2347082783618" style="color:var(--gold)!important;" style="text-decoration:none;">
+      <a href="tel:+2347082783618" style="text-decoration:none;">
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,215,0,0.2)'">
           <div style="font-size:2rem;margin-bottom:12px;">📞</div>
           <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);margin-bottom:6px;">Call Us</h4>
@@ -1579,7 +1503,7 @@
       <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
         <div style="background:rgba(37,211,102,0.04);border:1px solid rgba(37,211,102,0.25);border-radius:12px;padding:28px 24px;text-align:center;transition:all 0.3s;" onmouseover="this.style.borderColor='#25D366'" onmouseout="this.style.borderColor='rgba(37,211,102,0.25)'">
           <div style="font-size:2rem;margin-bottom:12px;">💬</div>
-          <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:#25D366;margin-bottom:6px;">WhatsApp</h4>
+          <h4 style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);margin-bottom:6px;">WhatsApp</h4>
           <p style="font-size:0.78rem;color:var(--white-dim);">Message AREWA SQUARE</p>
           <p style="font-size:0.7rem;color:var(--white-dim);margin-top:6px;">Fastest response channel</p>
         </div>
@@ -1601,9 +1525,9 @@
         </a>
         <p>The trusted digital marketplace built for Northern Nigeria. Verified sellers, permanent shop numbers, and a community rooted in Arewa market culture.</p>
         <div class="social-links">
-          <a href="https://www.facebook.com/profile.php?id=61590530846832" target="_blank" class="social-link" title="Facebook" style="color:#1877F2;border-color:rgba(24,119,242,0.3);">f</a>
-          <a href="https://www.instagram.com/arewa_square_01?igsh=Y2VtNnZ4NHRpMWxn" target="_blank" class="social-link" title="Instagram" style="color:#E1306C;border-color:rgba(225,48,108,0.3);">ig</a>
-          <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" class="social-link" title="WhatsApp" style="color:#25D366;border-color:rgba(37,211,102,0.3);">wa</a>
+          <a href="https://facebook.com" target="_blank" class="social-link" title="Facebook">f</a>
+          <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">ig</a>
+          <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" class="social-link" title="WhatsApp" style="color:#25D366;">wa</a>
         </div>
       </div>
 
@@ -1631,7 +1555,7 @@
         <h4>Company</h4>
         <ul>
           <li><a href="#about">About Us</a></li>
-          <li><a href="#contact-section" style="color:var(--gold);">Contact</a></li>
+          <li><a href="#contact-section" style="color:var(--white-dim);">Contact</a></li>
           <li><a href="./privacy.html">Privacy Policy</a></li>
           <li><a href="./terms.html">Terms of Use</a></li>
         </ul>
@@ -1641,18 +1565,18 @@
         <h4>Support & Contact</h4>
         <ul>
           <li>
-            <a href="mailto:support@arewasquare.com" style="color:var(--gold)!important;" style="display:flex;align-items:center;gap:8px;color:var(--gold);">
-              <span style="color:var(--gold);">✉️</span> Support@arewsquare.com
+            <a href="mailto:support@arewasquare.com" style="display:flex;align-items:center;gap:8px;">
+              <span style="color:var(--gold);">✉️</span> support@arewasquare.com
             </a>
           </li>
           <li>
-            <a href="tel:+2347082783618" style="color:var(--gold)!important;" style="display:flex;align-items:center;gap:8px;">
-              <span style="color:var(--emerald);">📞</span> 07082783618
+            <a href="tel:+2347082783618" style="display:flex;align-items:center;gap:8px;">
+              <span style="color:var(--gold);">📞</span> 07082783618
             </a>
           </li>
           <li>
             <a href="https://wa.me/message/B5NOLBZXJZ6HA1" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:8px;">
-              <span style="color:#25D366;">💬</span> WhatsApp Us
+              <span style="color:var(--gold);">💬</span> WhatsApp Us
             </a>
           </li>
           <li style="margin-top:10px;">
@@ -1665,8 +1589,8 @@
     <div class="footer-bottom">
       <p>© <span>AREWA SQUARE 2026</span> — Built With Pride by <span>KAUSANITECH</span></p>
       <div class="social-links">
-        <a href="./privacy.html" style="font-size:0.72rem;color:var(--white-dim);text-decoration:none;padding:6px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:4px;">Privacy Policy</a>
-        <a href="./terms.html" style="font-size:0.72rem;color:var(--white-dim);text-decoration:none;padding:6px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:4px;">Terms of Use</a>
+        <a href="./privacy.html" style="font-size:0.72rem;color:var(--gold);text-decoration:none;padding:6px 10px;border:1px solid rgba(255,215,0,0.25);border-radius:4px;">Privacy Policy</a>
+        <a href="./terms.html" style="font-size:0.72rem;color:var(--gold);text-decoration:none;padding:6px 10px;border:1px solid rgba(255,215,0,0.25);border-radius:4px;">Terms of Use</a>
       </div>
     </div>
   </footer>
@@ -1718,11 +1642,11 @@
     });
 
     // ── HOW IT WORKS TABS ──
-    function switchTab(tab, el) {
+    function switchTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       document.getElementById('tab-' + tab).classList.add('active');
-      if (el) el.classList.add('active');
+      event.target.classList.add('active');
     }
 
     // ── SCROLL REVEAL ──
@@ -1748,5 +1672,83 @@
     });
   </script>
 
+  <!-- ══ REAL SHOPS LOADER ══ -->
+  <script>
+    const _HOME_API = 'https://arewa-square-api-production.up.railway.app/api';
+    let _allHomeShops = [];
+
+    function _shopIcon(cat) {
+      const icons = {
+        'Fashion, Clothing & Shoes': '👟', 'Phones & Accessories': '📱',
+        'Computers & Technology': '💻', 'Electronics & Appliances': '📺',
+        'Vehicles & Motorcycles': '🚗', 'Property & Real Estate': '🏘️',
+        'Agriculture & Livestock': '🌾', 'Food & Groceries': '🥘',
+        'Home & Furniture': '🏠', 'Health & Beauty': '💊',
+        'Education & Training': '📚', 'Services': '🔧', 'Other': '📦',
+      };
+      return icons[cat] || '🏪';
+    }
+
+    function _renderHomeShops(shops) {
+      const grid = document.getElementById('shops-grid');
+      if (!grid) return;
+      if (!shops.length) {
+        grid.innerHTML = '<p style="text-align:center;color:var(--white-dim);padding:40px;grid-column:1/-1;">No verified shops yet in this category — be the first to register!</p>';
+        return;
+      }
+      grid.innerHTML = shops.slice(0, 8).map(s => `
+        <div class="shop-card">
+          <div class="shop-img">
+            ${_shopIcon(s.category)}
+            <span class="shop-number-badge">${s.shopNumber || '#---'}</span>
+            <span class="verified-badge">✅ Verified</span>
+          </div>
+          <div class="shop-info">
+            <h3>${s.businessName || ''}</h3>
+            <div class="shop-meta">
+              <span>${_shopIcon(s.category)} ${s.category || ''}</span>
+              <span>📍 ${s.city ? s.city + ', ' : ''}${s.state || ''}</span>
+            </div>
+            <div class="shop-footer">
+              <span class="shop-distance">📍 ${s.state || ''}</span>
+              <a href="#" class="btn-view-shop" onclick="goToShop('${s._id}');return false;">View Shop</a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadHomeShops() {
+      try {
+        const res  = await fetch(_HOME_API + '/sellers?limit=8');
+        const data = await res.json();
+        _allHomeShops = data.sellers || [];
+        _renderHomeShops(_allHomeShops);
+      } catch(e) {
+        const grid = document.getElementById('shops-grid');
+        if (grid) grid.innerHTML = '<p style="text-align:center;color:var(--white-dim);padding:40px;grid-column:1/-1;">Unable to load shops right now. Please refresh.</p>';
+      }
+    }
+
+    function filterShopsByCategory(cat) {
+      document.getElementById('shops')?.scrollIntoView({ behavior: 'smooth' });
+      if (!cat) { _renderHomeShops(_allHomeShops); return; }
+      _renderHomeShops(_allHomeShops.filter(s => s.category === cat));
+    }
+
+    // ── Clicking a real shop: logged-in buyer goes straight to it, everyone else registers/logs in first ──
+    function goToShop(sellerId) {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (token && role === 'buyer') {
+        window.location.href = 'buyer-dashboard.html?shop=' + sellerId;
+      } else {
+        localStorage.setItem('as_redirect_shop', sellerId);
+        window.location.href = 'auth.html';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadHomeShops);
+  </script>
 </body>
 </html>
