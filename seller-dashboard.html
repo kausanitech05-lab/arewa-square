@@ -256,7 +256,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <a href="index.html" class="sidebar-logo">
-      <img src="arewa.png" alt="Logo" onerror="this.style.display='none'"/>
+      <img src="./logo.png" alt="Logo" onerror="this.style.display='none'"/>
       <div class="sidebar-logo-text">
         <span>AREWA SQUARE</span>
         <span>Seller Portal</span>
@@ -381,8 +381,9 @@
         <div class="form-group full" style="margin-bottom:20px;">
           <label>Shop Image / Banner</label>
           <div class="file-upload" onclick="document.getElementById('banner-upload').click()" style="padding:28px;">
-            <input type="file" id="banner-upload" accept="image/*"/>
-            <span style="font-size:2rem;display:block;margin-bottom:8px;">🖼️</span>
+            <input type="file" id="banner-upload" accept="image/*" onchange="previewBanner(this)"/>
+            <div id="banner-preview" style="display:none;margin-bottom:12px;"><img id="banner-img" src="" alt="Shop banner" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;"/></div>
+            <span id="banner-placeholder" style="font-size:2rem;display:block;margin-bottom:8px;">🖼️</span>
             <p style="font-size:0.82rem;color:var(--white-dim);"><strong style="color:var(--gold);">Click to upload</strong> your shop banner or photo</p>
           </div>
         </div>
@@ -678,7 +679,7 @@
       }
       tbody.innerHTML = products.map(p => `
         <tr>
-          <td><div class="product-thumb">${p.images?.[0] ? `<img src="${p.images[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;"/>` : _catIcon(p.category)}</div></td>
+          <td><div class="product-thumb">${p.images && p.images.length > 0 ? '<img src="' + p.images[0] + '" alt="product" onerror="this.style.display=\'none\'" style="width:100%;height:100%;object-fit:cover;border-radius:6px;"/>' : _catIcon(p.category)}</div></td>
           <td style="color:var(--white);font-weight:600;">${p.name}</td>
           <td style="color:var(--gold);font-weight:700;">₦${Number(p.price).toLocaleString()}</td>
           <td>${p.category}</td>
@@ -848,6 +849,13 @@
         setVal('myshop-address',  mySeller.address);
         setVal('myshop-desc',     mySeller.description);
         setVal('settings-fullname', mySeller.user?.fullName);
+
+        // Show existing shop photo if available
+        if (mySeller.shopPhotoUrl) {
+          const prev = document.getElementById('banner-preview');
+          const img  = document.getElementById('banner-img');
+          if (prev && img) { img.src = mySeller.shopPhotoUrl; prev.style.display = 'block'; }
+        }
         setVal('settings-email',    mySeller.user?.email);
 
         const phoneBtn = document.getElementById('contact-mynumber-btn');
@@ -1038,6 +1046,18 @@
     }
 
     document.getElementById('product-modal').addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
+
+    function previewBanner(input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const prev = document.getElementById('banner-preview');
+        const img  = document.getElementById('banner-img');
+        if (prev && img) { img.src = e.target.result; prev.style.display = 'block'; }
+      };
+      reader.readAsDataURL(file);
+    }
 
     // ── Init ──
     document.addEventListener('DOMContentLoaded', async function() {
