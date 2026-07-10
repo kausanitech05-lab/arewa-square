@@ -8,21 +8,22 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg:         #060d1a;
-      --bg2:        #0a1628;
-      --green-mid:  #0f2040;
-      --gold:       #FFD700;
-      --gold-light: #FFE55C;
-      --gold-dim:   #B8860B;
-      --emerald:    #4FC3F7;
-      --em-dim:     #0288D1;
-      --white:      #f0f4ff;
-      --white-dim:  #a8b8d8;
-      --danger:     #e74c3c;
-      --warn:       #f39c12;
-      --sidebar-w:  256px;
-      --card:       rgba(255,255,255,0.04);
-      --border:     rgba(255,215,0,0.15);
+      --green-deep:  #0a1628;
+      --green-mid:   #0f2040;
+      --green-light: #1a3a6e;
+      --gold:        #FFD700;
+      --gold-light:  #FFE55C;
+      --gold-dim:    #B8860B;
+      --emerald:     #4FC3F7;
+      --emerald-dim: #0288D1;
+      --white:       #0d1836;
+      --white-dim:   #1b3363;
+      --dark:        #060d1a;
+      --danger:      #e74c3c;
+      --warn:        #f39c12;
+      --sidebar-w:   256px;
+      --card:        rgba(255,255,255,0.04);
+      --border:      rgba(255,215,0,0.15);
     }
     body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--white); min-height:100vh; display:flex; }
     body::before {
@@ -57,7 +58,7 @@
 
     /* ── MAIN ── */
     .main { margin-left:var(--sidebar-w); flex:1; min-height:100vh; position:relative; z-index:1; }
-    .topbar { position:sticky; top:0; z-index:50; background:rgba(6,13,26,0.96); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 28px; height:60px; display:flex; align-items:center; justify-content:space-between; }
+    .topbar { position:sticky; top:0; z-index:50; background:rgba(7,13,10,0.96); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); padding:0 28px; height:60px; display:flex; align-items:center; justify-content:space-between; }
     .topbar h1 { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:700; color:var(--white); }
     .topbar-right { display:flex; align-items:center; gap:10px; }
     .topbar-btn { width:34px; height:34px; border-radius:5px; background:var(--card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.9rem; transition:all 0.3s; color:var(--white-dim); }
@@ -204,7 +205,7 @@
       <a class="nav-item active" onclick="showSection('dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
 
       <div class="nav-section-label">Sellers</div>
-      <a class="nav-item" onclick="showSection('applications')"><span class="nav-icon">📋</span> Applications <span class="nav-badge">3</span></a>
+      <a class="nav-item" onclick="showSection('applications')"><span class="nav-icon">📋</span> Applications <span class="nav-badge" id="nav-badge-apps" style="display:none;">0</span></a>
       <a class="nav-item" onclick="showSection('sellers')"><span class="nav-icon">🏪</span> Manage Sellers</a>
       <a class="nav-item" onclick="showSection('shop-numbers')"><span class="nav-icon">🔢</span> Shop Numbers</a>
 
@@ -212,7 +213,7 @@
       <a class="nav-item" onclick="showSection('buyers')"><span class="nav-icon">👥</span> Manage Buyers</a>
 
       <div class="nav-section-label">Platform</div>
-      <a class="nav-item" onclick="showSection('disputes')"><span class="nav-icon">🚩</span> Reports & Disputes <span class="nav-badge">2</span></a>
+      <a class="nav-item" onclick="showSection('disputes')"><span class="nav-icon">🚩</span> Reports & Disputes <span class="nav-badge" id="nav-badge-disputes" style="display:none;">0</span></a>
       <a class="nav-item" onclick="showSection('analytics')"><span class="nav-icon">📈</span> Analytics</a>
       <a class="nav-item" href="admin-payments.html"><span class="nav-icon">💳</span> Payment Tracking</a>
       <a class="nav-item" onclick="showSection('settings')"><span class="nav-icon">⚙️</span> Platform Settings</a>
@@ -242,12 +243,12 @@
     <!-- ══ DASHBOARD ══ -->
     <section class="page-section active" id="sec-dashboard">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🏪</div><span class="stat-trend-up">+2 this week</span></div><span class="stat-num">20</span><span class="stat-lbl">Verified Sellers</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👥</div><span class="stat-trend-up">+14 this week</span></div><span class="stat-num">183</span><span class="stat-lbl">Registered Buyers</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📋</div><span class="stat-trend-warn">Needs review</span></div><span class="stat-num">3</span><span class="stat-lbl">Pending Applications</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🚩</div><span class="stat-trend-warn">Open</span></div><span class="stat-num">2</span><span class="stat-lbl">Open Disputes</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👁️</div><span class="stat-trend-up">Today</span></div><span class="stat-num">1,247</span><span class="stat-lbl">Platform Views Today</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🔢</div><span class="stat-trend-up">Next: #021</span></div><span class="stat-num">20</span><span class="stat-lbl">Assigned Shop Numbers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🏪</div><span class="stat-trend-up">Approved</span></div><span class="stat-num" id="stat-sellers">0</span><span class="stat-lbl">Verified Sellers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👥</div><span class="stat-trend-up">Registered</span></div><span class="stat-num" id="stat-buyers">0</span><span class="stat-lbl">Registered Buyers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📋</div><span class="stat-trend-warn">Needs review</span></div><span class="stat-num" id="stat-pending">0</span><span class="stat-lbl">Pending Applications</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🚩</div><span class="stat-trend-warn">Open</span></div><span class="stat-num" id="stat-disputes">0</span><span class="stat-lbl">Open Disputes</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🛒</div><span class="stat-trend-up">Last 6 months</span></div><span class="stat-num" id="stat-orders">0</span><span class="stat-lbl">Total Orders</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🔢</div><span class="stat-trend-up" id="stat-next-shopnum">Next: —</span></div><span class="stat-num" id="stat-shopnums">0</span><span class="stat-lbl">Assigned Shop Numbers</span></div>
       </div>
 
       <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:18px;">
@@ -256,27 +257,14 @@
           <div class="table-wrap">
             <table>
               <thead><tr><th>Name</th><th>Business</th><th>Category</th><th>Applied</th><th>Actions</th></tr></thead>
-              <tbody>
-                <tr><td style="color:var(--white);font-weight:600;">Ibrahim Sale</td><td>Sale Electronics</td><td>📱 Phones</td><td>Today</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Ibrahim Sale')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
-                <tr><td style="color:var(--white);font-weight:600;">Maryam Umar</td><td>Maryam Fabrics</td><td>👕 Fashion</td><td>Yesterday</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Maryam Umar')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
-                <tr><td style="color:var(--white);font-weight:600;">Bello Garba</td><td>Garba Shoes Hub</td><td>👟 Shoes</td><td>2 days ago</td><td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Bello Garba')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td></tr>
-              </tbody>
+              <tbody id="dashboard-applications-tbody"></tbody>
             </table>
           </div>
         </div>
         <div>
           <div class="section-heading"><h3>✦ Open Disputes</h3><a onclick="showSection('disputes')" style="font-size:0.75rem;color:var(--gold);cursor:pointer;font-weight:700;">View all →</a></div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="background:var(--card);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:14px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--danger);">#001 — Zainab Footwear</span><span class="badge open">Open</span></div>
-              <p style="font-size:0.75rem;color:var(--white-dim);">Buyer says product not as described</p>
-              <button class="act-btn view" style="margin-top:10px;" onclick="showSection('disputes')">Review →</button>
-            </div>
-            <div style="background:var(--card);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:14px;">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--danger);">#005 — Tech Zone Kano</span><span class="badge open">Open</span></div>
-              <p style="font-size:0.75rem;color:var(--white-dim);">Buyer reports seller unresponsive</p>
-              <button class="act-btn view" style="margin-top:10px;" onclick="showSection('disputes')">Review →</button>
-            </div>
+          <div id="dashboard-disputes-mini" style="display:flex;flex-direction:column;gap:10px;">
+            <p style="color:var(--white-dim);font-size:0.8rem;text-align:center;padding:20px;">No open disputes</p>
           </div>
         </div>
       </div>
@@ -291,36 +279,7 @@
       <div class="table-wrap">
         <table>
           <thead><tr><th>Applicant</th><th>Business Name</th><th>Category</th><th>Location</th><th>Applied</th><th>Documents</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Ibrahim Sale</td>
-              <td>Sale Electronics</td><td>📱 Phones</td><td>Sabon Gari, Kano</td><td>Today</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge pending">Pending</span></td>
-              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Ibrahim Sale')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Maryam Umar</td>
-              <td>Maryam Fabrics</td><td>👕 Fashion</td><td>Gwale, Kano</td><td>Yesterday</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge pending">Pending</span></td>
-              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Maryam Umar')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Bello Garba</td>
-              <td>Garba Shoes Hub</td><td>👟 Shoes</td><td>Kano Central</td><td>2 days ago</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge pending">Pending</span></td>
-              <td><div class="action-cell"><button class="act-btn approve" onclick="approveApp(this,'Bello Garba')">Approve</button><button class="act-btn reject" onclick="rejectApp(this)">Reject</button></div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:600;">Aisha Nuhu</td>
-              <td>Aisha Cosmetics</td><td>💊 Health</td><td>Nassarawa, Kano</td><td>3 days ago</td>
-              <td><button class="act-btn view" onclick="showToast('Opening submitted documents...','info')">View Docs</button></td>
-              <td><span class="badge approved">Approved</span></td>
-              <td><div class="action-cell"><button class="act-btn view" onclick="showToast('Viewing seller profile...','info')">View</button></div></td>
-            </tr>
-          </tbody>
+          <tbody id="applications-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -346,7 +305,7 @@
         <span style="font-size:1.1rem;">🔒</span>
         <div>
           <p style="font-size:0.83rem;font-weight:700;color:var(--gold);margin-bottom:3px;">Shop Number Registry</p>
-          <p style="font-size:0.75rem;color:var(--white-dim);">Shop numbers are permanent and assigned manually by Admin only. Vacant numbers from deleted shops must be reassigned deliberately — never automatically.</p>
+          <p style="font-size:0.75rem;color:var(--white-dim);">Shop numbers are assigned automatically in sequence the moment an application is approved, and are permanent for the lifetime of that shop.</p>
         </div>
       </div>
       <div class="table-wrap">
@@ -366,12 +325,7 @@
       <div class="table-wrap">
         <table>
           <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Location</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr><td style="color:var(--white);font-weight:600;">Abubakar Musa</td><td>abubakar@email.com</td><td>08012345678</td><td>Nassarawa, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Halima Usman</td><td>halima@email.com</td><td>08098765432</td><td>Gwale, Kano</td><td>Jan 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Yusuf Danjuma</td><td>yusuf@email.com</td><td>08033344455</td><td>Kaduna</td><td>Feb 2025</td><td><span class="badge active">Active</span></td><td><div class="action-cell"><button class="act-btn view" onclick="showToast('View profile...','info')">View</button><button class="act-btn suspend" onclick="showToast('Account suspended.','info')">Suspend</button></div></td></tr>
-            <tr><td style="color:var(--white);font-weight:600;">Fatima Bello</td><td>fatima@email.com</td><td>08055566677</td><td>Katsina</td><td>Feb 2025</td><td><span class="badge suspended">Suspended</span></td><td><div class="action-cell"><button class="act-btn approve" onclick="showToast('Account reactivated.','info')">Reactivate</button><button class="act-btn remove" onclick="confirm('Delete account?')&&alert('Deleted.')">Delete</button></div></td></tr>
-          </tbody>
+          <tbody id="buyers-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -385,37 +339,7 @@
       <div class="table-wrap">
         <table>
           <thead><tr><th>Report ID</th><th>Shop</th><th>Reason</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr>
-              <td style="color:var(--white);font-weight:700;">#RPT-001</td>
-              <td><span class="shop-num-pill">#001</span> Zainab Footwear</td>
-              <td>Product not as described</td><td>Today</td>
-              <td><span class="badge open">Open</span></td>
-              <td><div class="action-cell">
-                <button class="act-btn view" onclick="showToast('Viewing full report...','info')">Details</button>
-                <button class="act-btn suspend" onclick="showToast('Shop suspended pending review.','info')">Suspend Shop</button>
-                <button class="act-btn approve" onclick="showToast('Marked as resolved.','info')">Resolve</button>
-              </div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:700;">#RPT-002</td>
-              <td><span class="shop-num-pill">#005</span> Tech Zone Kano</td>
-              <td>Seller unresponsive after payment</td><td>Yesterday</td>
-              <td><span class="badge open">Open</span></td>
-              <td><div class="action-cell">
-                <button class="act-btn view" onclick="showToast('Viewing full report...','info')">Details</button>
-                <button class="act-btn suspend" onclick="showToast('Shop suspended pending review.','info')">Suspend Shop</button>
-                <button class="act-btn approve" onclick="showToast('Marked as resolved.','info')">Resolve</button>
-              </div></td>
-            </tr>
-            <tr>
-              <td style="color:var(--white);font-weight:700;">#RPT-000</td>
-              <td><span class="shop-num-pill">#003</span> Fatima Fashion</td>
-              <td>Wrong item delivered</td><td>Last week</td>
-              <td><span class="badge resolved">Resolved</span></td>
-              <td><div class="action-cell"><button class="act-btn view" onclick="showToast('View resolution notes...','info')">View Notes</button></div></td>
-            </tr>
-          </tbody>
+          <tbody id="disputes-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -423,42 +347,27 @@
     <!-- ══ ANALYTICS ══ -->
     <section class="page-section" id="sec-analytics">
       <div class="stats-grid" style="margin-bottom:20px;">
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">👁️</div><span class="stat-trend-up">Today</span></div><span class="stat-num">1,247</span><span class="stat-lbl">Platform Views Today</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">📈</div><span class="stat-trend-up">This Month</span></div><span class="stat-num">28,450</span><span class="stat-lbl">Total Monthly Views</span></div>
-        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🔍</div><span class="stat-trend-up">This Week</span></div><span class="stat-num">3,820</span><span class="stat-lbl">Searches Performed</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🏪</div><span class="stat-trend-up">Approved</span></div><span class="stat-num" id="an-total-sellers">0</span><span class="stat-lbl">Total Approved Sellers</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">💳</div><span class="stat-trend-up">Paid</span></div><span class="stat-num" id="an-active-subs">0</span><span class="stat-lbl">Active Paid Subscriptions</span></div>
+        <div class="stat-card"><div class="stat-top"><div class="stat-icon">🛒</div><span class="stat-trend-up">6 months</span></div><span class="stat-num" id="an-total-orders">0</span><span class="stat-lbl">Total Orders</span></div>
       </div>
+      <p style="font-size:0.75rem;color:var(--white-dim);margin-bottom:16px;">📊 All figures below are real, computed live from your database. Page-view and search-keyword tracking are not built yet, so those metrics are intentionally not shown here rather than faked.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div class="an-card">
-          <h4>Daily Views This Week</h4>
-          <div class="bar-row"><span class="bar-label">Monday</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span class="bar-val">680</span></div>
-          <div class="bar-row"><span class="bar-label">Tuesday</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-val">870</span></div>
-          <div class="bar-row"><span class="bar-label">Wednesday</span><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span class="bar-val">744</span></div>
-          <div class="bar-row"><span class="bar-label">Thursday</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-val">1050</span></div>
-          <div class="bar-row"><span class="bar-label">Friday</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">1247</span></div>
-          <div class="bar-row"><span class="bar-label">Saturday</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-val">—</span></div>
+          <h4>Seller Signups (Last 6 Months)</h4>
+          <div id="an-seller-signups"><p style="color:var(--white-dim);font-size:0.8rem;">Loading…</p></div>
         </div>
         <div class="an-card">
-          <h4>Most Searched Keywords</h4>
-          <div class="bar-row"><span class="bar-label">phones</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">412</span></div>
-          <div class="bar-row"><span class="bar-label">shoes</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-val">329</span></div>
-          <div class="bar-row"><span class="bar-label">food</span><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div><span class="bar-val">268</span></div>
-          <div class="bar-row"><span class="bar-label">fashion</span><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span class="bar-val">206</span></div>
-          <div class="bar-row"><span class="bar-label">electronics</span><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><span class="bar-val">144</span></div>
+          <h4>Buyer Signups (Last 6 Months)</h4>
+          <div id="an-buyer-signups"><p style="color:var(--white-dim);font-size:0.8rem;">Loading…</p></div>
         </div>
         <div class="an-card">
-          <h4>Seller Growth (Monthly)</h4>
-          <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span class="bar-val">10</span></div>
-          <div class="bar-row"><span class="bar-label">February</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-val">14</span></div>
-          <div class="bar-row"><span class="bar-label">March</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span class="bar-val">17</span></div>
-          <div class="bar-row"><span class="bar-label">April</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">20</span></div>
+          <h4>Top Categories (by Verified Sellers)</h4>
+          <div id="an-top-categories"><p style="color:var(--white-dim);font-size:0.8rem;">Loading…</p></div>
         </div>
         <div class="an-card">
-          <h4>Most Active Locations</h4>
-          <div class="bar-row"><span class="bar-label">Kano Central</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">544</span></div>
-          <div class="bar-row"><span class="bar-label">Sabon Gari</span><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div><span class="bar-val">381</span></div>
-          <div class="bar-row"><span class="bar-label">Nassarawa</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span class="bar-val">299</span></div>
-          <div class="bar-row"><span class="bar-label">Gwale</span><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="bar-val">207</span></div>
-          <div class="bar-row"><span class="bar-label">Fagge</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="bar-val">152</span></div>
+          <h4>Orders Per Month (Last 6 Months)</h4>
+          <div id="an-order-trend"><p style="color:var(--white-dim);font-size:0.8rem;">Loading…</p></div>
         </div>
       </div>
     </section>
@@ -486,19 +395,15 @@
           <h4>Platform Feature Toggles</h4>
           <div class="toggle-row">
             <div class="toggle-label"><p>Seller Applications</p><span>Allow new sellers to apply to join</span></div>
-            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+            <button class="toggle" id="toggle-seller-reg" onclick="toggleSetting('sellerRegistrationEnabled', this)"></button>
           </div>
           <div class="toggle-row">
             <div class="toggle-label"><p>Buyer Registration</p><span>Allow new buyers to register</span></div>
-            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+            <button class="toggle" id="toggle-buyer-reg" onclick="toggleSetting('buyerRegistrationEnabled', this)"></button>
           </div>
           <div class="toggle-row">
-            <div class="toggle-label"><p>Location Services</p><span>Enable proximity-based shop discovery</span></div>
-            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-label"><p>Maintenance Mode</p><span>Take the platform offline temporarily</span></div>
-            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+            <div class="toggle-label"><p>Maintenance Mode</p><span>Take the platform offline temporarily — blocks all new registrations</span></div>
+            <button class="toggle" id="toggle-maintenance" onclick="toggleSetting('maintenanceMode', this)"></button>
           </div>
         </div>
       </div>
@@ -507,7 +412,7 @@
   </main>
 
   <script>
-    const sellers = [
+    const sellers_OLD_UNUSED = [
       { num:'#001', icon:'👟', name:'Zainab Footwear',    cat:'Shoes',       loc:'Kano Central', joined:'Jan 2025', status:'active'    },
       { num:'#002', icon:'📱', name:'Musa Gadgets Hub',   cat:'Phones',      loc:'Sabon Gari',   joined:'Jan 2025', status:'active'    },
       { num:'#003', icon:'👕', name:'Fatima Fashion',     cat:'Fashion',     loc:'Gwale',        joined:'Jan 2025', status:'active'    },
@@ -517,7 +422,7 @@
       { num:'#007', icon:'💊', name:'Rahama Beauty',      cat:'Health',      loc:'Kano Central', joined:'Feb 2025', status:'active'    },
     ];
 
-    const shopNums = [
+    const shopNums_OLD_UNUSED = [
       { num:'#001', seller:'Zainab Abdullahi',  biz:'Zainab Footwear',    cat:'Shoes',       assigned:'Jan 2025', status:'active'    },
       { num:'#002', seller:'Musa Ibrahim',      biz:'Musa Gadgets Hub',   cat:'Phones',      assigned:'Jan 2025', status:'active'    },
       { num:'#003', seller:'Fatima Sani',       biz:'Fatima Fashion',     cat:'Fashion',     assigned:'Jan 2025', status:'active'    },
@@ -530,7 +435,7 @@
       { num:'#010', seller:'—',                 biz:'—',                  cat:'—',           assigned:'—',        status:'vacant'    },
     ];
 
-    function renderSellers() {
+    function renderSellers_OLD_UNUSED() {
       document.getElementById('sellers-tbody').innerHTML = sellers.map(s => `
         <tr>
           <td><span class="shop-num-pill">${s.num}</span></td>
@@ -545,7 +450,7 @@
         </tr>`).join('');
     }
 
-    function renderShopNums() {
+    function renderShopNums_OLD_UNUSED() {
       document.getElementById('shop-nums-tbody').innerHTML = shopNums.map(s => `
         <tr>
           <td><span class="shop-num-pill">${s.num}</span></td>
@@ -555,7 +460,7 @@
         </tr>`).join('');
     }
 
-    function approveApp(btn, name) {
+    function approveApp_OLD_UNUSED(btn, name) {
       const row = btn.closest('tr');
       const badge = row.querySelector('.badge');
       if(badge) { badge.textContent='Approved'; badge.className='badge approved'; }
@@ -563,7 +468,7 @@
       showToast('✅ ' + name + ' approved! Shop number assigned and notification sent.', 'success');
     }
 
-    function rejectApp(btn) {
+    function rejectApp_OLD_UNUSED(btn) {
       const reason = prompt('Enter rejection reason (will be sent to applicant):');
       if(reason) {
         const row = btn.closest('tr');
@@ -583,8 +488,6 @@
       if(window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
     }
 
-    renderSellers();
-    renderShopNums();
   
     /* ── TOAST NOTIFICATION SYSTEM ── */
     function showToast(message, type) {
@@ -607,6 +510,406 @@
       document.body.appendChild(toast);
       setTimeout(function(){ toast.remove(); }, 4000);
     }
+
+    const _API = 'https://arewa-square-api-production.up.railway.app/api';
+    function _headers() {
+      return { 'Authorization': 'Bearer ' + localStorage.getItem('as_token'), 'Content-Type': 'application/json' };
+    }
+
+    // ── AUTH GUARD ──
+    (function() {
+      const token = localStorage.getItem('as_token');
+      const role  = localStorage.getItem('as_role');
+      if (!token || role !== 'admin') { window.location.href = 'auth.html'; }
+    })();
+
+    function logoutUser() {
+      ['as_token','as_role','as_user','as_seller'].forEach(k => localStorage.removeItem(k));
+      window.location.href = 'auth.html';
+    }
+
+    // ══════════════════════════════════════
+    //  STATS
+    // ══════════════════════════════════════
+    async function loadRealStats() {
+      try {
+        const res  = await fetch(_API + '/admin/stats', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const s = data.stats || {};
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v ?? 0; };
+        set('stat-sellers', s.totalSellers);
+        set('stat-buyers',  s.totalBuyers);
+        set('stat-pending', s.pendingApplications);
+        set('stat-orders',  s.totalOrders);
+
+        const badge = document.getElementById('nav-badge-apps');
+        if (badge) {
+          if (s.pendingApplications > 0) { badge.textContent = s.pendingApplications; badge.style.display = 'inline'; }
+          else { badge.style.display = 'none'; }
+        }
+      } catch(e) { console.warn('Stats error:', e); }
+    }
+
+    // ══════════════════════════════════════
+    //  APPLICATIONS (fixes shop number assignment)
+    // ══════════════════════════════════════
+    async function loadRealApplications() {
+      try {
+        const res  = await fetch(_API + '/admin/applications?status=pending', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const apps = data.applications || [];
+
+        const rowHtml = (a, full) => `
+          <tr>
+            <td style="color:var(--white);font-weight:600;">${a.user?.fullName || ''}</td>
+            <td>${a.businessName || ''}</td>
+            <td>${a.category || ''}</td>
+            ${full ? `<td>${a.city ? a.city + ', ' : ''}${a.state || ''}</td>` : ''}
+            <td>${new Date(a.createdAt).toLocaleDateString('en-GB')}</td>
+            ${full ? `<td>${a.govIdUrl ? `<a href="${a.govIdUrl}" target="_blank" class="act-btn view">View Docs</a>` : '—'}</td>` : ''}
+            ${full ? `<td><span class="badge pending">Pending</span></td>` : ''}
+            <td><div class="action-cell">
+              <button class="act-btn approve" onclick="approveApplication('${a._id}')">Approve</button>
+              <button class="act-btn reject" onclick="rejectApplication('${a._id}')">Reject</button>
+            </div></td>
+          </tr>`;
+
+        const dashTbody = document.getElementById('dashboard-applications-tbody');
+        if (dashTbody) {
+          dashTbody.innerHTML = apps.length
+            ? apps.slice(0, 5).map(a => rowHtml(a, false)).join('')
+            : '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--white-dim);">No pending applications</td></tr>';
+        }
+        const fullTbody = document.getElementById('applications-tbody');
+        if (fullTbody) {
+          fullTbody.innerHTML = apps.length
+            ? apps.map(a => rowHtml(a, true)).join('')
+            : '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--white-dim);">No pending applications</td></tr>';
+        }
+      } catch(e) { console.warn('Applications error:', e); }
+    }
+
+    async function approveApplication(id) {
+      if (!confirm('Approve this seller application? A permanent shop number will be assigned automatically and the seller will be emailed.')) return;
+      try {
+        const res  = await fetch(_API + '/admin/applications/' + id + '/approve', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to approve', 'error'); return; }
+        showToast('✅ ' + (data.message || ('Seller approved! Shop number ' + (data.seller?.shopNumber || '') + ' assigned.')), 'success');
+        loadRealApplications(); loadRealSellers(); loadRealShopNums(); loadRealStats();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    function rejectApplication(id) {
+      const reason = prompt('Enter rejection reason (sent to applicant by email):');
+      if (!reason) return;
+      (async () => {
+        try {
+          const res  = await fetch(_API + '/admin/applications/' + id + '/reject', {
+            method: 'PUT', headers: _headers(), body: JSON.stringify({ reason })
+          });
+          const data = await res.json();
+          if (!res.ok) { showToast(data.message || 'Failed to reject', 'error'); return; }
+          showToast('Application rejected. Applicant notified.', 'warning');
+          loadRealApplications(); loadRealStats();
+        } catch(e) { showToast('Connection error. Try again.', 'error'); }
+      })();
+    }
+
+    // ══════════════════════════════════════
+    //  SELLERS
+    // ══════════════════════════════════════
+    function _catIcon(cat) {
+      const icons = {
+        'Fashion, Clothing & Shoes':'👟','Phones & Accessories':'📱','Computers & Technology':'💻',
+        'Electronics & Appliances':'📺','Vehicles & Motorcycles':'🚗','Property & Real Estate':'🏘️',
+        'Agriculture & Livestock':'🌾','Food & Groceries':'🥘','Home & Furniture':'🏠',
+        'Health & Beauty':'💊','Education & Training':'📚','Services':'🔧','Other':'📦',
+      };
+      return icons[cat] || '🏪';
+    }
+
+    let _allSellers = [];
+
+    async function loadRealSellers() {
+      try {
+        const res  = await fetch(_API + '/admin/sellers', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        _allSellers = data.sellers || [];
+        const tbody = document.getElementById('sellers-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = _allSellers.length ? _allSellers.map(s => `
+          <tr>
+            <td><span class="shop-num-pill">${s.shopNumber || 'Pending'}</span></td>
+            <td style="color:var(--white);font-weight:600;">${_catIcon(s.category)} ${s.businessName || ''}</td>
+            <td>${s.category || ''}</td><td>${s.city ? s.city + ', ' : ''}${s.state || ''}</td>
+            <td>${new Date(s.createdAt).toLocaleDateString('en-GB')}</td>
+            <td><span class="badge ${s.status === 'suspended' ? 'suspended' : 'active'}">${s.status === 'suspended' ? 'Suspended' : 'Active'}</span></td>
+            <td><div class="action-cell">
+              <button class="act-btn view" onclick="showToast('Viewing ${(s.businessName||'').replace(/'/g,"")}...','info')">View</button>
+              ${s.status === 'suspended'
+                ? `<button class="act-btn approve" onclick="reactivateSeller('${s._id}')">Reactivate</button>`
+                : `<button class="act-btn suspend" onclick="suspendSeller('${s._id}')">Suspend</button>`}
+              <button class="act-btn remove" onclick="removeSeller('${s._id}')">Remove</button>
+            </div></td>
+          </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--white-dim);">No sellers yet</td></tr>';
+      } catch(e) { console.warn('Sellers error:', e); }
+    }
+
+    async function suspendSeller(id) {
+      if (!confirm('Suspend this seller? Their shop will be hidden from buyers.')) return;
+      try {
+        const res = await fetch(_API + '/admin/sellers/' + id + '/suspend', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller suspended.', 'warning');
+        loadRealSellers(); loadRealShopNums();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+    async function reactivateSeller(id) {
+      try {
+        const res = await fetch(_API + '/admin/sellers/' + id + '/reactivate', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller reactivated! ✅', 'success');
+        loadRealSellers(); loadRealShopNums();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+    async function removeSeller(id) {
+      if (!confirm('Permanently remove this seller? Their shop number will be revoked.')) return;
+      try {
+        const res = await fetch(_API + '/admin/sellers/' + id, { method: 'DELETE', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Seller removed.', 'error');
+        loadRealSellers(); loadRealShopNums(); loadRealStats();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    // ══════════════════════════════════════
+    //  SHOP NUMBER REGISTRY
+    // ══════════════════════════════════════
+    function loadRealShopNums() {
+      const tbody = document.getElementById('shop-nums-tbody');
+      if (!tbody) return;
+      const assigned = _allSellers.filter(s => s.shopNumber).sort((a,b) => a.shopNumber.localeCompare(b.shopNumber));
+      const nextEl = document.getElementById('stat-next-shopnum');
+      const countEl = document.getElementById('stat-shopnums');
+      if (countEl) countEl.textContent = assigned.length;
+      if (nextEl) {
+        const nums = assigned.map(s => parseInt(s.shopNumber.replace('#',''),10)).filter(n => !isNaN(n));
+        const next = nums.length ? Math.max(...nums) + 1 : 1;
+        nextEl.textContent = 'Next: #' + String(next).padStart(3,'0');
+      }
+      tbody.innerHTML = assigned.length ? assigned.map(s => `
+        <tr>
+          <td><span class="shop-num-pill">${s.shopNumber}</span></td>
+          <td style="color:var(--white);font-weight:600;">${s.user?.fullName || '—'}</td>
+          <td>${s.businessName || ''}</td><td>${s.category || ''}</td>
+          <td>${new Date(s.createdAt).toLocaleDateString('en-GB')}</td>
+          <td><span class="badge ${s.status === 'suspended' ? 'suspended' : 'active'}">${s.status === 'suspended' ? 'Suspended' : 'Active'}</span></td>
+        </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--white-dim);">No shop numbers assigned yet</td></tr>';
+    }
+
+    // ══════════════════════════════════════
+    //  BUYERS
+    // ══════════════════════════════════════
+    async function loadRealBuyers() {
+      try {
+        const res  = await fetch(_API + '/admin/buyers', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const buyers = data.buyers || [];
+        const tbody = document.getElementById('buyers-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = buyers.length ? buyers.map(b => `
+          <tr>
+            <td style="color:var(--white);font-weight:600;">${b.fullName || ''}</td>
+            <td>${b.email || ''}</td><td>${b.phone || ''}</td>
+            <td>${b.city ? b.city + ', ' : ''}${b.state || ''}</td>
+            <td>${new Date(b.createdAt).toLocaleDateString('en-GB')}</td>
+            <td><span class="badge ${b.isActive ? 'active' : 'suspended'}">${b.isActive ? 'Active' : 'Suspended'}</span></td>
+            <td><div class="action-cell">
+              ${b.isActive
+                ? `<button class="act-btn suspend" onclick="suspendBuyer('${b._id}')">Suspend</button>`
+                : `<button class="act-btn approve" onclick="reactivateBuyer('${b._id}')">Reactivate</button>`}
+            </div></td>
+          </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--white-dim);">No buyers yet</td></tr>';
+      } catch(e) { console.warn('Buyers error:', e); }
+    }
+    async function suspendBuyer(id) {
+      if (!confirm('Suspend this buyer account?')) return;
+      try {
+        const res = await fetch(_API + '/admin/buyers/' + id + '/suspend', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Buyer suspended.', 'warning'); loadRealBuyers();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+    async function reactivateBuyer(id) {
+      try {
+        const res = await fetch(_API + '/admin/buyers/' + id + '/reactivate', { method: 'PUT', headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed', 'error'); return; }
+        showToast('Buyer reactivated! ✅', 'success'); loadRealBuyers();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    // ══════════════════════════════════════
+    //  DISPUTES
+    // ══════════════════════════════════════
+    async function loadRealDisputes() {
+      try {
+        const res  = await fetch(_API + '/admin/disputes', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const disputes = data.disputes || [];
+        const open = disputes.filter(d => d.status === 'open' || d.status === 'investigating');
+
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+        set('stat-disputes', open.length);
+        const badge = document.getElementById('nav-badge-disputes');
+        if (badge) { if (open.length) { badge.textContent = open.length; badge.style.display = 'inline'; } else { badge.style.display = 'none'; } }
+
+        const mini = document.getElementById('dashboard-disputes-mini');
+        if (mini) {
+          mini.innerHTML = open.length ? open.slice(0,3).map(d => `
+            <div style="background:var(--card);border:1px solid rgba(231,76,60,0.2);border-radius:8px;padding:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--danger);">${d.against?.shopNumber || ''} — ${d.against?.businessName || 'Unknown shop'}</span>
+                <span class="badge open">Open</span>
+              </div>
+              <p style="font-size:0.75rem;color:var(--white-dim);">${d.reason}</p>
+              <button class="act-btn view" style="margin-top:10px;" onclick="showSection('disputes')">Review →</button>
+            </div>`).join('') : '<p style="color:var(--white-dim);font-size:0.8rem;text-align:center;padding:20px;">No open disputes</p>';
+        }
+
+        const tbody = document.getElementById('disputes-tbody');
+        if (tbody) {
+          tbody.innerHTML = disputes.length ? disputes.map(d => `
+            <tr>
+              <td style="color:var(--white);font-weight:700;">#${d._id.slice(-6).toUpperCase()}</td>
+              <td>${d.against ? `<span class="shop-num-pill">${d.against.shopNumber || ''}</span> ${d.against.businessName || ''}` : '—'}</td>
+              <td>${d.reason}</td>
+              <td>${new Date(d.createdAt).toLocaleDateString('en-GB')}</td>
+              <td><span class="badge ${d.status === 'open' ? 'open' : d.status === 'investigating' ? 'pending' : 'resolved'}">${d.status}</span></td>
+              <td><div class="action-cell">
+                ${d.status === 'open' || d.status === 'investigating'
+                  ? `<button class="act-btn approve" onclick="resolveDispute('${d._id}','resolved')">Resolve</button>
+                     <button class="act-btn reject" onclick="resolveDispute('${d._id}','dismissed')">Dismiss</button>`
+                  : `<span style="color:var(--white-dim);font-size:0.75rem;">${d.adminNote || 'No notes'}</span>`}
+              </div></td>
+            </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--white-dim);">No disputes have been filed yet</td></tr>';
+        }
+      } catch(e) { console.warn('Disputes error:', e); }
+    }
+
+    async function resolveDispute(id, status) {
+      const note = prompt('Add a resolution note (optional):') || '';
+      try {
+        const res  = await fetch(_API + '/admin/disputes/' + id + '/resolve', {
+          method: 'PUT', headers: _headers(), body: JSON.stringify({ status, adminNote: note })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to update', 'error'); return; }
+        showToast('Dispute ' + status + '.', 'success');
+        loadRealDisputes();
+      } catch(e) { showToast('Connection error. Try again.', 'error'); }
+    }
+
+    // ══════════════════════════════════════
+    //  PLATFORM SETTINGS (Feature Toggles)
+    // ══════════════════════════════════════
+    async function loadRealSettings() {
+      try {
+        const res  = await fetch(_API + '/admin/settings', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const s = data.settings;
+        const setToggle = (id, on) => { const el = document.getElementById(id); if (el) el.classList.toggle('on', !!on); };
+        setToggle('toggle-seller-reg',  s.sellerRegistrationEnabled);
+        setToggle('toggle-buyer-reg',   s.buyerRegistrationEnabled);
+        setToggle('toggle-maintenance', s.maintenanceMode);
+      } catch(e) { console.warn('Settings error:', e); }
+    }
+
+    async function toggleSetting(key, btn) {
+      const newValue = !btn.classList.contains('on');
+      btn.classList.toggle('on', newValue);
+      try {
+        const res  = await fetch(_API + '/admin/settings', {
+          method: 'PUT', headers: _headers(), body: JSON.stringify({ [key]: newValue })
+        });
+        const data = await res.json();
+        if (!res.ok) { showToast(data.message || 'Failed to update setting', 'error'); btn.classList.toggle('on', !newValue); return; }
+        showToast((newValue ? 'Enabled' : 'Disabled') + ' successfully ✅', 'success');
+      } catch(e) {
+        showToast('Connection error. Reverting.', 'error');
+        btn.classList.toggle('on', !newValue);
+      }
+    }
+
+    // ══════════════════════════════════════
+    //  ANALYTICS
+    // ══════════════════════════════════════
+    function _monthLabel(y, m) {
+      return new Date(y, m - 1, 1).toLocaleDateString('en-GB', { month: 'short', year: '2-digit' });
+    }
+
+    function _renderBars(containerId, rows, maxVal) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      if (!rows.length) { el.innerHTML = '<p style="color:var(--white-dim);font-size:0.8rem;">No data yet</p>'; return; }
+      el.innerHTML = rows.map(r => `
+        <div class="bar-row">
+          <span class="bar-label">${r.label}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${maxVal ? Math.round((r.value / maxVal) * 100) : 0}%"></div></div>
+          <span class="bar-val">${r.value}</span>
+        </div>`).join('');
+    }
+
+    async function loadRealAnalytics() {
+      try {
+        const res  = await fetch(_API + '/admin/analytics', { headers: _headers() });
+        const data = await res.json();
+        if (!res.ok) return;
+        const a = data.analytics;
+
+        document.getElementById('an-total-sellers').textContent = a.totalApprovedSellers || 0;
+        document.getElementById('an-active-subs').textContent   = a.activeSubscriptions || 0;
+        const totalOrders = (a.orderTrend || []).reduce((sum, o) => sum + o.count, 0);
+        document.getElementById('an-total-orders').textContent  = totalOrders;
+        const statOrdersEl = document.getElementById('stat-orders');
+        if (statOrdersEl) statOrdersEl.textContent = totalOrders;
+
+        const sellerRows = (a.signupTrend || []).filter(r => r._id.role === 'seller')
+          .map(r => ({ label: _monthLabel(r._id.year, r._id.month), value: r.count }));
+        const buyerRows = (a.signupTrend || []).filter(r => r._id.role === 'buyer')
+          .map(r => ({ label: _monthLabel(r._id.year, r._id.month), value: r.count }));
+        const catRows = (a.topCategories || []).map(r => ({ label: r._id || 'Other', value: r.count }));
+        const orderRows = (a.orderTrend || []).map(r => ({ label: _monthLabel(r._id.year, r._id.month), value: r.count }));
+
+        const maxOf = arr => Math.max(1, ...arr.map(r => r.value));
+        _renderBars('an-seller-signups', sellerRows, maxOf(sellerRows));
+        _renderBars('an-buyer-signups',  buyerRows,  maxOf(buyerRows));
+        _renderBars('an-top-categories', catRows,    maxOf(catRows));
+        _renderBars('an-order-trend',    orderRows,  maxOf(orderRows));
+      } catch(e) { console.warn('Analytics error:', e); }
+    }
+
+    // ── RUN ON LOAD ──
+    document.addEventListener('DOMContentLoaded', function() {
+      loadRealStats();
+      loadRealApplications();
+      loadRealSellers().then(loadRealShopNums);
+      loadRealBuyers();
+      loadRealDisputes();
+      loadRealSettings();
+      loadRealAnalytics();
+    });
 
   </script>
 </body>
